@@ -5,6 +5,7 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+import ActivityKit
 
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
@@ -108,7 +109,10 @@ struct ContentView: View {
                 .padding()
                 .animation(.easeInOut(duration: 0.4), value: activeFast != nil)
             }
-            .onAppear { startTimer() }
+            .onAppear {
+                startTimer()
+                resumeLiveActivityIfNeeded()
+            }
             .onDisappear { stopTimer() }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 WidgetCenter.shared.reloadAllTimelines()
@@ -442,6 +446,9 @@ struct ContentView: View {
             modelContext.insert(newSession)
             try? modelContext.save()
             WidgetCenter.shared.reloadAllTimelines()
+            
+            // Start Live Activity
+            startLiveActivity(startTime: newSession.startTime, goalMinutes: savedGoalMinutes)
         }
     }
     
@@ -450,7 +457,94 @@ struct ContentView: View {
             fast.stop()
             try? modelContext.save()
             WidgetCenter.shared.reloadAllTimelines()
+            
+            // End Live Activity
+            endLiveActivity()
         }
+    }
+    
+    // MARK: - Live Activity Management
+    
+    private func startLiveActivity(startTime: Date, goalMinutes: Int) {
+        let authInfo = ActivityAuthorizationInfo()
+        
+        print("Live Activity Debug:")
+        print("  - areActivitiesEnabled: \(authInfo.areActivitiesEnabled)")
+        print("  - frequentPushesEnabled: \(authInfo.frequentPushesEnabled)")
+        
+        guard authInfo.areActivitiesEnabled else {
+            print("  - Live Activities are NOT enabled!")
+            return
+        }
+        
+        let attributes = LastFastWidgetAttributes(
+            startTime: startTime,
+            goalMinutes: goalMinutes
+        )
+        
+        let initialState = LastFastWidgetAttributes.ContentState(
+            elapsedSeconds: Int(Date().timeIntervalSince(startTime)),
+            goalMet: false
+        )
+        
+        let content = ActivityContent(state: initialState, staleDate: nil)
+        
+        do {
+            let activity = try Activity.request(
+                attributes: attributes,
+                content: content,
+                pushType: nil
+            )
+            print("  - Live Activity started successfully! ID: \(activity.id)")
+        } catch {
+            print("  - Failed to start Live Activity: \(error)")
+        }
+    }
+    
+    private func updateLiveActivity() {
+        guard let fast = activeFast else { return }
+        
+        let elapsed = Int(currentTime.timeIntervalSince(fast.startTime))
+        let goalMet = fast.goalMinutes.map { elapsed >= $0 * 60 } ?? false
+        
+        let updatedState = LastFastWidgetAttributes.ContentState(
+            elapsedSeconds: elapsed,
+            goalMet: goalMet
+        )
+        
+        let content = ActivityContent(state: updatedState, staleDate: nil)
+        
+        Task {
+            for activity in Activity<LastFastWidgetAttributes>.activities {
+                await activity.update(content)
+            }
+        }
+    }
+    
+    private func endLiveActivity() {
+        Task {
+            for activity in Activity<LastFastWidgetAttributes>.activities {
+                await activity.end(nil, dismissalPolicy: .immediate)
+            }
+        }
+    }
+    
+    private func resumeLiveActivityIfNeeded() {
+        // If there's an active fast but no Live Activity, start one
+        guard let fast = activeFast else {
+            // No active fast, end any stale activities
+            endLiveActivity()
+            return
+        }
+        
+        // Check if there's already an active Live Activity
+        if Activity<LastFastWidgetAttributes>.activities.isEmpty {
+            // Start a new Live Activity for the existing fast
+            startLiveActivity(startTime: fast.startTime, goalMinutes: fast.goalMinutes ?? savedGoalMinutes)
+        }
+        
+        // Update immediately
+        updateLiveActivity()
     }
     
     // MARK: - Timer Management
@@ -459,6 +553,7 @@ struct ContentView: View {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [self] _ in
             DispatchQueue.main.async {
                 self.currentTime = Date()
+                self.updateLiveActivity()
             }
         }
         RunLoop.main.add(timer!, forMode: .common)

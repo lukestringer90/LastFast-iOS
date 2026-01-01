@@ -6,14 +6,6 @@ import WidgetKit
 import SwiftUI
 import SwiftData
 
-// MARK: - Time Formatting Helper
-
-func format24HourTime(_ date: Date) -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "HH:mm"
-    return formatter.string(from: date)
-}
-
 // MARK: - Widget Entry
 
 struct FastingEntry: TimelineEntry {
@@ -1225,6 +1217,162 @@ struct CircularEndTimeWidget: Widget {
     }
 }
 
+// MARK: - Lock Screen Rectangular Right-Aligned Widget
+
+struct LockScreenRectangularRightView: View {
+    let entry: FastingEntry
+    
+    var currentDuration: TimeInterval {
+        guard let start = entry.startTime else { return 0 }
+        return entry.date.timeIntervalSince(start)
+    }
+    
+    var elapsedHours: Int {
+        Int(currentDuration) / 3600
+    }
+    
+    var elapsedMins: Int {
+        (Int(currentDuration) % 3600) / 60
+    }
+    
+    var remainingMinutes: Int {
+        guard let goal = entry.goalMinutes else { return 0 }
+        let elapsedMinutes = Int(currentDuration) / 60
+        return max(0, goal - elapsedMinutes)
+    }
+    
+    var hours: Int {
+        remainingMinutes / 60
+    }
+    
+    var minutes: Int {
+        remainingMinutes % 60
+    }
+    
+    var progress: Double {
+        guard let goal = entry.goalMinutes, goal > 0 else { return 0 }
+        let elapsedMinutes = currentDuration / 60
+        return min(1.0, elapsedMinutes / Double(goal))
+    }
+    
+    var goalMet: Bool {
+        guard let goal = entry.goalMinutes else { return false }
+        return Int(currentDuration) / 60 >= goal
+    }
+    
+    var body: some View {
+        Group {
+            if entry.isActive {
+                VStack(alignment: .trailing, spacing: 2) {
+                    // Label
+                    Text(goalMet ? "FASTED" : "KEEP FASTING")
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(.secondary)
+                    
+                    // Time
+                    HStack(spacing: 2) {
+                        if goalMet {
+                            Image(systemName: "checkmark.circle.fill")
+                                .font(.system(size: 12))
+                            if elapsedHours > 0 {
+                                Text("\(elapsedHours)h \(elapsedMins)m")
+                                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                            } else {
+                                Text("\(elapsedMins)m")
+                                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                            }
+                        } else {
+                            if hours > 0 {
+                                Text("\(hours)h \(minutes)m")
+                                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                            } else {
+                                Text("\(minutes)m")
+                                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                            }
+                        }
+                    }
+                    
+                    // Start → End times (show during fasting)
+                    if let start = entry.startTime, let goal = entry.goalMinutes {
+                        let endTime = start.addingTimeInterval(TimeInterval(goal * 60))
+                        Text("\(format24HourTime(start)) → \(format24HourTime(endTime))")
+                            .font(.system(size: 9))
+                            .foregroundStyle(.secondary)
+                    }
+                    
+                    // Progress bar (only show when goal not met)
+                    if !goalMet {
+                        GeometryReader { geometry in
+                            ZStack(alignment: .trailing) {
+                                RoundedRectangle(cornerRadius: 2)
+                                    .fill(Color.gray.opacity(0.3))
+                                    .frame(height: 4)
+                                RoundedRectangle(cornerRadius: 2)
+                                    .fill(Color.primary)
+                                    .frame(width: geometry.size.width * progress, height: 4)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                            }
+                        }
+                        .frame(height: 4)
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            } else {
+                VStack(alignment: .trailing, spacing: 2) {
+                    Text("LAST FAST")
+                        .font(.system(size: 10, weight: .medium))
+                        .foregroundStyle(.secondary)
+                    
+                    if let duration = entry.lastFastDuration {
+                        let h = Int(duration) / 3600
+                        let m = (Int(duration) % 3600) / 60
+                        
+                        HStack(spacing: 4) {
+                            if let goalMet = entry.lastFastGoalMet {
+                                Image(systemName: goalMet ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                    .font(.system(size: 12))
+                            }
+                            
+                            if h > 0 {
+                                Text("\(h)h \(m)m")
+                                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                            } else {
+                                Text("\(m)m")
+                                    .font(.system(size: 18, weight: .bold, design: .rounded))
+                            }
+                        }
+                        
+                        // Start → End times
+                        if let startTime = entry.lastFastStartTime, let endTime = entry.lastFastEndTime {
+                            Text("\(format24HourTime(startTime)) → \(format24HourTime(endTime))")
+                                .font(.system(size: 9))
+                                .foregroundStyle(.secondary)
+                        }
+                    } else {
+                        Text("No fasts")
+                            .font(.system(size: 16, weight: .medium))
+                    }
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+        }
+        .containerBackground(for: .widget) { }
+    }
+}
+
+struct RectangularRightWidget: Widget {
+    let kind: String = "RectangularRightWidget"
+    
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: FastingTimelineProvider()) { entry in
+            LockScreenRectangularRightView(entry: entry)
+        }
+        .configurationDisplayName("Countdown (Right)")
+        .description("A right-aligned rectangular Lock Screen widget.")
+        .supportedFamilies([.accessoryRectangular])
+    }
+}
+
 // MARK: - Spacer Widget
 
 struct SpacerEntry: TimelineEntry {
@@ -1276,7 +1424,9 @@ struct LastFastWidgetBundle: WidgetBundle {
         LastFastWidget()
         EndTimeWidget()
         CircularEndTimeWidget()
+        RectangularRightWidget()
         SpacerWidget()
+        LastFastWidgetLiveActivity()
     }
 }
 

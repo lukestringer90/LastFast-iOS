@@ -570,7 +570,7 @@ struct AccessoryRectangularView: View {
                     
                     // Start → End times
                     if let startTime = entry.lastFastStartTime, let endTime = entry.lastFastEndTime {
-                        Text("\(startTime.formatted(date: .omitted, time: .shortened)) → \(endTime.formatted(date: .omitted, time: .shortened))")
+                        Text("\(format24HourTime(startTime)) → \(format24HourTime(endTime))")
                             .font(.system(size: 9))
                             .foregroundStyle(.secondary)
                     }
