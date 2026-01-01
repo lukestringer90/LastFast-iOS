@@ -364,7 +364,7 @@ struct ContentView: View {
             
             if let fast = activeFast, let goal = fast.goalMinutes {
                 let completionTime = fast.startTime.addingTimeInterval(TimeInterval(goal * 60))
-                Text("\(fast.startTime.formatted(date: .omitted, time: .shortened)) → \(completionTime.formatted(date: .omitted, time: .shortened))")
+                Text("\(format24HourTime(fast.startTime)) → \(format24HourTime(completionTime))")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 
@@ -391,7 +391,7 @@ struct ContentView: View {
                     .foregroundStyle(.primary)
                 
                 let estimatedFinish = currentTime.addingTimeInterval(TimeInterval(savedGoalMinutes * 60))
-                Text("Finish at \(estimatedFinish.formatted(date: .omitted, time: .shortened))")
+                Text("Finish at \(format24HourTime(estimatedFinish))")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 
@@ -753,10 +753,10 @@ struct HistoryView: View {
                         .font(.headline)
                     
                     HStack(spacing: 4) {
-                        Text(session.startTime.formatted(date: .omitted, time: .shortened))
+                        Text(format24HourTime(session.startTime))
                         Image(systemName: "arrow.right")
                             .font(.caption2)
-                        Text(session.endTime?.formatted(date: .omitted, time: .shortened) ?? "—")
+                        Text(session.endTime.map { format24HourTime($0) } ?? "—")
                     }
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
@@ -898,10 +898,10 @@ struct FastingHistoryRow: View {
                 }
                 
                 HStack(spacing: 4) {
-                    Text(session.startTime.formatted(date: .omitted, time: .shortened))
+                    Text(format24HourTime(session.startTime))
                     Image(systemName: "arrow.right")
                         .font(.caption2)
-                    Text(session.endTime?.formatted(date: .omitted, time: .shortened) ?? "—")
+                    Text(session.endTime.map { format24HourTime($0) } ?? "—")
                 }
                 .font(.subheadline)
                 .foregroundStyle(.secondary)

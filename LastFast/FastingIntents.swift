@@ -6,6 +6,14 @@ import AppIntents
 import SwiftData
 import WidgetKit
 
+// MARK: - Time Formatting Helper
+
+func format24HourTime(_ date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "HH:mm"
+    return formatter.string(from: date)
+}
+
 // MARK: - Start Fasting Intent
 
 struct StartFastingIntent: AppIntent {
@@ -33,7 +41,7 @@ struct StartFastingIntent: AppIntent {
         let activeSessions = try context.fetch(descriptor)
         
         if !activeSessions.isEmpty {
-            return .result(dialog: "You're already fasting. Your fast started at \(activeSessions.first!.startTime.formatted(date: .omitted, time: .shortened)).")
+            return .result(dialog: "You're already fasting. Your fast started at \(format24HourTime(activeSessions.first!.startTime)).")
         }
         
         // Start new fast with default goal

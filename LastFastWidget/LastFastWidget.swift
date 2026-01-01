@@ -6,6 +6,14 @@ import WidgetKit
 import SwiftUI
 import SwiftData
 
+// MARK: - Time Formatting Helper
+
+func format24HourTime(_ date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "HH:mm"
+    return formatter.string(from: date)
+}
+
 // MARK: - Widget Entry
 
 struct FastingEntry: TimelineEntry {
@@ -308,7 +316,7 @@ struct SmallWidgetView: View {
                     // Predicted end time
                     if let goal = entry.goalMinutes, let start = entry.startTime {
                         let endTime = start.addingTimeInterval(TimeInterval(goal * 60))
-                        Text("Until \(endTime.formatted(date: .omitted, time: .shortened))")
+                        Text("Until \(format24HourTime(endTime))")
                             .font(.caption2)
                             .foregroundStyle(.secondary)
                     }
@@ -517,7 +525,7 @@ struct MediumWidgetView: View {
                             
                             // Start → End times
                             let completionTime = start.addingTimeInterval(TimeInterval(goal * 60))
-                            Text("\(start.formatted(date: .omitted, time: .shortened)) → \(completionTime.formatted(date: .omitted, time: .shortened))")
+                            Text("\(format24HourTime(start)) → \(format24HourTime(completionTime))")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                             
@@ -546,7 +554,7 @@ struct MediumWidgetView: View {
                     // Predicted end time
                     if let goal = entry.goalMinutes, let start = entry.startTime {
                         let endTime = start.addingTimeInterval(TimeInterval(goal * 60))
-                        Text("Until \(endTime.formatted(date: .omitted, time: .shortened))")
+                        Text("Until \(format24HourTime(endTime))")
                             .font(.caption)
                             .foregroundStyle(.secondary)
                     }
@@ -601,7 +609,7 @@ struct MediumWidgetView: View {
                         
                         // Start → End times for last fast
                         if let startTime = entry.lastFastStartTime, let endTime = entry.lastFastEndTime {
-                            Text("\(startTime.formatted(date: .omitted, time: .shortened)) → \(endTime.formatted(date: .omitted, time: .shortened))")
+                            Text("\(format24HourTime(startTime)) → \(format24HourTime(endTime))")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -846,7 +854,7 @@ struct LockScreenRectangularView: View {
                     // Start → End times (show during fasting)
                     if let start = entry.startTime, let goal = entry.goalMinutes {
                         let endTime = start.addingTimeInterval(TimeInterval(goal * 60))
-                        Text("\(start.formatted(date: .omitted, time: .shortened)) → \(endTime.formatted(date: .omitted, time: .shortened))")
+                        Text("\(format24HourTime(start)) → \(format24HourTime(endTime))")
                             .font(.system(size: 9))
                             .foregroundStyle(.secondary)
                     }
@@ -894,7 +902,7 @@ struct LockScreenRectangularView: View {
                         
                         // Start → End times
                         if let startTime = entry.lastFastStartTime, let endTime = entry.lastFastEndTime {
-                            Text("\(startTime.formatted(date: .omitted, time: .shortened)) → \(endTime.formatted(date: .omitted, time: .shortened))")
+                            Text("\(format24HourTime(startTime)) → \(format24HourTime(endTime))")
                                 .font(.system(size: 9))
                                 .foregroundStyle(.secondary)
                         }
@@ -910,12 +918,365 @@ struct LockScreenRectangularView: View {
     }
 }
 
+// MARK: - Small End Time Widget View
+
+struct SmallEndTimeWidgetView: View {
+    let entry: FastingEntry
+    
+    var currentDuration: TimeInterval {
+        guard let start = entry.startTime else { return 0 }
+        return entry.date.timeIntervalSince(start)
+    }
+    
+    var elapsedHours: Int {
+        Int(currentDuration) / 3600
+    }
+    
+    var elapsedMins: Int {
+        (Int(currentDuration) % 3600) / 60
+    }
+    
+    var progress: Double {
+        guard let goal = entry.goalMinutes, goal > 0 else { return 0 }
+        let elapsedMinutes = currentDuration / 60
+        return min(1.0, elapsedMinutes / Double(goal))
+    }
+    
+    var goalMet: Bool {
+        guard let goal = entry.goalMinutes else { return false }
+        return Int(currentDuration) / 60 >= goal
+    }
+    
+    var endTime: Date? {
+        guard let goal = entry.goalMinutes, let start = entry.startTime else { return nil }
+        return start.addingTimeInterval(TimeInterval(goal * 60))
+    }
+    
+    var body: some View {
+        VStack(spacing: 6) {
+            if entry.isActive {
+                if goalMet {
+                    // Goal met - show elapsed time
+                    Text("You've fasted for")
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.secondary)
+                        .textCase(.uppercase)
+                    
+                    if elapsedHours > 0 {
+                        HStack(alignment: .firstTextBaseline, spacing: 1) {
+                            Text("\(elapsedHours)")
+                                .font(.system(size: 32, weight: .bold, design: .rounded))
+                                .foregroundStyle(.green)
+                            Text("h")
+                                .font(.system(size: 12, weight: .medium, design: .rounded))
+                                .foregroundStyle(.green.opacity(0.7))
+                            Text("\(elapsedMins)")
+                                .font(.system(size: 32, weight: .bold, design: .rounded))
+                                .foregroundStyle(.green)
+                            Text("m")
+                                .font(.system(size: 12, weight: .medium, design: .rounded))
+                                .foregroundStyle(.green.opacity(0.7))
+                        }
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                    } else {
+                        HStack(alignment: .firstTextBaseline, spacing: 1) {
+                            Text("\(elapsedMins)")
+                                .font(.system(size: 32, weight: .bold, design: .rounded))
+                                .foregroundStyle(.green)
+                            Text("m")
+                                .font(.system(size: 12, weight: .medium, design: .rounded))
+                                .foregroundStyle(.green.opacity(0.7))
+                        }
+                        .minimumScaleFactor(0.5)
+                        .lineLimit(1)
+                    }
+                    
+                    Text("🎉 Goal reached!")
+                        .font(.caption2)
+                        .foregroundStyle(.green)
+                } else {
+                    // Show end time
+                    Text("Fast until")
+                        .font(.caption2)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.secondary)
+                        .textCase(.uppercase)
+                    
+                    if let end = endTime {
+                        Text(format24HourTime(end))
+                            .font(.system(size: 36, weight: .bold, design: .rounded))
+                            .foregroundStyle(.orange)
+                            .minimumScaleFactor(0.5)
+                            .lineLimit(1)
+                    }
+                    
+                    // Progress bar
+                    GeometryReader { geometry in
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 3)
+                                .fill(Color(.systemGray5))
+                                .frame(height: 6)
+                            RoundedRectangle(cornerRadius: 3)
+                                .fill(Color.orange)
+                                .frame(width: geometry.size.width * progress, height: 6)
+                        }
+                    }
+                    .frame(height: 6)
+                    .padding(.horizontal, 4)
+                    
+                    // Fasted duration
+                    Text("\(formatWidgetDuration(hours: elapsedHours, minutes: elapsedMins)) fasted")
+                        .font(.caption2)
+                        .foregroundStyle(.secondary)
+                }
+            } else {
+                // Not fasting - show last fast (same as regular small widget)
+                Text("Last Fast")
+                    .font(.caption2)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.secondary)
+                    .textCase(.uppercase)
+                
+                if let duration = entry.lastFastDuration {
+                    let h = Int(duration) / 3600
+                    let m = (Int(duration) % 3600) / 60
+                    
+                    HStack(spacing: 4) {
+                        if h > 0 {
+                            HStack(alignment: .firstTextBaseline, spacing: 1) {
+                                Text("\(h)")
+                                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                                    .foregroundStyle(entry.lastFastGoalMet == true ? .green : .orange)
+                                Text("h")
+                                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                                    .foregroundStyle(entry.lastFastGoalMet == true ? .green.opacity(0.7) : .orange.opacity(0.7))
+                                Text("\(m)")
+                                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                                    .foregroundStyle(entry.lastFastGoalMet == true ? .green : .orange)
+                                Text("m")
+                                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                                    .foregroundStyle(entry.lastFastGoalMet == true ? .green.opacity(0.7) : .orange.opacity(0.7))
+                            }
+                        } else {
+                            HStack(alignment: .firstTextBaseline, spacing: 1) {
+                                Text("\(m)")
+                                    .font(.system(size: 40, weight: .bold, design: .rounded))
+                                    .foregroundStyle(entry.lastFastGoalMet == true ? .green : .orange)
+                                Text("m")
+                                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                                    .foregroundStyle(entry.lastFastGoalMet == true ? .green.opacity(0.7) : .orange.opacity(0.7))
+                            }
+                        }
+                        
+                        if let goalMet = entry.lastFastGoalMet {
+                            Image(systemName: goalMet ? "checkmark.circle.fill" : "xmark.circle.fill")
+                                .foregroundStyle(goalMet ? .green : .red)
+                                .font(.caption)
+                        }
+                    }
+                    .minimumScaleFactor(0.5)
+                } else {
+                    Text("No fasts yet")
+                        .font(.headline)
+                        .foregroundStyle(.secondary)
+                }
+                
+                Text("Tap to start")
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding()
+        .containerBackground(for: .widget) {
+            Color(.systemBackground)
+        }
+    }
+}
+
+// MARK: - End Time Widget Configuration
+
+struct EndTimeWidget: Widget {
+    let kind: String = "EndTimeWidget"
+    
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: FastingTimelineProvider()) { entry in
+            SmallEndTimeWidgetView(entry: entry)
+        }
+        .configurationDisplayName("End Time")
+        .description("Shows when your fast will end instead of the countdown.")
+        .supportedFamilies([.systemSmall])
+    }
+}
+
+// MARK: - Lock Screen Circular End Time Widget
+
+struct LockScreenCircularEndTimeView: View {
+    let entry: FastingEntry
+    
+    var currentDuration: TimeInterval {
+        guard let start = entry.startTime else { return 0 }
+        return entry.date.timeIntervalSince(start)
+    }
+    
+    var remainingMinutes: Int {
+        guard let goal = entry.goalMinutes else { return 0 }
+        let elapsedMinutes = Int(currentDuration) / 60
+        return max(0, goal - elapsedMinutes)
+    }
+    
+    var progress: Double {
+        guard let goal = entry.goalMinutes, goal > 0 else { return 0 }
+        let elapsedMinutes = currentDuration / 60
+        return min(1.0, elapsedMinutes / Double(goal))
+    }
+    
+    var goalMet: Bool {
+        guard let goal = entry.goalMinutes else { return false }
+        return Int(currentDuration) / 60 >= goal
+    }
+    
+    var elapsedHours: Int {
+        Int(currentDuration) / 3600
+    }
+    
+    var elapsedMins: Int {
+        (Int(currentDuration) % 3600) / 60
+    }
+    
+    var endTime: Date? {
+        guard let goal = entry.goalMinutes, let start = entry.startTime else { return nil }
+        return start.addingTimeInterval(TimeInterval(goal * 60))
+    }
+    
+    var body: some View {
+        Group {
+            if entry.isActive {
+                if goalMet {
+                    // Full circle when goal met - show elapsed time
+                    ZStack {
+                        AccessoryWidgetBackground()
+                        
+                        if elapsedHours > 0 {
+                            Text("\(elapsedHours)h")
+                                .font(.system(size: 16, weight: .bold, design: .rounded))
+                        } else {
+                            Text("\(elapsedMins)m")
+                                .font(.system(size: 16, weight: .bold, design: .rounded))
+                        }
+                    }
+                } else {
+                    // Gauge progress with end time in center
+                    Gauge(value: progress) {
+                        Text("")
+                    } currentValueLabel: {
+                        if let end = endTime {
+                            Text(format24HourTime(end))
+                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .minimumScaleFactor(0.8)
+                        }
+                    }
+                    .gaugeStyle(.accessoryCircularCapacity)
+                }
+            } else if let duration = entry.lastFastDuration {
+                let h = Int(duration) / 3600
+                let m = (Int(duration) % 3600) / 60
+                
+                ZStack {
+                    AccessoryWidgetBackground()
+                    VStack(spacing: 0) {
+                        if h > 0 {
+                            Text("\(h)h")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                        } else {
+                            Text("\(m)m")
+                                .font(.system(size: 14, weight: .bold, design: .rounded))
+                        }
+                        if entry.lastFastGoalMet == true {
+                            Image(systemName: "checkmark")
+                                .font(.system(size: 8))
+                        }
+                    }
+                }
+            } else {
+                ZStack {
+                    AccessoryWidgetBackground()
+                    Text("--")
+                        .font(.system(size: 14, weight: .bold, design: .rounded))
+                }
+            }
+        }
+        .containerBackground(for: .widget) { }
+    }
+}
+
+struct CircularEndTimeWidget: Widget {
+    let kind: String = "CircularEndTimeWidget"
+    
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: FastingTimelineProvider()) { entry in
+            LockScreenCircularEndTimeView(entry: entry)
+        }
+        .configurationDisplayName("End Time (Circular)")
+        .description("A circular Lock Screen widget showing when your fast will end.")
+        .supportedFamilies([.accessoryCircular])
+    }
+}
+
+// MARK: - Spacer Widget
+
+struct SpacerEntry: TimelineEntry {
+    let date: Date
+}
+
+struct SpacerTimelineProvider: TimelineProvider {
+    func placeholder(in context: Context) -> SpacerEntry {
+        SpacerEntry(date: Date())
+    }
+    
+    func getSnapshot(in context: Context, completion: @escaping (SpacerEntry) -> Void) {
+        completion(SpacerEntry(date: Date()))
+    }
+    
+    func getTimeline(in context: Context, completion: @escaping (Timeline<SpacerEntry>) -> Void) {
+        let entry = SpacerEntry(date: Date())
+        // Never needs to update
+        let timeline = Timeline(entries: [entry], policy: .never)
+        completion(timeline)
+    }
+}
+
+struct SpacerWidgetView: View {
+    var body: some View {
+        Color.clear
+            .containerBackground(for: .widget) { }
+    }
+}
+
+struct SpacerWidget: Widget {
+    let kind: String = "SpacerWidget"
+    
+    var body: some WidgetConfiguration {
+        StaticConfiguration(kind: kind, provider: SpacerTimelineProvider()) { _ in
+            SpacerWidgetView()
+        }
+        .configurationDisplayName("Spacer")
+        .description("A blank widget to use as a spacer on the Lock Screen.")
+        .supportedFamilies([.accessoryRectangular])
+    }
+}
+
 // MARK: - Widget Bundle
 
 @main
 struct LastFastWidgetBundle: WidgetBundle {
     var body: some Widget {
         LastFastWidget()
+        EndTimeWidget()
+        CircularEndTimeWidget()
+        SpacerWidget()
     }
 }
 
