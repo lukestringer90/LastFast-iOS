@@ -7,11 +7,15 @@ import SwiftData
 import WidgetKit
 import ActivityKit
 
+// MARK: - Live Activity Feature Flag
+let liveActivityEnabled = false
+
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \FastingSession.startTime, order: .reverse) private var sessions: [FastingSession]
     
     @State private var timer: Timer?
+    @State private var liveActivityTimer: Timer?
     @State private var currentTime = Date()
     @State private var showingHistory = false
     @State private var showingGoalPicker = false
@@ -111,7 +115,9 @@ struct ContentView: View {
             }
             .onAppear {
                 startTimer()
-                resumeLiveActivityIfNeeded()
+                if liveActivityEnabled {
+                    resumeLiveActivityIfNeeded()
+                }
             }
             .onDisappear { stopTimer() }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
@@ -447,8 +453,16 @@ struct ContentView: View {
             try? modelContext.save()
             WidgetCenter.shared.reloadAllTimelines()
             
+            // Save to UserDefaults for background task access
+            let defaults = UserDefaults(suiteName: "group.dev.stringer.lastfast.shared")
+            defaults?.set(newSession.startTime.timeIntervalSince1970, forKey: "fastingStartTime")
+            defaults?.set(savedGoalMinutes, forKey: "fastingGoalMinutes")
+            defaults?.set(true, forKey: "isFasting")
+            
             // Start Live Activity
-            startLiveActivity(startTime: newSession.startTime, goalMinutes: savedGoalMinutes)
+            if liveActivityEnabled {
+                startLiveActivity(startTime: newSession.startTime, goalMinutes: savedGoalMinutes)
+            }
         }
     }
     
@@ -458,8 +472,15 @@ struct ContentView: View {
             try? modelContext.save()
             WidgetCenter.shared.reloadAllTimelines()
             
+            // Clear UserDefaults
+            let defaults = UserDefaults(suiteName: "group.dev.stringer.lastfast.shared")
+            defaults?.set(false, forKey: "isFasting")
+            defaults?.removeObject(forKey: "fastingStartTime")
+            
             // End Live Activity
-            endLiveActivity()
+            if liveActivityEnabled {
+                endLiveActivity()
+            }
         }
     }
     
@@ -544,24 +565,40 @@ struct ContentView: View {
         }
         
         // Update immediately
-        updateLiveActivity()
+        if liveActivityEnabled {
+            updateLiveActivity()
+        }
     }
     
     // MARK: - Timer Management
     
     private func startTimer() {
+        // UI timer - updates every second for in-app display
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [self] _ in
             DispatchQueue.main.async {
                 self.currentTime = Date()
-                self.updateLiveActivity()
             }
         }
         RunLoop.main.add(timer!, forMode: .common)
+        
+        // Live Activity timer - updates every 60 seconds
+        if liveActivityEnabled {
+            liveActivityTimer = Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { [self] _ in
+                DispatchQueue.main.async {
+                    self.updateLiveActivity()
+                }
+            }
+            RunLoop.main.add(liveActivityTimer!, forMode: .common)
+        }
     }
     
     private func stopTimer() {
         timer?.invalidate()
         timer = nil
+        if liveActivityEnabled {
+            liveActivityTimer?.invalidate()
+            liveActivityTimer = nil
+        }
     }
 }
 

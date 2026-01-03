@@ -14,142 +14,158 @@ import SwiftUI
 struct LastFastWidgetLiveActivity: Widget {
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: LastFastWidgetAttributes.self) { context in
-            // Lock screen/banner UI - expanded view like Uber
-            VStack(alignment: .leading, spacing: 12) {
-                // Top row - app name and status
+            // Lock screen/banner UI
+            let endTime = context.attributes.startTime.addingTimeInterval(TimeInterval(context.attributes.goalMinutes * 60))
+            let startTime = context.attributes.startTime
+            let remainingSeconds = max(0, Int(endTime.timeIntervalSince(Date())))
+            let remainingHours = remainingSeconds / 3600
+            let remainingMins = (remainingSeconds % 3600) / 60
+            let elapsedSeconds = context.state.elapsedSeconds
+            let elapsedHours = elapsedSeconds / 3600
+            let elapsedMins = (elapsedSeconds % 3600) / 60
+            
+            if context.state.goalMet {
+                // GOAL MET: Simplified view with elapsed time and checkmark
                 HStack {
-                    Image(systemName: "fork.knife.circle.fill")
-                        .font(.title2)
-                        .foregroundColor(.orange)
-                    
-                    Text("Last Fast")
-                        .font(.headline)
-                        .fontWeight(.semibold)
+                    // Left side - Total elapsed time
+                    Text("\(elapsedHours)h \(elapsedMins)m")
+                        .font(.system(size: 28, weight: .bold, design: .rounded))
+                        .foregroundColor(.green)
                     
                     Spacer()
                     
-                    if context.state.goalMet {
-                        Text("GOAL MET")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundColor(.green)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(Color.green.opacity(0.2))
-                            .cornerRadius(4)
-                    } else {
-                        Text("FASTING")
-                            .font(.caption)
-                            .fontWeight(.bold)
-                            .foregroundColor(.orange)
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .background(Color.orange.opacity(0.2))
-                            .cornerRadius(4)
-                    }
+                    // Right side - Green checkmark
+                    Image(systemName: "checkmark.circle.fill")
+                        .font(.system(size: 44))
+                        .foregroundColor(.green)
                 }
-                
-                // Middle row - main time display
-                HStack(alignment: .center) {
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("Elapsed")
-                            .font(.caption)
-                            .foregroundColor(.secondary)
-                        
-                        let hours = context.state.elapsedSeconds / 3600
-                        let mins = (context.state.elapsedSeconds % 3600) / 60
-                        
-                        Text("\(hours)h \(mins)m")
-                            .font(.system(size: 34, weight: .bold, design: .rounded))
-                            .foregroundColor(context.state.goalMet ? .green : .primary)
-                    }
-                    
-                    Spacer()
-                    
-                    if !context.state.goalMet {
-                        VStack(alignment: .trailing, spacing: 4) {
-                            Text("End time")
+                .padding(16)
+                .background(Color(UIColor.secondarySystemBackground))
+            } else {
+                // IN PROGRESS: Full view with countdown, end time, and progress bar
+                VStack(spacing: 12) {
+                    HStack(alignment: .top) {
+                        // Left side - TIME REMAINING
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("Fasted for \(elapsedHours)h \(elapsedMins)m")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             
-                            let endTime = context.attributes.startTime.addingTimeInterval(TimeInterval(context.attributes.goalMinutes * 60))
+                            Text("\(remainingHours)h \(remainingMins)m")
+                                .font(.system(size: 28, weight: .bold, design: .rounded))
+                                .foregroundColor(.primary)
+                        }
+                        
+                        Spacer()
+                        
+                        // Right side - END TIME
+                        VStack(alignment: .trailing, spacing: 4) {
+                            Text("\(format24HourTime(startTime)) to")
+                                .font(.caption)
+                                .foregroundColor(.secondary)
+                            
                             Text(format24HourTime(endTime))
                                 .font(.system(size: 28, weight: .bold, design: .rounded))
                                 .foregroundColor(.orange)
                         }
-                    } else {
-                        Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 44))
-                            .foregroundColor(.green)
                     }
-                }
-                
-                // Bottom row - progress
-                if !context.state.goalMet {
-                    VStack(spacing: 6) {
-                        let progress = min(1.0, Double(context.state.elapsedSeconds) / Double(context.attributes.goalMinutes * 60))
-                        
-                        GeometryReader { geo in
-                            ZStack(alignment: .leading) {
-                                RoundedRectangle(cornerRadius: 6)
-                                    .fill(Color.gray.opacity(0.3))
-                                
-                                RoundedRectangle(cornerRadius: 6)
-                                    .fill(Color.orange)
-                                    .frame(width: geo.size.width * progress)
-                            }
-                        }
-                        .frame(height: 10)
-                        
-                        HStack {
-                            Text(format24HourTime(context.attributes.startTime))
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
+                    
+                    // Progress bar
+                    let progress = min(1.0, Double(context.state.elapsedSeconds) / Double(context.attributes.goalMinutes * 60))
+                    
+                    GeometryReader { geo in
+                        ZStack(alignment: .leading) {
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(Color.gray.opacity(0.3))
                             
-                            Spacer()
-                            
-                            let endTime = context.attributes.startTime.addingTimeInterval(TimeInterval(context.attributes.goalMinutes * 60))
-                            Text(format24HourTime(endTime))
-                                .font(.caption2)
-                                .foregroundColor(.secondary)
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(Color.orange)
+                                .frame(width: geo.size.width * progress)
                         }
                     }
+                    .frame(height: 10)
                 }
+                .padding(16)
+                .background(Color(UIColor.secondarySystemBackground))
             }
-            .padding(16)
-            .background(Color(UIColor.secondarySystemBackground))
             
         } dynamicIsland: { context in
-            let remainingSeconds = max(0, (context.attributes.goalMinutes * 60) - context.state.elapsedSeconds)
+            let endTime = context.attributes.startTime.addingTimeInterval(TimeInterval(context.attributes.goalMinutes * 60))
+            let remainingSeconds = max(0, Int(endTime.timeIntervalSince(Date())))
             let remainingHours = remainingSeconds / 3600
             let remainingMins = (remainingSeconds % 3600) / 60
-            let endTime = context.attributes.startTime.addingTimeInterval(TimeInterval(context.attributes.goalMinutes * 60))
+            let elapsedSeconds = context.state.elapsedSeconds
+            let elapsedHours = elapsedSeconds / 3600
+            let elapsedMins = (elapsedSeconds % 3600) / 60
             
             return DynamicIsland {
+                // EXPANDED VIEW
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("\(remainingHours)h \(remainingMins)m")
-                        .font(.title2)
-                        .fontWeight(.bold)
+                    if context.state.goalMet {
+                        Text("\(elapsedHours)h \(elapsedMins)m")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.green)
+                    } else {
+                        Text("\(remainingHours)h \(remainingMins)m")
+                            .font(.system(size: 16, weight: .bold))
+                    }
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text(format24HourTime(endTime))
-                        .font(.title2)
-                        .fontWeight(.bold)
+                    if context.state.goalMet {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.system(size: 24))
+                            .foregroundColor(.green)
+                    } else {
+                        Text(format24HourTime(endTime))
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundColor(.orange)
+                    }
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("remaining until \(format24HourTime(endTime))")
-                        .font(.caption)
+                    if !context.state.goalMet {
+                        let progress = min(1.0, Double(context.state.elapsedSeconds) / Double(context.attributes.goalMinutes * 60))
+                        ProgressView(value: progress)
+                            .tint(.orange)
+                    }
                 }
                 DynamicIslandExpandedRegion(.center) {
                     EmptyView()
                 }
             } compactLeading: {
-                Text("\(remainingHours)h\(remainingMins)m")
+                // COMPACT VIEW - Left side
+                if context.state.goalMet {
+                    Text("\(elapsedHours)h\(elapsedMins)m")
+                        .font(.system(size: 10))
+                        .fontWeight(.medium)
+                        .foregroundColor(.green)
+                } else {
+                    Text("\(remainingHours)h\(remainingMins)m")
+                        .font(.system(size: 10))
+                        .fontWeight(.medium)
+                }
             } compactTrailing: {
-                Text(format24HourTime(endTime))
+                // COMPACT VIEW - Right side
+                if context.state.goalMet {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.green)
+                } else {
+                    Text(format24HourTime(endTime))
+                        .font(.system(size: 10))
+                        .fontWeight(.medium)
+                        .foregroundColor(.orange)
+                }
             } minimal: {
-                Text("\(remainingHours)h")
+                if context.state.goalMet {
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundColor(.green)
+                } else {
+                    Text("\(remainingHours)h")
+                        .font(.system(size: 9))
+                }
             }
+            .contentMargins(.leading, 20, for: .expanded)
+            .contentMargins(.trailing, 20, for: .expanded)
+            .contentMargins(.bottom, 12, for: .expanded)
         }
     }
 }
