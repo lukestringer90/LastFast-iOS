@@ -6,6 +6,7 @@ import SwiftUI
 import SwiftData
 import WidgetKit
 import ActivityKit
+import UserNotifications
 
 // MARK: - Live Activity Feature Flag
 let liveActivityEnabled = false
@@ -20,6 +21,7 @@ struct ContentView: View {
     @State private var showingHistory = false
     @State private var showingGoalPicker = false
     @State private var showingStopConfirmation = false
+    @State private var goalNotificationSent = false
     
     // Goal stored in UserDefaults (persists between fasts)
     @AppStorage("fastingGoalMinutes") private var savedGoalMinutes: Int = 720 // Default 12 hours
@@ -117,6 +119,11 @@ struct ContentView: View {
                 startTimer()
                 if liveActivityEnabled {
                     resumeLiveActivityIfNeeded()
+                }
+                requestNotificationPermission()
+                // Reset notification flag if no active fast
+                if activeFast == nil {
+                    goalNotificationSent = false
                 }
             }
             .onDisappear { stopTimer() }
@@ -459,6 +466,10 @@ struct ContentView: View {
             defaults?.set(savedGoalMinutes, forKey: "fastingGoalMinutes")
             defaults?.set(true, forKey: "isFasting")
             
+            // Reset notification flag and schedule goal notification
+            goalNotificationSent = false
+            scheduleGoalNotification(startTime: newSession.startTime, goalMinutes: savedGoalMinutes)
+            
             // Start Live Activity
             if liveActivityEnabled {
                 startLiveActivity(startTime: newSession.startTime, goalMinutes: savedGoalMinutes)
@@ -476,6 +487,10 @@ struct ContentView: View {
             let defaults = UserDefaults(suiteName: "group.dev.stringer.lastfast.shared")
             defaults?.set(false, forKey: "isFasting")
             defaults?.removeObject(forKey: "fastingStartTime")
+            
+            // Cancel pending notifications
+            cancelGoalNotification()
+            goalNotificationSent = false
             
             // End Live Activity
             if liveActivityEnabled {
@@ -567,6 +582,79 @@ struct ContentView: View {
         // Update immediately
         if liveActivityEnabled {
             updateLiveActivity()
+        }
+    }
+    
+    // MARK: - Notification Management
+    
+    private func requestNotificationPermission() {
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+            if let error = error {
+                print("Notification permission error: \(error)")
+            }
+            print("Notification permission granted: \(granted)")
+        }
+    }
+    
+    private func scheduleGoalNotification(startTime: Date, goalMinutes: Int) {
+        let center = UNUserNotificationCenter.current()
+        
+        // Calculate when the goal will be met
+        let goalTime = startTime.addingTimeInterval(TimeInterval(goalMinutes * 60))
+        let timeUntilGoal = goalTime.timeIntervalSinceNow
+        
+        // Only schedule if goal is in the future
+        guard timeUntilGoal > 0 else { return }
+        
+        // Format the goal duration for the body
+        let goalHours = goalMinutes / 60
+        let goalMins = goalMinutes % 60
+        let goalText: String
+        if goalHours > 0 && goalMins > 0 {
+            goalText = "\(goalHours)h \(goalMins)m"
+        } else if goalHours > 0 {
+            goalText = "\(goalHours)h"
+        } else {
+            goalText = "\(goalMins)m"
+        }
+        
+        // Format times for the body
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateFormat = "HH:mm"
+        let startTimeText = timeFormatter.string(from: startTime)
+        let endTimeText = timeFormatter.string(from: goalTime)
+        
+        // Create notification content
+        let content = UNMutableNotificationContent()
+        content.title = "🎉 Goal Met"
+        content.body = "\(goalText) fasted, from \(startTimeText) → \(endTimeText)"
+        content.sound = UNNotificationSound.defaultCritical
+        content.badge = 1
+        
+        // Create trigger for when goal is met
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeUntilGoal, repeats: false)
+        
+        // Create request
+        let request = UNNotificationRequest(identifier: "goalMet", content: content, trigger: trigger)
+        
+        // Schedule notification
+        center.add(request) { error in
+            if let error = error {
+                print("Error scheduling notification: \(error)")
+            } else {
+                print("Goal notification scheduled for \(goalTime)")
+            }
+        }
+    }
+    
+    private func cancelGoalNotification() {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["goalMet"])
+        UNUserNotificationCenter.current().removeDeliveredNotifications(withIdentifiers: ["goalMet"])
+        // Also clear badge
+        UNUserNotificationCenter.current().setBadgeCount(0) { error in
+            if let error = error {
+                print("Error clearing badge: \(error)")
+            }
         }
     }
     
