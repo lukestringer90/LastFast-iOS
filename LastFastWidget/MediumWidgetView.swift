@@ -54,7 +54,7 @@ struct MediumWidgetView: View {
     private var goalMetView: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack(alignment: .top) {
-                Text("FASTED FOR \(elapsedHours)h \(elapsedMins)m")
+                Text("FASTED FOR")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 
@@ -66,7 +66,7 @@ struct MediumWidgetView: View {
             }
             
             Text("\(elapsedHours)h \(elapsedMins)m")
-                .font(.system(size: 36, weight: .bold, design: .rounded))
+                .font(.system(size: 44, weight: .bold, design: .rounded))
                 .foregroundStyle(.green)
         }
         .padding(16)
@@ -77,35 +77,55 @@ struct MediumWidgetView: View {
     
     private var activeView: some View {
         VStack(alignment: .leading, spacing: 8) {
+            // Top row: countdown on left, end time info on right
             HStack(alignment: .top) {
-                Text("KEEP FASTING FOR")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                
-                Spacer()
-                
-                if let start = entry.startTime {
-                    Text("\(format24HourTime(start)) TO")
-                        .font(.subheadline)
-                        .foregroundStyle(.secondary)
+                // Left side: Large countdown time
+                if remainingHours > 0 {
+                    HStack(alignment: .firstTextBaseline, spacing: 2) {
+                        Text("\(remainingHours)")
+                            .font(.system(size: 64, weight: .bold, design: .rounded))
+                            .foregroundStyle(.primary)
+                        Text("h")
+                            .font(.system(size: 28, weight: .medium, design: .rounded))
+                            .foregroundStyle(.secondary)
+                        Text("\(remainingMins)")
+                            .font(.system(size: 64, weight: .bold, design: .rounded))
+                            .foregroundStyle(.primary)
+                        Text("m")
+                            .font(.system(size: 28, weight: .medium, design: .rounded))
+                            .foregroundStyle(.secondary)
+                    }
+                    .minimumScaleFactor(0.6)
+                } else {
+                    HStack(alignment: .firstTextBaseline, spacing: 2) {
+                        Text("\(remainingMins)")
+                            .font(.system(size: 64, weight: .bold, design: .rounded))
+                            .foregroundStyle(.primary)
+                        Text("m")
+                            .font(.system(size: 28, weight: .medium, design: .rounded))
+                            .foregroundStyle(.secondary)
+                    }
+                    .minimumScaleFactor(0.6)
                 }
-            }
-            
-            HStack(alignment: .firstTextBaseline) {
-                Text("\(remainingHours)h \(remainingMins)m")
-                    .font(.system(size: 36, weight: .bold, design: .rounded))
-                    .foregroundStyle(.orange)
                 
                 Spacer()
                 
+                // Right side: Start time to / End time
                 if let start = entry.startTime, let goal = entry.goalMinutes {
                     let endTime = start.addingTimeInterval(TimeInterval(goal * 60))
-                    Text(format24HourTime(endTime))
-                        .font(.system(size: 36, weight: .bold, design: .rounded))
-                        .foregroundStyle(.primary)
+                    VStack(alignment: .trailing, spacing: 2) {
+                        Text("\(format24HourTime(start)) to")
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                        
+                        Text(format24HourTime(endTime))
+                            .font(.system(size: 32, weight: .bold, design: .rounded))
+                            .foregroundStyle(.orange)
+                    }
                 }
             }
             
+            // Full width progress bar
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 5)
@@ -117,6 +137,15 @@ struct MediumWidgetView: View {
                 }
             }
             .frame(height: 8)
+            
+            // Centered elapsed time below progress bar
+            HStack {
+                Spacer()
+                Text("Fasted for \(elapsedHours)h \(elapsedMins)m")
+                    .font(.caption)
+                    .foregroundStyle(.white)
+                Spacer()
+            }
         }
         .padding(16)
         .containerBackground(for: .widget) {
@@ -125,64 +154,78 @@ struct MediumWidgetView: View {
     }
     
     private var inactiveView: some View {
-        VStack(spacing: 6) {
-            Text("Last Fast")
+        VStack(alignment: .leading, spacing: 8) {
+            Text("LAST 5 DAYS")
                 .font(.caption)
                 .fontWeight(.medium)
                 .foregroundStyle(.secondary)
-                .textCase(.uppercase)
             
-            if let duration = entry.lastFastDuration {
-                let h = Int(duration) / 3600
-                let m = (Int(duration) % 3600) / 60
-                let color: Color = entry.lastFastGoalMet == true ? .green : .orange
-                
-                HStack(spacing: 4) {
-                    if h > 0 {
-                        HStack(alignment: .firstTextBaseline, spacing: 1) {
-                            Text("\(h)")
-                                .font(.system(size: 44, weight: .bold, design: .rounded))
-                                .foregroundStyle(color)
-                            Text("h")
-                                .font(.system(size: 16, weight: .medium, design: .rounded))
-                                .foregroundStyle(color.opacity(0.7))
-                            Text("\(m)")
-                                .font(.system(size: 44, weight: .bold, design: .rounded))
-                                .foregroundStyle(color)
-                            Text("m")
-                                .font(.system(size: 16, weight: .medium, design: .rounded))
-                                .foregroundStyle(color.opacity(0.7))
+            if entry.recentHistory.isEmpty {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Text("No fasting history")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    Spacer()
+                }
+                Spacer()
+            } else {
+                // Bar graph
+                HStack(alignment: .bottom, spacing: 8) {
+                    ForEach(entry.recentHistory, id: \.self) { day in
+                        VStack(spacing: 4) {
+                            // Bar
+                            barView(for: day)
+                            
+                            // Day label
+                            Text(dayLabel(for: day.date))
+                                .font(.system(size: 10))
+                                .foregroundStyle(.secondary)
                         }
-                    } else {
-                        HStack(alignment: .firstTextBaseline, spacing: 1) {
-                            Text("\(m)")
-                                .font(.system(size: 44, weight: .bold, design: .rounded))
-                                .foregroundStyle(color)
-                            Text("m")
-                                .font(.system(size: 16, weight: .medium, design: .rounded))
-                                .foregroundStyle(color.opacity(0.7))
-                        }
-                    }
-                    
-                    if let goalMet = entry.lastFastGoalMet {
-                        Image(systemName: goalMet ? "checkmark.circle.fill" : "xmark.circle.fill")
-                            .foregroundStyle(goalMet ? .green : .red)
-                            .font(.title2)
                     }
                 }
-                .minimumScaleFactor(0.5)
-            } else {
-                Text("No fasts yet")
-                    .font(.title)
-                    .foregroundStyle(.secondary)
+                .frame(maxWidth: .infinity)
             }
             
-            Text("Tap to start")
+            Text("Tap to start fasting")
                 .font(.caption)
                 .foregroundStyle(.tertiary)
         }
+        .padding(16)
         .containerBackground(for: .widget) {
-            Color(.systemBackground)
+            Color(UIColor.secondarySystemBackground)
         }
+    }
+    
+    @ViewBuilder
+    private func barView(for day: DayFastingData) -> some View {
+        let maxHours: Double = 24
+        let heightRatio = min(1.0, day.totalFastedHours / maxHours)
+        let barColor: Color = day.goalMet ? .green : .orange
+        
+        GeometryReader { geo in
+            VStack {
+                Spacer()
+                
+                if day.totalFastedHours > 0 {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(barColor)
+                        .frame(height: max(4, geo.size.height * heightRatio))
+                } else {
+                    RoundedRectangle(cornerRadius: 4)
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(height: 4)
+                }
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: 50)
+    }
+    
+    private func dayLabel(for date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEE"
+        return formatter.string(from: date)
     }
 }

@@ -16,16 +16,12 @@ struct LastFastWidgetEntryView: View {
     
     var body: some View {
         switch family {
-        case .systemSmall:
-            SmallWidgetView(entry: entry)
         case .systemMedium:
             MediumWidgetView(entry: entry)
-        case .systemLarge:
-            LargeWidgetView(entry: entry)
         case .accessoryCircular:
             LockScreenCircularView(entry: entry)
         default:
-            SmallWidgetView(entry: entry)
+            MediumWidgetView(entry: entry)
         }
     }
 }
@@ -40,42 +36,12 @@ struct LastFastWidget: Widget {
             LastFastWidgetEntryView(entry: entry)
         }
         .configurationDisplayName("Last Fast")
-        .description("Track your current fast or see your last completed fast.")
-        .supportedFamilies([.systemSmall, .systemMedium, .systemLarge, .accessoryCircular])
+        .description("Track your current fast or see your fasting history.")
+        .supportedFamilies([.systemMedium, .accessoryCircular])
     }
 }
 
 // MARK: - Previews
-
-#Preview("Small - Fasting", as: .systemSmall) {
-    LastFastWidget()
-} timeline: {
-    FastingEntry(
-        date: Date(),
-        isActive: true,
-        startTime: Date().addingTimeInterval(-3600 * 4),
-        goalMinutes: 480,
-        lastFastDuration: nil,
-        lastFastGoalMet: nil,
-        lastFastStartTime: nil,
-        lastFastEndTime: nil
-    )
-}
-
-#Preview("Small - Not Fasting", as: .systemSmall) {
-    LastFastWidget()
-} timeline: {
-    FastingEntry(
-        date: Date(),
-        isActive: false,
-        startTime: nil,
-        goalMinutes: nil,
-        lastFastDuration: 3600 * 16,
-        lastFastGoalMet: true,
-        lastFastStartTime: Date().addingTimeInterval(-3600 * 20),
-        lastFastEndTime: Date().addingTimeInterval(-3600 * 4)
-    )
-}
 
 #Preview("Medium - Fasting", as: .systemMedium) {
     LastFastWidget()
@@ -103,6 +69,13 @@ struct LastFastWidget: Widget {
         lastFastDuration: 3600 * 16,
         lastFastGoalMet: true,
         lastFastStartTime: Date().addingTimeInterval(-3600 * 20),
-        lastFastEndTime: Date().addingTimeInterval(-3600 * 4)
+        lastFastEndTime: Date().addingTimeInterval(-3600 * 4),
+        recentHistory: [
+            DayFastingData(date: Date().addingTimeInterval(-4 * 86400), totalFastedHours: 16, goalMet: true),
+            DayFastingData(date: Date().addingTimeInterval(-3 * 86400), totalFastedHours: 14, goalMet: true),
+            DayFastingData(date: Date().addingTimeInterval(-2 * 86400), totalFastedHours: 8, goalMet: false),
+            DayFastingData(date: Date().addingTimeInterval(-1 * 86400), totalFastedHours: 18, goalMet: true),
+            DayFastingData(date: Date(), totalFastedHours: 12, goalMet: true)
+        ]
     )
 }

@@ -132,6 +132,22 @@ struct ContentView: View {
             Spacer()
             
             actionButton
+            
+            historyButton
+                .padding(.top, 16)
+                .padding(.bottom, 40)
+        }
+    }
+    
+    private var historyButton: some View {
+        Button(action: { showingHistory = true }) {
+            HStack(spacing: 6) {
+                Image(systemName: "clock.arrow.circlepath")
+                    .font(.subheadline)
+                Text("History")
+                    .font(.subheadline)
+            }
+            .foregroundStyle(.secondary)
         }
     }
     
@@ -150,6 +166,9 @@ struct ContentView: View {
             
             lastFastButton
                 .padding(.top, 16)
+            
+            historyButton
+                .padding(.top, 12)
                 .padding(.bottom, 40)
         }
     }
