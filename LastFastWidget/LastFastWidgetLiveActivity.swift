@@ -47,7 +47,7 @@ struct LastFastWidgetLiveActivity: Widget {
                     HStack(alignment: .top) {
                         // Left side - TIME REMAINING
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("Fasted for \(elapsedHours)h \(elapsedMins)m")
+                            Text("Elapsed: \(elapsedHours)h \(elapsedMins)m")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             

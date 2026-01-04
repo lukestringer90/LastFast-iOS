@@ -155,20 +155,12 @@
 			);
 			target = A3A7C2AA2F05B95A004E371E /* LastFastWatchWidgetExtension */;
 		};
-		A3B8407E2F09669500A0DA4A /* Exceptions for "LastFast" folder in "LastFast" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = A30FC2342F0577D200E5AEC6 /* LastFast */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A30FC2372F0577D200E5AEC6 /* LastFast */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A3B8407E2F09669500A0DA4A /* Exceptions for "LastFast" folder in "LastFast" target */,
 				A30FC29C2F05790100E5AEC6 /* Exceptions for "LastFast" folder in "LastFastWatch Watch App" target */,
 				A3A7C2A62F059A03004E371E /* Exceptions for "LastFast" folder in "LastFastWidgetExtension" target */,
 				A3A7C2BE2F05B9A1004E371E /* Exceptions for "LastFast" folder in "LastFastWatchWidgetExtension" target */,
@@ -870,8 +862,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LastFast/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Last Fast";
-				INFOPLIST_KEY_NSSiriUsageDescription = "Allows you to start and stop fasting with your voice";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSiriUsageDescription = "Allows you to start and stop fasting with your voice";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -882,7 +874,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -904,8 +896,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LastFast/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Last Fast";
-				INFOPLIST_KEY_NSSiriUsageDescription = "Allows you to start and stop fasting with your voice";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
+				INFOPLIST_KEY_NSSiriUsageDescription = "Allows you to start and stop fasting with your voice";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -916,7 +908,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -933,7 +925,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -951,7 +943,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -967,7 +959,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -983,7 +975,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -1006,13 +998,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Last Fast";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.stringer.lastfast;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "dev.stringer.lastfast";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1037,13 +1029,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Last Fast";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.stringer.lastfast;
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = "dev.stringer.lastfast";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.watchkitapp";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1062,7 +1054,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.watchkitapp.tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1081,7 +1073,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.watchkitapp.tests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1099,7 +1091,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.watchkitapp.uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1117,7 +1109,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.watchkitapp.uitests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SWIFT_EMIT_LOC_STRINGS = NO;
@@ -1147,7 +1139,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1175,7 +1167,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -1204,7 +1196,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.watchkitapp.widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
@@ -1235,7 +1227,7 @@
 					"@executable_path/../../../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.widget;
+				PRODUCT_BUNDLE_IDENTIFIER = "dev.stringer.lastfast.watchkitapp.widget";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;

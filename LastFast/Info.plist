@@ -6,11 +6,11 @@
 	<array>
 		<string>dev.stringer.lastfast.refresh</string>
 	</array>
-	<key>NSSupportsLiveActivities - 2</key>
-	<true/>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
 	</array>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
 </dict>
 </plist>

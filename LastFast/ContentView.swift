@@ -606,7 +606,7 @@ struct ContentView: View {
         // Only schedule if goal is in the future
         guard timeUntilGoal > 0 else { return }
         
-        // Format the goal duration for the body
+        // Format the goal duration for the title
         let goalHours = goalMinutes / 60
         let goalMins = goalMinutes % 60
         let goalText: String
@@ -626,8 +626,8 @@ struct ContentView: View {
         
         // Create notification content
         let content = UNMutableNotificationContent()
-        content.title = "🎉 Goal Met"
-        content.body = "\(goalText) fasted, from \(startTimeText) → \(endTimeText)"
+        content.title = "Goal Achieved - \(goalText)"
+        content.body = "\(startTimeText) → \(endTimeText)"
         content.sound = UNNotificationSound.defaultCritical
         content.badge = 1
         
