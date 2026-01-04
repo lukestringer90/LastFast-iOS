@@ -16,13 +16,14 @@ struct HistoryView: View {
     @Query(sort: \FastingSession.startTime, order: .reverse) private var sessions: [FastingSession]
     
     @State private var selectedSession: FastingSession?
+    @State private var showingListView = false
     
     private var completedSessions: [FastingSession] {
         sessions.filter { !$0.isActive }
     }
     
     private var chartSessions: [FastingSession] {
-        Array(completedSessions.reversed().suffix(14))
+        Array(completedSessions.reversed().suffix(5))
     }
     
     private var maxDuration: TimeInterval {
@@ -49,6 +50,9 @@ struct HistoryView: View {
                         dismiss()
                     }
                 }
+            }
+            .sheet(isPresented: $showingListView) {
+                HistoryListView()
             }
         }
     }
@@ -82,6 +86,14 @@ struct HistoryView: View {
         try? modelContext.save()
     }
     
+    private func deleteSession(_ session: FastingSession) {
+        withAnimation {
+            selectedSession = nil
+            modelContext.delete(session)
+            try? modelContext.save()
+        }
+    }
+    
     // MARK: - Graph View
     
     private var graphView: some View {
@@ -94,6 +106,23 @@ struct HistoryView: View {
                     selectedSessionCard(session: session)
                 }
                 
+                // View All Fasts button
+                Button(action: { showingListView = true }) {
+                    HStack {
+                        Image(systemName: "list.bullet")
+                        Text("View All Fasts")
+                    }
+                    .font(.subheadline)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.blue)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 12)
+                    .background(
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color(.secondarySystemBackground))
+                    )
+                }
+                
                 statsCard
             }
             .padding(.horizontal, 20)
@@ -104,27 +133,43 @@ struct HistoryView: View {
     // MARK: - Bar Chart
     
     private var barChart: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Fasting History")
-                .font(.headline)
+        GeometryReader { geometry in
+            let barWidth = max(40, (geometry.size.width - CGFloat(chartSessions.count - 1) * 8 - 32) / CGFloat(max(chartSessions.count, 1)))
+            let durationLabelHeight: CGFloat = 20
+            let dateLabelHeight: CGFloat = 20
+            let barAreaHeight: CGFloat = 160
             
-            GeometryReader { geometry in
-                let barWidth = max(20, (geometry.size.width - CGFloat(chartSessions.count - 1) * 4) / CGFloat(max(chartSessions.count, 1)))
-                let chartHeight: CGFloat = 200
-                
-                ZStack(alignment: .bottom) {
-                    VStack(spacing: 0) {
-                        // Bars
-                        HStack(alignment: .bottom, spacing: 4) {
-                            ForEach(chartSessions) { session in
-                                let barHeight = maxDuration > 0 ? CGFloat(session.duration / maxDuration) * chartHeight : 0
-                                let isSelected = selectedSession?.id == session.id
-                                
-                                VStack(spacing: 4) {
-                                    RoundedRectangle(cornerRadius: 4)
-                                        .fill(barColor(for: session, isSelected: isSelected))
-                                        .frame(width: barWidth, height: max(barHeight, 4))
+            VStack(spacing: 0) {
+                // Duration labels row
+                HStack(alignment: .bottom, spacing: 8) {
+                    ForEach(chartSessions) { session in
+                        Text(formatShortDuration(session.duration))
+                            .font(.system(size: 12, weight: .semibold))
+                            .foregroundStyle(.primary)
+                            .frame(width: barWidth, height: durationLabelHeight)
+                            .onTapGesture {
+                                withAnimation(.easeInOut(duration: 0.2)) {
+                                    if selectedSession?.id == session.id {
+                                        selectedSession = nil
+                                    } else {
+                                        selectedSession = session
+                                    }
                                 }
+                            }
+                    }
+                }
+                
+                // Bars and goal line area
+                ZStack(alignment: .bottom) {
+                    // Bars
+                    HStack(alignment: .bottom, spacing: 8) {
+                        ForEach(chartSessions) { session in
+                            let barHeight = maxDuration > 0 ? max(4, CGFloat(session.duration / maxDuration) * barAreaHeight) : 4
+                            let isSelected = selectedSession?.id == session.id
+                            
+                            RoundedRectangle(cornerRadius: 6)
+                                .fill(barColor(for: session, isSelected: isSelected))
+                                .frame(width: barWidth, height: barHeight)
                                 .onTapGesture {
                                     withAnimation(.easeInOut(duration: 0.2)) {
                                         if selectedSession?.id == session.id {
@@ -134,29 +179,16 @@ struct HistoryView: View {
                                         }
                                     }
                                 }
-                            }
                         }
-                        .frame(height: chartHeight, alignment: .bottom)
-                        
-                        // X-axis labels
-                        HStack(alignment: .top, spacing: 4) {
-                            ForEach(chartSessions) { session in
-                                Text(formatChartDate(session.startTime))
-                                    .font(.system(size: 8))
-                                    .foregroundStyle(.secondary)
-                                    .frame(width: barWidth)
-                            }
-                        }
-                        .padding(.top, 4)
                     }
                     
                     // Goal line overlay
                     Path { path in
                         let points = chartSessions.enumerated().compactMap { index, session -> CGPoint? in
-                            guard let goalMinutes = session.goalMinutes else { return nil }
-                            let x = CGFloat(index) * (barWidth + 4) + barWidth / 2
-                            let goalHeight = maxDuration > 0 ? CGFloat(TimeInterval(goalMinutes * 60) / maxDuration) * chartHeight : 0
-                            let y = chartHeight - goalHeight
+                            guard let goalMinutes = session.goalMinutes, maxDuration > 0 else { return nil }
+                            let x = CGFloat(index) * (barWidth + 8) + barWidth / 2
+                            let goalHeight = CGFloat(TimeInterval(goalMinutes * 60) / maxDuration) * barAreaHeight
+                            let y = barAreaHeight - goalHeight
                             return CGPoint(x: x, y: y)
                         }
                         
@@ -167,28 +199,39 @@ struct HistoryView: View {
                             }
                         }
                     }
-                    .stroke(Color.blue, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
-                    .offset(y: -20) // Account for x-axis labels
+                    .stroke(Color.primary, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
                     
                     // Goal line dots
                     ForEach(Array(chartSessions.enumerated()), id: \.element.id) { index, session in
-                        if let goalMinutes = session.goalMinutes {
-                            let x = CGFloat(index) * (barWidth + 4) + barWidth / 2
-                            let goalHeight = maxDuration > 0 ? CGFloat(TimeInterval(goalMinutes * 60) / maxDuration) * chartHeight : 0
-                            let y = chartHeight - goalHeight
+                        if let goalMinutes = session.goalMinutes, maxDuration > 0 {
+                            let x = CGFloat(index) * (barWidth + 8) + barWidth / 2
+                            let goalHeight = CGFloat(TimeInterval(goalMinutes * 60) / maxDuration) * barAreaHeight
+                            let y = barAreaHeight - goalHeight
                             
                             Circle()
-                                .fill(Color.blue)
+                                .fill(Color.primary)
                                 .frame(width: 6, height: 6)
                                 .position(x: x, y: y)
-                                .offset(y: -20) // Account for x-axis labels
                         }
                     }
                 }
+                .frame(height: barAreaHeight)
+                
+                // X-axis labels (dates)
+                HStack(alignment: .top, spacing: 8) {
+                    ForEach(chartSessions) { session in
+                        Text(formatChartDate(session.startTime))
+                            .font(.system(size: 10))
+                            .foregroundStyle(.secondary)
+                            .frame(width: barWidth, height: dateLabelHeight)
+                    }
+                }
+                .padding(.top, 4)
             }
-            .frame(height: 240)
+            .padding(.horizontal, 16)
         }
-        .padding(16)
+        .frame(height: 240)
+        .padding(.vertical, 16)
         .background(
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color(.secondarySystemBackground))
@@ -257,6 +300,20 @@ struct HistoryView: View {
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color(.secondarySystemBackground))
         )
+        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+            Button(role: .destructive) {
+                deleteSession(session)
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
+        .contextMenu {
+            Button(role: .destructive) {
+                deleteSession(session)
+            } label: {
+                Label("Delete", systemImage: "trash")
+            }
+        }
     }
     
     // MARK: - Stats Card
@@ -303,8 +360,57 @@ struct HistoryView: View {
     
     private func formatChartDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d/M"
+        formatter.dateFormat = "dd/MM"
         return formatter.string(from: date)
+    }
+    
+    private func formatShortDuration(_ duration: TimeInterval) -> String {
+        let hours = Int(duration) / 3600
+        let minutes = (Int(duration) % 3600) / 60
+        if hours > 0 {
+            return "\(hours)h\(minutes)m"
+        } else {
+            return "\(minutes)m"
+        }
+    }
+}
+
+// MARK: - History List View
+
+struct HistoryListView: View {
+    @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
+    @Query(sort: \FastingSession.startTime, order: .reverse) private var sessions: [FastingSession]
+    
+    private var completedSessions: [FastingSession] {
+        sessions.filter { !$0.isActive }
+    }
+    
+    var body: some View {
+        NavigationStack {
+            List {
+                ForEach(completedSessions) { session in
+                    FastingHistoryRow(session: session)
+                }
+                .onDelete(perform: deleteSessions)
+            }
+            .listStyle(.insetGrouped)
+            .navigationTitle("All Fasts")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+    
+    private func deleteSessions(at offsets: IndexSet) {
+        for index in offsets {
+            modelContext.delete(completedSessions[index])
+        }
+        try? modelContext.save()
     }
 }
 

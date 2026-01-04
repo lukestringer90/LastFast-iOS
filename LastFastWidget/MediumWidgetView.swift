@@ -160,12 +160,7 @@ struct MediumWidgetView: View {
     // MARK: - History View (inactive state)
     
     private var historyView: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("LAST 5 FASTS")
-                .font(.caption)
-                .fontWeight(.medium)
-                .foregroundStyle(.secondary)
-            
+        VStack(alignment: .leading, spacing: 4) {
             if entry.recentFasts.isEmpty {
                 Spacer()
                 HStack {
@@ -176,92 +171,122 @@ struct MediumWidgetView: View {
                     Spacer()
                 }
                 Spacer()
+                
+                Text("Tap to start fasting")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
             } else {
                 historyGraphView
+                
+                Text("Tap to start fasting")
+                    .font(.caption)
+                    .foregroundStyle(.tertiary)
             }
-            
-            Text("Tap to start fasting")
-                .font(.caption)
-                .foregroundStyle(.tertiary)
         }
-        .padding(16)
+        .padding(12)
         .containerBackground(for: .widget) {
             Color(UIColor.secondarySystemBackground)
         }
     }
     
     private var historyGraphView: some View {
-        let maxHours: Double = max(24, entry.recentFasts.map { max($0.fastedHours, $0.goalHours) }.max() ?? 24)
+        let maxHours: Double = max(1, entry.recentFasts.map { max($0.fastedHours, $0.goalHours) }.max() ?? 1)
         
         return GeometryReader { geo in
             let barWidth = (geo.size.width - CGFloat(entry.recentFasts.count - 1) * 8) / CGFloat(max(1, entry.recentFasts.count))
-            let graphHeight = geo.size.height - 20 // Leave room for date labels
+            let durationLabelHeight: CGFloat = 14
+            let dateLabelHeight: CGFloat = 14
+            let barAreaHeight = geo.size.height - durationLabelHeight - dateLabelHeight - 4 // 4 for spacing
             
-            ZStack(alignment: .bottom) {
-                // Bars
+            VStack(spacing: 0) {
+                // Duration labels row
                 HStack(alignment: .bottom, spacing: 8) {
                     ForEach(Array(entry.recentFasts.enumerated()), id: \.element) { index, fast in
-                        VStack(spacing: 4) {
-                            // Bar
-                            let heightRatio = fast.fastedHours / maxHours
-                            let barHeight = max(4, graphHeight * heightRatio)
+                        Text(formatShortDuration(fast.fastedHours))
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundStyle(.white)
+                            .frame(width: barWidth, height: durationLabelHeight)
+                    }
+                }
+                
+                // Bars and goal line area
+                ZStack(alignment: .bottom) {
+                    // Bars
+                    HStack(alignment: .bottom, spacing: 8) {
+                        ForEach(Array(entry.recentFasts.enumerated()), id: \.element) { index, fast in
+                            let barHeight = max(4, barAreaHeight * (fast.fastedHours / maxHours))
                             let barColor: Color = fast.goalMet ? .green : .orange
-                            
-                            Spacer()
                             
                             RoundedRectangle(cornerRadius: 4)
                                 .fill(barColor)
                                 .frame(width: barWidth, height: barHeight)
-                            
-                            // Date label
-                            Text(dateLabel(for: fast.startDate))
-                                .font(.system(size: 9))
-                                .foregroundStyle(.secondary)
-                                .frame(height: 16)
                         }
-                    }
-                }
-                
-                // Goal line overlay
-                Path { path in
-                    let points = entry.recentFasts.enumerated().compactMap { index, fast -> CGPoint? in
-                        guard fast.goalHours > 0 else { return nil }
-                        let x = CGFloat(index) * (barWidth + 8) + barWidth / 2
-                        let goalRatio = fast.goalHours / maxHours
-                        let y = graphHeight - (graphHeight * goalRatio)
-                        return CGPoint(x: x, y: y)
                     }
                     
-                    if let first = points.first {
-                        path.move(to: first)
-                        for point in points.dropFirst() {
-                            path.addLine(to: point)
+                    // Goal line overlay
+                    Path { path in
+                        let points = entry.recentFasts.enumerated().compactMap { index, fast -> CGPoint? in
+                            guard fast.goalHours > 0 else { return nil }
+                            let x = CGFloat(index) * (barWidth + 8) + barWidth / 2
+                            let goalHeight = barAreaHeight * (fast.goalHours / maxHours)
+                            let y = barAreaHeight - goalHeight
+                            return CGPoint(x: x, y: y)
+                        }
+                        
+                        if let first = points.first {
+                            path.move(to: first)
+                            for point in points.dropFirst() {
+                                path.addLine(to: point)
+                            }
+                        }
+                    }
+                    .stroke(Color.primary, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                    
+                    // Goal line dots
+                    ForEach(Array(entry.recentFasts.enumerated()), id: \.element) { index, fast in
+                        if fast.goalHours > 0 {
+                            let x = CGFloat(index) * (barWidth + 8) + barWidth / 2
+                            let goalHeight = barAreaHeight * (fast.goalHours / maxHours)
+                            let y = barAreaHeight - goalHeight
+                            
+                            Circle()
+                                .fill(Color.primary)
+                                .frame(width: 5, height: 5)
+                                .position(x: x, y: y)
                         }
                     }
                 }
-                .stroke(Color.blue, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                .frame(height: barAreaHeight)
                 
-                // Goal line dots
-                ForEach(Array(entry.recentFasts.enumerated()), id: \.element) { index, fast in
-                    if fast.goalHours > 0 {
-                        let x = CGFloat(index) * (barWidth + 8) + barWidth / 2
-                        let goalRatio = fast.goalHours / maxHours
-                        let y = graphHeight - (graphHeight * goalRatio)
-                        
-                        Circle()
-                            .fill(Color.blue)
-                            .frame(width: 6, height: 6)
-                            .position(x: x, y: y)
+                // Date labels row
+                HStack(alignment: .top, spacing: 8) {
+                    ForEach(Array(entry.recentFasts.enumerated()), id: \.element) { index, fast in
+                        Text(dateLabel(for: fast.startDate))
+                            .font(.system(size: 9))
+                            .foregroundStyle(.secondary)
+                            .frame(width: barWidth, height: dateLabelHeight)
                     }
                 }
+                .padding(.top, 2)
             }
         }
-        .frame(height: 70)
+        .frame(height: 90)
+    }
+    
+    private func formatShortDuration(_ hours: Double) -> String {
+        let totalMinutes = Int(hours * 60)
+        let h = totalMinutes / 60
+        let m = totalMinutes % 60
+        if h > 0 {
+            return "\(h)h\(m)m"
+        } else {
+            return "\(m)m"
+        }
     }
     
     private func dateLabel(for date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "d/M"
+        formatter.dateFormat = "dd/MM"
         return formatter.string(from: date)
     }
 }
