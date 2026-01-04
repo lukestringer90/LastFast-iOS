@@ -7,10 +7,11 @@
 
 import WidgetKit
 
-/// Represents a single day's fasting data for the history graph
-struct DayFastingData: Hashable {
-    let date: Date
-    let totalFastedHours: Double
+/// Represents a single completed fast for the history graph
+struct FastHistoryData: Hashable {
+    let startDate: Date
+    let fastedHours: Double
+    let goalHours: Double
     let goalMet: Bool
 }
 
@@ -24,8 +25,8 @@ struct FastingEntry: TimelineEntry {
     let lastFastStartTime: Date?
     let lastFastEndTime: Date?
     
-    /// Last 5 days of fasting history for the graph
-    let recentHistory: [DayFastingData]
+    /// Last 5 completed fasts for the graph
+    let recentFasts: [FastHistoryData]
     
     init(
         date: Date,
@@ -36,7 +37,7 @@ struct FastingEntry: TimelineEntry {
         lastFastGoalMet: Bool?,
         lastFastStartTime: Date?,
         lastFastEndTime: Date?,
-        recentHistory: [DayFastingData] = []
+        recentFasts: [FastHistoryData] = []
     ) {
         self.date = date
         self.isActive = isActive
@@ -46,6 +47,6 @@ struct FastingEntry: TimelineEntry {
         self.lastFastGoalMet = lastFastGoalMet
         self.lastFastStartTime = lastFastStartTime
         self.lastFastEndTime = lastFastEndTime
-        self.recentHistory = recentHistory
+        self.recentFasts = recentFasts
     }
 }

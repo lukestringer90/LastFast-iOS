@@ -47,9 +47,11 @@ struct MediumWidgetView: View {
                 activeView
             }
         } else {
-            inactiveView
+            historyView
         }
     }
+    
+    // MARK: - Goal Met View (original style)
     
     private var goalMetView: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -74,6 +76,8 @@ struct MediumWidgetView: View {
             Color(UIColor.secondarySystemBackground)
         }
     }
+    
+    // MARK: - Active View
     
     private var activeView: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -153,14 +157,16 @@ struct MediumWidgetView: View {
         }
     }
     
-    private var inactiveView: some View {
+    // MARK: - History View (inactive state)
+    
+    private var historyView: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("LAST 5 DAYS")
+            Text("LAST 5 FASTS")
                 .font(.caption)
                 .fontWeight(.medium)
                 .foregroundStyle(.secondary)
             
-            if entry.recentHistory.isEmpty {
+            if entry.recentFasts.isEmpty {
                 Spacer()
                 HStack {
                     Spacer()
@@ -171,21 +177,7 @@ struct MediumWidgetView: View {
                 }
                 Spacer()
             } else {
-                // Bar graph
-                HStack(alignment: .bottom, spacing: 8) {
-                    ForEach(entry.recentHistory, id: \.self) { day in
-                        VStack(spacing: 4) {
-                            // Bar
-                            barView(for: day)
-                            
-                            // Day label
-                            Text(dayLabel(for: day.date))
-                                .font(.system(size: 10))
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                }
-                .frame(maxWidth: .infinity)
+                historyGraphView
             }
             
             Text("Tap to start fasting")
@@ -198,34 +190,78 @@ struct MediumWidgetView: View {
         }
     }
     
-    @ViewBuilder
-    private func barView(for day: DayFastingData) -> some View {
-        let maxHours: Double = 24
-        let heightRatio = min(1.0, day.totalFastedHours / maxHours)
-        let barColor: Color = day.goalMet ? .green : .orange
+    private var historyGraphView: some View {
+        let maxHours: Double = max(24, entry.recentFasts.map { max($0.fastedHours, $0.goalHours) }.max() ?? 24)
         
-        GeometryReader { geo in
-            VStack {
-                Spacer()
+        return GeometryReader { geo in
+            let barWidth = (geo.size.width - CGFloat(entry.recentFasts.count - 1) * 8) / CGFloat(max(1, entry.recentFasts.count))
+            let graphHeight = geo.size.height - 20 // Leave room for date labels
+            
+            ZStack(alignment: .bottom) {
+                // Bars
+                HStack(alignment: .bottom, spacing: 8) {
+                    ForEach(Array(entry.recentFasts.enumerated()), id: \.element) { index, fast in
+                        VStack(spacing: 4) {
+                            // Bar
+                            let heightRatio = fast.fastedHours / maxHours
+                            let barHeight = max(4, graphHeight * heightRatio)
+                            let barColor: Color = fast.goalMet ? .green : .orange
+                            
+                            Spacer()
+                            
+                            RoundedRectangle(cornerRadius: 4)
+                                .fill(barColor)
+                                .frame(width: barWidth, height: barHeight)
+                            
+                            // Date label
+                            Text(dateLabel(for: fast.startDate))
+                                .font(.system(size: 9))
+                                .foregroundStyle(.secondary)
+                                .frame(height: 16)
+                        }
+                    }
+                }
                 
-                if day.totalFastedHours > 0 {
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(barColor)
-                        .frame(height: max(4, geo.size.height * heightRatio))
-                } else {
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color.gray.opacity(0.3))
-                        .frame(height: 4)
+                // Goal line overlay
+                Path { path in
+                    let points = entry.recentFasts.enumerated().compactMap { index, fast -> CGPoint? in
+                        guard fast.goalHours > 0 else { return nil }
+                        let x = CGFloat(index) * (barWidth + 8) + barWidth / 2
+                        let goalRatio = fast.goalHours / maxHours
+                        let y = graphHeight - (graphHeight * goalRatio)
+                        return CGPoint(x: x, y: y)
+                    }
+                    
+                    if let first = points.first {
+                        path.move(to: first)
+                        for point in points.dropFirst() {
+                            path.addLine(to: point)
+                        }
+                    }
+                }
+                .stroke(Color.blue, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                
+                // Goal line dots
+                ForEach(Array(entry.recentFasts.enumerated()), id: \.element) { index, fast in
+                    if fast.goalHours > 0 {
+                        let x = CGFloat(index) * (barWidth + 8) + barWidth / 2
+                        let goalRatio = fast.goalHours / maxHours
+                        let y = graphHeight - (graphHeight * goalRatio)
+                        
+                        Circle()
+                            .fill(Color.blue)
+                            .frame(width: 6, height: 6)
+                            .position(x: x, y: y)
+                    }
                 }
             }
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: 50)
+        .frame(height: 70)
     }
     
-    private func dayLabel(for date: Date) -> String {
+    private func dateLabel(for date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEE"
+        formatter.dateFormat = "d/M"
         return formatter.string(from: date)
     }
 }

@@ -16,7 +16,7 @@ struct NotificationManager {
     
     /// Requests notification permission from the user
     static func requestPermission() {
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { granted, error in
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
             if let error = error {
                 print("Notification permission error: \(error)")
             }
@@ -54,7 +54,6 @@ struct NotificationManager {
         content.title = "Goal Achieved - \(goalText)"
         content.body = "\(startTimeText) → \(endTimeText)"
         content.sound = UNNotificationSound.defaultCritical
-        content.badge = 1
         
         // Create trigger for when goal is met
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: timeUntilGoal, repeats: false)
@@ -77,13 +76,6 @@ struct NotificationManager {
         let center = UNUserNotificationCenter.current()
         center.removePendingNotificationRequests(withIdentifiers: [NotificationIdentifier.goalMet])
         center.removeDeliveredNotifications(withIdentifiers: [NotificationIdentifier.goalMet])
-        
-        // Also clear badge
-        center.setBadgeCount(0) { error in
-            if let error = error {
-                print("Error clearing badge: \(error)")
-            }
-        }
     }
     
     // MARK: - Helpers

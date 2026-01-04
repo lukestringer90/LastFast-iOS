@@ -11,11 +11,12 @@ import SwiftData
 struct FastingTimelineProvider: TimelineProvider {
     
     func placeholder(in context: Context) -> FastingEntry {
-        // Sample placeholder data with history
-        let sampleHistory = (0..<5).map { dayOffset in
-            DayFastingData(
-                date: Calendar.current.date(byAdding: .day, value: -dayOffset, to: Date())!,
-                totalFastedHours: Double.random(in: 12...18),
+        // Sample placeholder data with recent fasts
+        let sampleFasts = (0..<5).map { offset in
+            FastHistoryData(
+                startDate: Calendar.current.date(byAdding: .day, value: -offset, to: Date())!,
+                fastedHours: Double.random(in: 12...18),
+                goalHours: 16.0,
                 goalMet: Bool.random()
             )
         }
@@ -29,7 +30,7 @@ struct FastingTimelineProvider: TimelineProvider {
             lastFastGoalMet: nil,
             lastFastStartTime: nil,
             lastFastEndTime: nil,
-            recentHistory: sampleHistory
+            recentFasts: sampleFasts
         )
     }
     
@@ -56,7 +57,7 @@ struct FastingTimelineProvider: TimelineProvider {
                     lastFastGoalMet: data.lastFastGoalMet,
                     lastFastStartTime: data.lastFastStartTime,
                     lastFastEndTime: data.lastFastEndTime,
-                    recentHistory: data.recentHistory
+                    recentFasts: data.recentFasts
                 )
                 entries.append(entry)
             }
@@ -74,7 +75,7 @@ struct FastingTimelineProvider: TimelineProvider {
                 lastFastGoalMet: data.lastFastGoalMet,
                 lastFastStartTime: data.lastFastStartTime,
                 lastFastEndTime: data.lastFastEndTime,
-                recentHistory: data.recentHistory
+                recentFasts: data.recentFasts
             )
             entries.append(entry)
             
@@ -95,7 +96,7 @@ struct FastingTimelineProvider: TimelineProvider {
             lastFastGoalMet: data.lastFastGoalMet,
             lastFastStartTime: data.lastFastStartTime,
             lastFastEndTime: data.lastFastEndTime,
-            recentHistory: data.recentHistory
+            recentFasts: data.recentFasts
         )
     }
     
@@ -107,7 +108,7 @@ struct FastingTimelineProvider: TimelineProvider {
         let lastFastGoalMet: Bool?
         let lastFastStartTime: Date?
         let lastFastEndTime: Date?
-        let recentHistory: [DayFastingData]
+        let recentFasts: [FastHistoryData]
     }
     
     private func fetchFastingData() -> FastingData {
@@ -129,8 +130,8 @@ struct FastingTimelineProvider: TimelineProvider {
             let activeFast = sessions.first { $0.isActive }
             let lastCompletedFast = sessions.first { !$0.isActive }
             
-            // Calculate last 5 days history
-            let recentHistory = calculateRecentHistory(from: sessions)
+            // Get last 5 completed fasts
+            let recentFasts = getRecentFasts(from: sessions)
             
             return FastingData(
                 isActive: activeFast != nil,
@@ -140,7 +141,7 @@ struct FastingTimelineProvider: TimelineProvider {
                 lastFastGoalMet: lastCompletedFast?.goalMet,
                 lastFastStartTime: lastCompletedFast?.startTime,
                 lastFastEndTime: lastCompletedFast?.endTime,
-                recentHistory: recentHistory
+                recentFasts: recentFasts
             )
         } catch {
             return FastingData(
@@ -151,44 +152,22 @@ struct FastingTimelineProvider: TimelineProvider {
                 lastFastGoalMet: nil,
                 lastFastStartTime: nil,
                 lastFastEndTime: nil,
-                recentHistory: []
+                recentFasts: []
             )
         }
     }
     
-    private func calculateRecentHistory(from sessions: [FastingSession]) -> [DayFastingData] {
-        let calendar = Calendar.current
-        let today = calendar.startOfDay(for: Date())
+    private func getRecentFasts(from sessions: [FastingSession]) -> [FastHistoryData] {
+        // Get last 5 completed fasts
+        let completedFasts = sessions.filter { !$0.isActive }.prefix(5)
         
-        // Get last 5 days (excluding today)
-        var historyData: [DayFastingData] = []
-        
-        for dayOffset in 1...5 {
-            guard let dayStart = calendar.date(byAdding: .day, value: -dayOffset, to: today),
-                  let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) else {
-                continue
-            }
-            
-            // Find all completed fasts that ended on this day
-            let dayFasts = sessions.filter { session in
-                guard !session.isActive, let endTime = session.endTime else { return false }
-                return endTime >= dayStart && endTime < dayEnd
-            }
-            
-            // Sum up total fasted hours for the day
-            let totalSeconds = dayFasts.reduce(0.0) { $0 + $1.duration }
-            let totalHours = totalSeconds / 3600.0
-            
-            // Check if any fast met its goal
-            let anyGoalMet = dayFasts.contains { $0.goalMet }
-            
-            historyData.append(DayFastingData(
-                date: dayStart,
-                totalFastedHours: totalHours,
-                goalMet: anyGoalMet
-            ))
+        return completedFasts.reversed().map { session in
+            FastHistoryData(
+                startDate: session.startTime,
+                fastedHours: session.duration / 3600.0,
+                goalHours: Double(session.goalMinutes ?? 0) / 60.0,
+                goalMet: session.goalMet
+            )
         }
-        
-        return historyData.reversed() // Oldest first for graph
     }
 }

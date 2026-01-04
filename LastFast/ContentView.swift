@@ -9,6 +9,10 @@ import SwiftUI
 import SwiftData
 import WidgetKit
 
+// MARK: - Feature Flags
+
+let useGraphHistoryView = true
+
 // MARK: - Content View
 
 struct ContentView: View {
@@ -133,8 +137,11 @@ struct ContentView: View {
             
             actionButton
             
-            historyButton
+            lastFastButton
                 .padding(.top, 16)
+            
+            historyButton
+                .padding(.top, 12)
                 .padding(.bottom, 40)
         }
     }

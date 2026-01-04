@@ -8,11 +8,6 @@
 import SwiftUI
 import SwiftData
 
-// MARK: - History View Configuration
-
-/// Set to `true` to show the graph view, `false` to show the simple list view
-let useGraphHistoryView = false
-
 // MARK: - History View
 
 struct HistoryView: View {
@@ -31,7 +26,9 @@ struct HistoryView: View {
     }
     
     private var maxDuration: TimeInterval {
-        chartSessions.max(by: { $0.duration < $1.duration })?.duration ?? 3600
+        let maxFasted = chartSessions.max(by: { $0.duration < $1.duration })?.duration ?? 3600
+        let maxGoal = chartSessions.compactMap { $0.goalMinutes }.max().map { TimeInterval($0 * 60) } ?? 0
+        return max(maxFasted, maxGoal)
     }
     
     var body: some View {
@@ -115,41 +112,78 @@ struct HistoryView: View {
                 let barWidth = max(20, (geometry.size.width - CGFloat(chartSessions.count - 1) * 4) / CGFloat(max(chartSessions.count, 1)))
                 let chartHeight: CGFloat = 200
                 
-                VStack(spacing: 0) {
-                    // Bars
-                    HStack(alignment: .bottom, spacing: 4) {
-                        ForEach(chartSessions) { session in
-                            let barHeight = maxDuration > 0 ? CGFloat(session.duration / maxDuration) * chartHeight : 0
-                            let isSelected = selectedSession?.id == session.id
-                            
-                            VStack(spacing: 4) {
-                                RoundedRectangle(cornerRadius: 4)
-                                    .fill(barColor(for: session, isSelected: isSelected))
-                                    .frame(width: barWidth, height: max(barHeight, 4))
-                            }
-                            .onTapGesture {
-                                withAnimation(.easeInOut(duration: 0.2)) {
-                                    if selectedSession?.id == session.id {
-                                        selectedSession = nil
-                                    } else {
-                                        selectedSession = session
+                ZStack(alignment: .bottom) {
+                    VStack(spacing: 0) {
+                        // Bars
+                        HStack(alignment: .bottom, spacing: 4) {
+                            ForEach(chartSessions) { session in
+                                let barHeight = maxDuration > 0 ? CGFloat(session.duration / maxDuration) * chartHeight : 0
+                                let isSelected = selectedSession?.id == session.id
+                                
+                                VStack(spacing: 4) {
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .fill(barColor(for: session, isSelected: isSelected))
+                                        .frame(width: barWidth, height: max(barHeight, 4))
+                                }
+                                .onTapGesture {
+                                    withAnimation(.easeInOut(duration: 0.2)) {
+                                        if selectedSession?.id == session.id {
+                                            selectedSession = nil
+                                        } else {
+                                            selectedSession = session
+                                        }
                                     }
                                 }
                             }
                         }
+                        .frame(height: chartHeight, alignment: .bottom)
+                        
+                        // X-axis labels
+                        HStack(alignment: .top, spacing: 4) {
+                            ForEach(chartSessions) { session in
+                                Text(formatChartDate(session.startTime))
+                                    .font(.system(size: 8))
+                                    .foregroundStyle(.secondary)
+                                    .frame(width: barWidth)
+                            }
+                        }
+                        .padding(.top, 4)
                     }
-                    .frame(height: chartHeight, alignment: .bottom)
                     
-                    // X-axis labels
-                    HStack(alignment: .top, spacing: 4) {
-                        ForEach(chartSessions) { session in
-                            Text(formatChartDate(session.startTime))
-                                .font(.system(size: 8))
-                                .foregroundStyle(.secondary)
-                                .frame(width: barWidth)
+                    // Goal line overlay
+                    Path { path in
+                        let points = chartSessions.enumerated().compactMap { index, session -> CGPoint? in
+                            guard let goalMinutes = session.goalMinutes else { return nil }
+                            let x = CGFloat(index) * (barWidth + 4) + barWidth / 2
+                            let goalHeight = maxDuration > 0 ? CGFloat(TimeInterval(goalMinutes * 60) / maxDuration) * chartHeight : 0
+                            let y = chartHeight - goalHeight
+                            return CGPoint(x: x, y: y)
+                        }
+                        
+                        if let first = points.first {
+                            path.move(to: first)
+                            for point in points.dropFirst() {
+                                path.addLine(to: point)
+                            }
                         }
                     }
-                    .padding(.top, 4)
+                    .stroke(Color.blue, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
+                    .offset(y: -20) // Account for x-axis labels
+                    
+                    // Goal line dots
+                    ForEach(Array(chartSessions.enumerated()), id: \.element.id) { index, session in
+                        if let goalMinutes = session.goalMinutes {
+                            let x = CGFloat(index) * (barWidth + 4) + barWidth / 2
+                            let goalHeight = maxDuration > 0 ? CGFloat(TimeInterval(goalMinutes * 60) / maxDuration) * chartHeight : 0
+                            let y = chartHeight - goalHeight
+                            
+                            Circle()
+                                .fill(Color.blue)
+                                .frame(width: 6, height: 6)
+                                .position(x: x, y: y)
+                                .offset(y: -20) // Account for x-axis labels
+                        }
+                    }
                 }
             }
             .frame(height: 240)

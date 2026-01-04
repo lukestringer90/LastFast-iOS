@@ -70,12 +70,12 @@ struct LastFastWidget: Widget {
         lastFastGoalMet: true,
         lastFastStartTime: Date().addingTimeInterval(-3600 * 20),
         lastFastEndTime: Date().addingTimeInterval(-3600 * 4),
-        recentHistory: [
-            DayFastingData(date: Date().addingTimeInterval(-4 * 86400), totalFastedHours: 16, goalMet: true),
-            DayFastingData(date: Date().addingTimeInterval(-3 * 86400), totalFastedHours: 14, goalMet: true),
-            DayFastingData(date: Date().addingTimeInterval(-2 * 86400), totalFastedHours: 8, goalMet: false),
-            DayFastingData(date: Date().addingTimeInterval(-1 * 86400), totalFastedHours: 18, goalMet: true),
-            DayFastingData(date: Date(), totalFastedHours: 12, goalMet: true)
+        recentFasts: [
+            FastHistoryData(startDate: Date().addingTimeInterval(-4 * 86400), fastedHours: 16, goalHours: 16, goalMet: true),
+            FastHistoryData(startDate: Date().addingTimeInterval(-3 * 86400), fastedHours: 14, goalHours: 16, goalMet: false),
+            FastHistoryData(startDate: Date().addingTimeInterval(-2 * 86400), fastedHours: 8, goalHours: 12, goalMet: false),
+            FastHistoryData(startDate: Date().addingTimeInterval(-1 * 86400), fastedHours: 18, goalHours: 16, goalMet: true),
+            FastHistoryData(startDate: Date(), fastedHours: 12, goalHours: 12, goalMet: true)
         ]
     )
 }
