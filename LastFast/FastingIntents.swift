@@ -172,12 +172,10 @@ struct FastingShortcuts: AppShortcutsProvider {
             intent: StartFastingIntent(),
             phrases: [
                 "Start a new fast in \(.applicationName)",
-                "Start a new fast",
                 "Start fasting in \(.applicationName)",
-                "Start fasting",
-                "Start my fast",
-                "Begin fasting",
-                "Begin my fast"
+                "Start my fast in \(.applicationName)",
+                "Begin fasting in \(.applicationName)",
+                "Begin my fast in \(.applicationName)"
             ],
             shortTitle: "Start Fasting",
             systemImageName: "play.fill"
@@ -187,12 +185,11 @@ struct FastingShortcuts: AppShortcutsProvider {
             intent: StopFastingIntent(),
             phrases: [
                 "Stop my fast in \(.applicationName)",
-                "Stop my fast",
-                "Stop fasting",
-                "End my fast",
-                "End fasting",
-                "Break my fast",
-                "Finish fasting"
+                "Stop fasting in \(.applicationName)",
+                "End my fast in \(.applicationName)",
+                "End fasting in \(.applicationName)",
+                "Break my fast in \(.applicationName)",
+                "Finish fasting in \(.applicationName)"
             ],
             shortTitle: "Stop Fasting",
             systemImageName: "stop.fill"
@@ -202,12 +199,11 @@ struct FastingShortcuts: AppShortcutsProvider {
             intent: CheckFastingStatusIntent(),
             phrases: [
                 "How long have I been fasting in \(.applicationName)",
-                "How long have I been fasting",
-                "How long have I fasted",
-                "Check my fasting status",
-                "Check my fast",
-                "Fasting status",
-                "Am I fasting"
+                "How long have I fasted in \(.applicationName)",
+                "Check my fasting status in \(.applicationName)",
+                "Check my fast in \(.applicationName)",
+                "Fasting status in \(.applicationName)",
+                "Am I fasting in \(.applicationName)"
             ],
             shortTitle: "Fast Status",
             systemImageName: "clock"
