@@ -290,3 +290,154 @@ struct MediumWidgetView: View {
         return formatter.string(from: date)
     }
 }
+#Preview("Active - Early Stage", as: .systemMedium) {
+    LastFastWidget()
+} timeline: {
+    // 2 hours into a 16 hour fast
+    FastingEntry(
+        date: .now,
+        isActive: true,
+        startTime: Date.now.addingTimeInterval(-2 * 3600),
+        goalMinutes: 16 * 60,
+        lastFastDuration: nil,
+        lastFastGoalMet: nil,
+        lastFastStartTime: nil,
+        lastFastEndTime: nil,
+        recentFasts: []
+    )
+}
+
+#Preview("Active - Mid Way", as: .systemMedium) {
+    LastFastWidget()
+} timeline: {
+    // 10 hours into a 16 hour fast
+    FastingEntry(
+        date: .now,
+        isActive: true,
+        startTime: Date.now.addingTimeInterval(-10 * 3600),
+        goalMinutes: 16 * 60,
+        lastFastDuration: nil,
+        lastFastGoalMet: nil,
+        lastFastStartTime: nil,
+        lastFastEndTime: nil,
+        recentFasts: []
+    )
+}
+
+#Preview("Active - Almost Done", as: .systemMedium) {
+    LastFastWidget()
+} timeline: {
+    // 15 hours 30 minutes into a 16 hour fast
+    FastingEntry(
+        date: .now,
+        isActive: true,
+        startTime: Date.now.addingTimeInterval(-15.5 * 3600),
+        goalMinutes: 16 * 60,
+        lastFastDuration: nil,
+        lastFastGoalMet: nil,
+        lastFastStartTime: nil,
+        lastFastEndTime: nil,
+        recentFasts: []
+    )
+}
+
+#Preview("Active - Less Than Hour", as: .systemMedium) {
+    LastFastWidget()
+} timeline: {
+    // 15 hours 45 minutes into a 16 hour fast (15 minutes remaining)
+    FastingEntry(
+        date: .now,
+        isActive: true,
+        startTime: Date.now.addingTimeInterval(-15.75 * 3600),
+        goalMinutes: 16 * 60,
+        lastFastDuration: nil,
+        lastFastGoalMet: nil,
+        lastFastStartTime: nil,
+        lastFastEndTime: nil,
+        recentFasts: []
+    )
+}
+
+#Preview("Goal Met", as: .systemMedium) {
+    LastFastWidget()
+} timeline: {
+    // 18 hours into a 16 hour fast (exceeded goal)
+    FastingEntry(
+        date: .now,
+        isActive: true,
+        startTime: Date.now.addingTimeInterval(-18 * 3600 - 30 * 60),
+        goalMinutes: 16 * 60,
+        lastFastDuration: nil,
+        lastFastGoalMet: nil,
+        lastFastStartTime: nil,
+        lastFastEndTime: nil,
+        recentFasts: []
+    )
+}
+
+#Preview("Inactive - No History", as: .systemMedium) {
+    LastFastWidget()
+} timeline: {
+    FastingEntry(
+        date: .now,
+        isActive: false,
+        startTime: nil,
+        goalMinutes: nil,
+        lastFastDuration: nil,
+        lastFastGoalMet: nil,
+        lastFastStartTime: nil,
+        lastFastEndTime: nil,
+        recentFasts: []
+    )
+}
+
+#Preview("Inactive - With History", as: .systemMedium) {
+    LastFastWidget()
+} timeline: {
+    let calendar = Calendar.current
+    let now = Date.now
+    
+    FastingEntry(
+        date: now,
+        isActive: false,
+        startTime: nil,
+        goalMinutes: nil,
+        lastFastDuration: 16 * 3600,
+        lastFastGoalMet: true,
+        lastFastStartTime: calendar.date(byAdding: .day, value: -1, to: now),
+        lastFastEndTime: now,
+        recentFasts: [
+            FastHistoryData(
+                startDate: calendar.date(byAdding: .day, value: -4, to: now)!,
+                fastedHours: 14.5,
+                goalHours: 16,
+                goalMet: false
+            ),
+            FastHistoryData(
+                startDate: calendar.date(byAdding: .day, value: -3, to: now)!,
+                fastedHours: 16.0,
+                goalHours: 16,
+                goalMet: true
+            ),
+            FastHistoryData(
+                startDate: calendar.date(byAdding: .day, value: -2, to: now)!,
+                fastedHours: 18.5,
+                goalHours: 16,
+                goalMet: true
+            ),
+            FastHistoryData(
+                startDate: calendar.date(byAdding: .day, value: -1, to: now)!,
+                fastedHours: 15.0,
+                goalHours: 16,
+                goalMet: false
+            ),
+            FastHistoryData(
+                startDate: now,
+                fastedHours: 17.0,
+                goalHours: 16,
+                goalMet: true
+            )
+        ]
+    )
+}
+
