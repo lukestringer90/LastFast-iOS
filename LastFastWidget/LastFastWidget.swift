@@ -8,7 +8,7 @@
 import SwiftUI
 import WidgetKit
 
-// MARK: - Widget Entry View
+// MARK: - Widget Entry Views
 
 struct LastFastWidgetEntryView: View {
     var entry: FastingEntry

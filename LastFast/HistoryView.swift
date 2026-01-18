@@ -17,6 +17,7 @@ struct HistoryView: View {
     
     @State private var selectedSession: FastingSession?
     @State private var showingListView = false
+    @State private var sessionToEdit: FastingSession?
     
     private var completedSessions: [FastingSession] {
         sessions.filter { !$0.isActive }
@@ -54,6 +55,9 @@ struct HistoryView: View {
             .sheet(isPresented: $showingListView) {
                 HistoryListView()
             }
+            .sheet(item: $sessionToEdit) { session in
+                EditFastView(session: session)
+            }
         }
     }
     
@@ -68,22 +72,27 @@ struct HistoryView: View {
     }
     
     // MARK: - List View
-    
+
     private var listView: some View {
         List {
             ForEach(completedSessions) { session in
-                FastingHistoryRow(session: session)
+                SessionCard(session: session)
+                    .swipeActions(edge: .trailing) {
+                        Button(role: .destructive) {
+                            deleteSession(session)
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
+                        Button {
+                            sessionToEdit = session
+                        } label: {
+                            Label("Edit", systemImage: "pencil")
+                        }
+                        .tint(.blue)
+                    }
             }
-            .onDelete(perform: deleteSessions)
         }
         .listStyle(.insetGrouped)
-    }
-    
-    private func deleteSessions(at offsets: IndexSet) {
-        for index in offsets {
-            modelContext.delete(completedSessions[index])
-        }
-        try? modelContext.save()
     }
     
     private func deleteSession(_ session: FastingSession) {
@@ -103,7 +112,12 @@ struct HistoryView: View {
                     .padding(.top, 16)
                 
                 if let session = selectedSession {
-                    selectedSessionCard(session: session)
+                    SessionCard(
+                        session: session,
+                        onEdit: { sessionToEdit = session },
+                        onDelete: { deleteSession(session) },
+                        showBackground: true
+                    )
                 }
                 
                 // View All Fasts button
@@ -246,76 +260,6 @@ struct HistoryView: View {
         }
     }
     
-    // MARK: - Selected Session Card
-    
-    private func selectedSessionCard(session: FastingSession) -> some View {
-        VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text(session.startTime.formatted(date: .abbreviated, time: .omitted))
-                    .font(.headline)
-                
-                Spacer()
-                
-                if session.goalMinutes != nil {
-                    Image(systemName: session.goalMet ? "checkmark.circle.fill" : "xmark.circle.fill")
-                        .foregroundStyle(session.goalMet ? .green : .red)
-                }
-            }
-            
-            HStack(spacing: 16) {
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Duration")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    let (hours, minutes) = hoursAndMinutes(from: session.duration)
-                    Text(formatDuration(hours: hours, minutes: minutes))
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                }
-                
-                Spacer()
-                
-                VStack(alignment: .trailing, spacing: 4) {
-                    Text("Time")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                    HStack(spacing: 4) {
-                        Text(format24HourTime(session.startTime))
-                        Image(systemName: "arrow.right")
-                            .font(.caption2)
-                        Text(session.endTime.map { format24HourTime($0) } ?? "—")
-                    }
-                    .font(.subheadline)
-                }
-            }
-            
-            if let goal = session.goalMinutes {
-                Text("Goal: \(formatDuration(hours: goal / 60, minutes: goal % 60))")
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
-            }
-        }
-        .padding(16)
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(Color(.secondarySystemBackground))
-        )
-        .swipeActions(edge: .trailing, allowsFullSwipe: true) {
-            Button(role: .destructive) {
-                deleteSession(session)
-            } label: {
-                Label("Delete", systemImage: "trash")
-            }
-        }
-        .contextMenu {
-            Button(role: .destructive) {
-                deleteSession(session)
-            } label: {
-                Label("Delete", systemImage: "trash")
-            }
-        }
-    }
-    
     // MARK: - Stats Card
     
     private var statsCard: some View {
@@ -381,18 +325,32 @@ struct HistoryListView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
     @Query(sort: \FastingSession.startTime, order: .reverse) private var sessions: [FastingSession]
-    
+
+    @State private var sessionToEdit: FastingSession?
+
     private var completedSessions: [FastingSession] {
         sessions.filter { !$0.isActive }
     }
-    
+
     var body: some View {
         NavigationStack {
             List {
                 ForEach(completedSessions) { session in
-                    FastingHistoryRow(session: session)
+                    SessionCard(session: session)
+                        .swipeActions(edge: .trailing) {
+                            Button(role: .destructive) {
+                                deleteSession(session)
+                            } label: {
+                                Label("Delete", systemImage: "trash")
+                            }
+                            Button {
+                                sessionToEdit = session
+                            } label: {
+                                Label("Edit", systemImage: "pencil")
+                            }
+                            .tint(.blue)
+                        }
                 }
-                .onDelete(perform: deleteSessions)
             }
             .listStyle(.insetGrouped)
             .navigationTitle("All Fasts")
@@ -403,13 +361,14 @@ struct HistoryListView: View {
                     }
                 }
             }
+            .sheet(item: $sessionToEdit) { session in
+                EditFastView(session: session)
+            }
         }
     }
-    
-    private func deleteSessions(at offsets: IndexSet) {
-        for index in offsets {
-            modelContext.delete(completedSessions[index])
-        }
+
+    private func deleteSession(_ session: FastingSession) {
+        modelContext.delete(session)
         try? modelContext.save()
     }
 }
@@ -440,7 +399,45 @@ struct StatBox: View {
 
 // MARK: - Preview
 
-#Preview {
+@MainActor
+private func previewContainer() -> ModelContainer {
+    let container = try! ModelContainer(for: FastingSession.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
+    let context = container.mainContext
+
+    // 16h fast with 12h goal (goal met) - 5 days ago
+    let session1 = FastingSession(startTime: Date().addingTimeInterval(-5 * 86400 - 57600), goalMinutes: 720)
+    session1.endTime = Date().addingTimeInterval(-5 * 86400)
+    context.insert(session1)
+
+    // 14h fast with 16h goal (goal not met) - 4 days ago
+    let session2 = FastingSession(startTime: Date().addingTimeInterval(-4 * 86400 - 50400), goalMinutes: 960)
+    session2.endTime = Date().addingTimeInterval(-4 * 86400)
+    context.insert(session2)
+
+    // 8h fast with no goal - 3 days ago
+    let session3 = FastingSession(startTime: Date().addingTimeInterval(-3 * 86400 - 28800))
+    session3.endTime = Date().addingTimeInterval(-3 * 86400)
+    context.insert(session3)
+
+    // 10h fast with 12h goal (goal not met) - 2 days ago
+    let session4 = FastingSession(startTime: Date().addingTimeInterval(-2 * 86400 - 36000), goalMinutes: 720)
+    session4.endTime = Date().addingTimeInterval(-2 * 86400)
+    context.insert(session4)
+
+    // 18h fast with 16h goal (goal met) - 1 day ago
+    let session5 = FastingSession(startTime: Date().addingTimeInterval(-1 * 86400 - 64800), goalMinutes: 960)
+    session5.endTime = Date().addingTimeInterval(-1 * 86400)
+    context.insert(session5)
+
+    return container
+}
+
+#Preview("With Data") {
+    HistoryView()
+        .modelContainer(previewContainer())
+}
+
+#Preview("Empty State") {
     HistoryView()
         .modelContainer(for: FastingSession.self, inMemory: true)
 }
