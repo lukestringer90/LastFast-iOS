@@ -8,121 +8,58 @@
 import SwiftUI
 import WidgetKit
 
-// MARK: - Lock Screen Circular View (Progress)
+// MARK: - Lock Screen Circular View
 
 struct LockScreenCircularView: View {
     let entry: FastingEntry
-    
+
     var currentDuration: TimeInterval {
         guard let start = entry.startTime else { return 0 }
         return entry.date.timeIntervalSince(start)
     }
-    
-    var remainingMinutes: Int {
-        guard let goal = entry.goalMinutes else { return 0 }
-        let elapsedMinutes = Int(currentDuration) / 60
-        return max(0, goal - elapsedMinutes)
-    }
-    
+
     var progress: Double {
         guard let goal = entry.goalMinutes, goal > 0 else { return 0 }
         let elapsedMinutes = currentDuration / 60
         return min(1.0, elapsedMinutes / Double(goal))
     }
-    
+
     var goalMet: Bool {
         guard let goal = entry.goalMinutes else { return false }
         return Int(currentDuration) / 60 >= goal
     }
-    
-    var hours: Int { remainingMinutes / 60 }
-    var minutes: Int { remainingMinutes % 60 }
-    
-    var body: some View {
-        Group {
-            if entry.isActive {
-                if goalMet {
-                    ZStack {
-                        Circle()
-                            .stroke(lineWidth: 4)
-                            .opacity(0.3)
-                        Circle()
-                            .stroke(lineWidth: 4)
-                        Image(systemName: "checkmark")
-                            .font(.system(size: 20, weight: .bold))
-                    }
-                } else {
-                    Gauge(value: progress) {
-                        Text("")
-                    } currentValueLabel: {
-                        if hours > 0 {
-                            Text("\(hours)h \(minutes)m")
-                                .font(.system(size: 11, weight: .bold, design: .rounded))
-                                .minimumScaleFactor(0.7)
-                        } else {
-                            Text("\(minutes)m")
-                                .font(.system(size: 14, weight: .bold, design: .rounded))
-                        }
-                    }
-                    .gaugeStyle(.accessoryCircularCapacity)
-                }
-            } else {
-                Color.clear
-            }
-        }
-        .containerBackground(for: .widget) { }
-    }
-}
 
-// MARK: - Lock Screen Circular End Time View
-
-struct LockScreenCircularEndTimeView: View {
-    let entry: FastingEntry
-    
-    var currentDuration: TimeInterval {
-        guard let start = entry.startTime else { return 0 }
-        return entry.date.timeIntervalSince(start)
-    }
-    
     var elapsedHours: Int { Int(currentDuration) / 3600 }
     var elapsedMins: Int { (Int(currentDuration) % 3600) / 60 }
-    
-    var goalMet: Bool {
-        guard let goal = entry.goalMinutes else { return false }
-        return Int(currentDuration) / 60 >= goal
-    }
-    
+
     var endTime: Date? {
         guard let goal = entry.goalMinutes, let start = entry.startTime else { return nil }
         return start.addingTimeInterval(TimeInterval(goal * 60))
     }
-    
+
     var body: some View {
         Group {
             if entry.isActive {
                 if goalMet {
+                    // Goal met: checkmark + hours
                     VStack(spacing: 2) {
-                        Text("🎉")
-                            .font(.system(size: 20))
-                        if elapsedHours > 0 {
-                            Text("\(elapsedHours)h \(elapsedMins)m")
-                                .font(.system(size: 10, weight: .bold, design: .rounded))
-                                .minimumScaleFactor(0.7)
-                        } else {
-                            Text("\(elapsedMins)m")
-                                .font(.system(size: 12, weight: .bold, design: .rounded))
-                        }
+                        Image(systemName: "checkmark")
+                            .font(.system(size: 12, weight: .bold))
+                        Text("\(elapsedHours)h")
+                            .font(.system(size: 18, weight: .bold, design: .rounded))
                     }
                 } else {
-                    VStack(spacing: 2) {
-                        Image(systemName: "fork.knife.circle")
-                            .font(.system(size: 20))
+                    // Progress: gauge with end time in center
+                    Gauge(value: progress) {
+                        Text("")
+                    } currentValueLabel: {
                         if let end = endTime {
                             Text(format24HourTime(end))
-                                .font(.system(size: 12, weight: .bold, design: .rounded))
+                                .font(.system(size: 13, weight: .bold, design: .rounded))
                                 .minimumScaleFactor(0.7)
                         }
                     }
+                    .gaugeStyle(.accessoryCircularCapacity)
                 }
             } else {
                 Color.clear
@@ -405,4 +342,24 @@ struct LockScreenRectangularCombinedCenterView: View {
         }
         .containerBackground(for: .widget) { }
     }
+}
+
+// MARK: - Previews
+
+#Preview("Circular - In Progress", as: .accessoryCircular) {
+    LastFastWidget()
+} timeline: {
+    FastingEntry(date: Date(), isActive: true, startTime: Date().addingTimeInterval(-10 * 3600), goalMinutes: 16 * 60, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
+}
+
+#Preview("Circular - Goal Met", as: .accessoryCircular) {
+    LastFastWidget()
+} timeline: {
+    FastingEntry(date: Date(), isActive: true, startTime: Date().addingTimeInterval(-18 * 3600 - 30 * 60), goalMinutes: 16 * 60, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
+}
+
+#Preview("Rectangular - In Progress", as: .accessoryRectangular) {
+    RectangularCombinedWidget()
+} timeline: {
+    FastingEntry(date: Date(), isActive: true, startTime: Date().addingTimeInterval(-6 * 3600), goalMinutes: 16 * 60, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
 }

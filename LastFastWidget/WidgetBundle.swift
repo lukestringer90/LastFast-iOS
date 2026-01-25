@@ -14,10 +14,7 @@ struct LastFastWidgetBundle: WidgetBundle {
         // Home Screen Widgets
         LastFastWidget()
         EndTimeWidget()
-        
-        // Lock Screen Circular Widgets
-        CircularEndTimeWidget()
-        
+
         // Lock Screen Rectangular Widgets
         RectangularCombinedWidget()
         RectangularCombinedRightWidget()

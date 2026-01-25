@@ -220,17 +220,3 @@ struct EndTimeWidget: Widget {
     }
 }
 
-// MARK: - Circular End Time Widget Configuration
-
-struct CircularEndTimeWidget: Widget {
-    let kind: String = "CircularEndTimeWidget"
-    
-    var body: some WidgetConfiguration {
-        StaticConfiguration(kind: kind, provider: FastingTimelineProvider()) { entry in
-            LockScreenCircularEndTimeView(entry: entry)
-        }
-        .configurationDisplayName("End Time (Circular)")
-        .description("A circular Lock Screen widget showing when your fast will end.")
-        .supportedFamilies([.accessoryCircular])
-    }
-}
