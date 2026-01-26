@@ -44,8 +44,9 @@ struct LockScreenCircularView: View {
             if entry.isActive {
                 if goalMet {
                     VStack(spacing: 2) {
-                        Image(systemName: "checkmark")
+                        Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 12, weight: isLuminanceReduced ? .medium : .bold))
+                            .foregroundStyle(.green)
                         Text("\(elapsedHours)h")
                             .font(.system(size: 18, weight: isLuminanceReduced ? .medium : .bold, design: .rounded))
                     }
@@ -117,8 +118,9 @@ struct LockScreenRectangularCombinedView: View {
             if entry.isActive {
                 if goalMet {
                     HStack(spacing: 8) {
-                        Image(systemName: "checkmark")
+                        Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 32, weight: isLuminanceReduced ? .medium : .bold))
+                            .foregroundStyle(.green)
 
                         if elapsedHours > 0 {
                             Text("\(elapsedHours)h \(elapsedMins)m")
@@ -223,8 +225,9 @@ struct LockScreenRectangularCombinedRightView: View {
                                 .font(.system(size: 24, weight: isLuminanceReduced ? .medium : .bold, design: .rounded))
                         }
 
-                        Image(systemName: "checkmark")
+                        Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 32, weight: isLuminanceReduced ? .medium : .bold))
+                            .foregroundStyle(.green)
                     }
                     .opacity(isLuminanceReduced ? 0.5 : 1.0)
                 } else {
@@ -309,8 +312,9 @@ struct LockScreenRectangularCombinedCenterView: View {
             if entry.isActive {
                 if goalMet {
                     HStack(spacing: 8) {
-                        Image(systemName: "checkmark")
+                        Image(systemName: "checkmark.circle.fill")
                             .font(.system(size: 32, weight: isLuminanceReduced ? .medium : .bold))
+                            .foregroundStyle(.green)
 
                         if elapsedHours > 0 {
                             Text("\(elapsedHours)h \(elapsedMins)m")

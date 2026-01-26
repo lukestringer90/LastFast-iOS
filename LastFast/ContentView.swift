@@ -161,6 +161,7 @@ struct ContentView: View {
         defaults?.set(true, forKey: "isFasting")
 
         goalNotificationSent = false
+        NotificationManager.scheduleOneHourBeforeNotification(startTime: newSession.startTime, goalMinutes: savedGoalMinutes)
         NotificationManager.scheduleGoalNotification(startTime: newSession.startTime, goalMinutes: savedGoalMinutes)
 
         LiveActivityManager.start(startTime: newSession.startTime, goalMinutes: savedGoalMinutes)

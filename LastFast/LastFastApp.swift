@@ -13,6 +13,9 @@ import ActivityKit
 struct LastFastApp: App {
     @Environment(\.scenePhase) private var scenePhase
     
+    // Notification delegate to handle action buttons
+    private let notificationDelegate = NotificationDelegate()
+    
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([FastingSession.self])
         let modelConfiguration = ModelConfiguration(
@@ -29,6 +32,9 @@ struct LastFastApp: App {
     }()
     
     init() {
+        // Set notification delegate
+        UNUserNotificationCenter.current().delegate = notificationDelegate
+        
         // Register background task (only if Live Activity is enabled)
         if liveActivityEnabled {
             BGTaskScheduler.shared.register(forTaskWithIdentifier: "dev.stringer.lastfast.refresh", using: nil) { task in
