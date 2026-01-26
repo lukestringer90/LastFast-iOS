@@ -9,31 +9,43 @@ import SwiftUI
 
 struct GoalSetterView: View {
     let savedGoalMinutes: Int
-    let currentTime: Date
     var onTap: () -> Void
+
+    private var hours: Int { savedGoalMinutes / 60 }
+    private var minutes: Int { savedGoalMinutes % 60 }
 
     var body: some View {
         Button(action: onTap) {
-            VStack(spacing: 4) {
-                Text("Goal: \(formatDuration(hours: savedGoalMinutes / 60, minutes: savedGoalMinutes % 60))")
-                    .font(.headline)
-                    .foregroundStyle(.primary)
+            VStack(spacing: 8) {
+                // Time display matching TimerDisplayView style
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                    Text("\(hours)")
+                        .font(.system(size: 96, weight: .bold, design: .rounded))
+                        .foregroundStyle(.blue)
 
-                let estimatedFinish = currentTime.addingTimeInterval(TimeInterval(savedGoalMinutes * 60))
-                Text("Finish at \(format24HourTime(estimatedFinish))")
-                    .font(.subheadline)
+                    Text("h")
+                        .font(.system(size: 36, weight: .medium, design: .rounded))
+                        .foregroundStyle(.blue.opacity(0.7))
+
+                    if minutes > 0 {
+                        Text("\(minutes)")
+                            .font(.system(size: 96, weight: .bold, design: .rounded))
+                            .foregroundStyle(.blue)
+
+                        Text("m")
+                            .font(.system(size: 36, weight: .medium, design: .rounded))
+                            .foregroundStyle(.blue.opacity(0.7))
+                    }
+                }
+                .monospacedDigit()
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
+
+                // "Fast Goal" label underneath
+                Text("Fast Goal")
+                    .font(.title3)
                     .foregroundStyle(.secondary)
-
-                Text("Tap to change")
-                    .font(.caption)
-                    .foregroundStyle(.tertiary)
             }
-            .padding(.horizontal, 20)
-            .padding(.vertical, 12)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color(.secondarySystemBackground))
-            )
         }
     }
 }
@@ -43,7 +55,6 @@ struct GoalSetterView: View {
 #Preview {
     GoalSetterView(
         savedGoalMinutes: 720,
-        currentTime: Date(),
         onTap: {}
     )
 }

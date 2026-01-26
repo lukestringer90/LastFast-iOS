@@ -12,11 +12,11 @@ struct HistoryButton: View {
 
     var body: some View {
         Button(action: onTap) {
-            HStack(spacing: 6) {
-                Image(systemName: "clock.arrow.circlepath")
+            HStack(spacing: 4) {
+                Text("Fasting History")
                     .font(.subheadline)
-                Text("History")
-                    .font(.subheadline)
+                Image(systemName: "chevron.right")
+                    .font(.caption)
             }
             .foregroundStyle(.secondary)
         }

@@ -14,8 +14,8 @@ struct ActiveFastingView: View {
     let elapsedHours: Int
     let elapsedMins: Int
     let progress: Double
-    let activeFast: FastingSession?
-    let lastFast: FastingSession?
+    let startTime: Date?
+    let endTime: Date?
     var onStopFast: () -> Void
     var onShowHistory: () -> Void
 
@@ -29,30 +29,18 @@ struct ActiveFastingView: View {
                 minutes: minutes,
                 elapsedHours: elapsedHours,
                 elapsedMins: elapsedMins,
-                progress: progress
+                progress: progress,
+                startTime: startTime,
+                endTime: endTime
             )
             .transition(.opacity.combined(with: .scale(scale: 0.8)))
-
-            GoalAndStartTimeView(
-                goalMet: goalMet,
-                elapsedHours: elapsedHours,
-                elapsedMins: elapsedMins,
-                activeFast: activeFast
-            )
-            .padding(.top, 24)
-            .transition(.opacity.combined(with: .move(edge: .top)))
 
             Spacer()
 
             FastingActionButton(isActive: true, onTap: onStopFast)
-
-            Button(action: onShowHistory) {
-                LastFastButtonContent(lastFast: lastFast)
-            }
-            .padding(.top, 16)
+                .padding(.bottom, 24)
 
             HistoryButton(onTap: onShowHistory)
-                .padding(.top, 12)
                 .padding(.bottom, 40)
         }
     }
@@ -60,7 +48,7 @@ struct ActiveFastingView: View {
 
 // MARK: - Preview
 
-#Preview {
+#Preview("In Progress") {
     ActiveFastingView(
         goalMet: false,
         hours: 8,
@@ -68,8 +56,23 @@ struct ActiveFastingView: View {
         elapsedHours: 3,
         elapsedMins: 30,
         progress: 0.45,
-        activeFast: nil,
-        lastFast: nil,
+        startTime: Date().addingTimeInterval(-3.5 * 3600),
+        endTime: Date().addingTimeInterval(8.5 * 3600),
+        onStopFast: {},
+        onShowHistory: {}
+    )
+}
+
+#Preview("Goal Met") {
+    ActiveFastingView(
+        goalMet: true,
+        hours: 0,
+        minutes: 0,
+        elapsedHours: 16,
+        elapsedMins: 5,
+        progress: 1.0,
+        startTime: Date().addingTimeInterval(-16.1 * 3600),
+        endTime: nil,
         onStopFast: {},
         onShowHistory: {}
     )

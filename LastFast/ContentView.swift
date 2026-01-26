@@ -35,10 +35,6 @@ struct ContentView: View {
         sessions.first { $0.isActive }
     }
 
-    private var lastFast: FastingSession? {
-        sessions.first { !$0.isActive }
-    }
-
     private var currentDuration: TimeInterval {
         guard let fast = activeFast else { return 0 }
         return currentTime.timeIntervalSince(fast.startTime)
@@ -73,7 +69,8 @@ struct ContentView: View {
                 backgroundGradient
 
                 VStack(spacing: 0) {
-                    if activeFast != nil {
+                    if let fast = activeFast {
+                        let endTime = fast.goalMinutes.map { fast.startTime.addingTimeInterval(TimeInterval($0 * 60)) }
                         ActiveFastingView(
                             goalMet: goalMet,
                             hours: hours,
@@ -81,16 +78,14 @@ struct ContentView: View {
                             elapsedHours: elapsedHours,
                             elapsedMins: elapsedMins,
                             progress: progress,
-                            activeFast: activeFast,
-                            lastFast: lastFast,
+                            startTime: fast.startTime,
+                            endTime: endTime,
                             onStopFast: { showingStopConfirmation = true },
                             onShowHistory: { showingHistory = true }
                         )
                     } else {
                         NotFastingView(
                             savedGoalMinutes: savedGoalMinutes,
-                            currentTime: currentTime,
-                            lastFast: lastFast,
                             onStartFast: startFasting,
                             onShowGoalPicker: { showingGoalPicker = true },
                             onShowHistory: { showingHistory = true }
@@ -99,6 +94,7 @@ struct ContentView: View {
                 }
                 .padding()
                 .animation(.easeInOut(duration: 0.4), value: activeFast != nil)
+                .animation(.easeInOut(duration: 0.4), value: goalMet)
             }
             .onAppear(perform: handleAppear)
             .onDisappear { stopTimer() }
@@ -125,8 +121,21 @@ struct ContentView: View {
     // MARK: - Background
 
     private var backgroundGradient: some View {
-        LinearGradient(
-            colors: activeFast != nil ? [Color.orange.opacity(0.1), Color.orange.opacity(0.05)] : [Color(.systemBackground), Color(.systemBackground)],
+        let colors: [Color] = {
+            if activeFast == nil {
+                // Idle: Plain off-white/cream
+                return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 0.98, green: 0.97, blue: 0.95)]
+            } else if goalMet {
+                // Goal Met: Cream to very light green
+                return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 0.85, green: 0.95, blue: 0.85)]
+            } else {
+                // Active Fasting: Cream to very light orange
+                return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 1.0, green: 0.92, blue: 0.85)]
+            }
+        }()
+
+        return LinearGradient(
+            colors: colors,
             startPoint: .top,
             endPoint: .bottom
         )
@@ -217,6 +226,40 @@ struct ContentView: View {
 // MARK: - Preview
 
 #Preview {
-    ContentView()
-        .modelContainer(for: FastingSession.self, inMemory: true)
+    NotFastingView(
+        savedGoalMinutes: 720,
+        onStartFast: {},
+        onShowGoalPicker: {},
+        onShowHistory: {}
+    )
+}
+
+#Preview("In Progress") {
+    ActiveFastingView(
+        goalMet: false,
+        hours: 8,
+        minutes: 30,
+        elapsedHours: 3,
+        elapsedMins: 30,
+        progress: 0.45,
+        startTime: Date().addingTimeInterval(-3.5 * 3600),
+        endTime: Date().addingTimeInterval(8.5 * 3600),
+        onStopFast: {},
+        onShowHistory: {}
+    )
+}
+
+#Preview("Goal Met") {
+    ActiveFastingView(
+        goalMet: true,
+        hours: 0,
+        minutes: 0,
+        elapsedHours: 16,
+        elapsedMins: 5,
+        progress: 1.0,
+        startTime: Date().addingTimeInterval(-16.1 * 3600),
+        endTime: nil,
+        onStopFast: {},
+        onShowHistory: {}
+    )
 }

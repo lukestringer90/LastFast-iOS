@@ -9,8 +9,6 @@ import SwiftUI
 
 struct NotFastingView: View {
     let savedGoalMinutes: Int
-    let currentTime: Date
-    let lastFast: FastingSession?
     var onStartFast: () -> Void
     var onShowGoalPicker: () -> Void
     var onShowHistory: () -> Void
@@ -19,26 +17,18 @@ struct NotFastingView: View {
         VStack(spacing: 0) {
             Spacer()
 
-            VStack(spacing: 24) {
-                GoalSetterView(
-                    savedGoalMinutes: savedGoalMinutes,
-                    currentTime: currentTime,
-                    onTap: onShowGoalPicker
-                )
-                .transition(.opacity)
-
-                FastingActionButton(isActive: false, onTap: onStartFast)
-            }
+            GoalSetterView(
+                savedGoalMinutes: savedGoalMinutes,
+                onTap: onShowGoalPicker
+            )
+            .transition(.opacity)
 
             Spacer()
 
-            Button(action: onShowHistory) {
-                LastFastButtonContent(lastFast: lastFast)
-            }
-            .padding(.top, 16)
+            FastingActionButton(isActive: false, onTap: onStartFast)
+                .padding(.bottom, 24)
 
             HistoryButton(onTap: onShowHistory)
-                .padding(.top, 12)
                 .padding(.bottom, 40)
         }
     }
@@ -49,8 +39,6 @@ struct NotFastingView: View {
 #Preview {
     NotFastingView(
         savedGoalMinutes: 720,
-        currentTime: Date(),
-        lastFast: nil,
         onStartFast: {},
         onShowGoalPicker: {},
         onShowHistory: {}

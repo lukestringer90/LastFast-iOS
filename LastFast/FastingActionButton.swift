@@ -18,7 +18,7 @@ struct FastingActionButton: View {
             onTap()
         }) {
             HStack(spacing: 12) {
-                Image(systemName: isActive ? "stop.fill" : "play.fill")
+                Image(systemName: isActive ? "square.fill" : "play.fill")
                     .font(.title2)
                 Text(isActive ? "Stop Fast" : "Start Fast")
                     .font(.title2)
