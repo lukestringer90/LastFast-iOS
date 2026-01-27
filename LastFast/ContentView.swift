@@ -120,17 +120,33 @@ struct ContentView: View {
 
     // MARK: - Background
 
+    @Environment(\.colorScheme) private var colorScheme
+
     private var backgroundGradient: some View {
         let colors: [Color] = {
+            let isDark = colorScheme == .dark
+
             if activeFast == nil {
-                // Idle: Plain off-white/cream
-                return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 0.98, green: 0.97, blue: 0.95)]
+                // Idle: Plain background
+                if isDark {
+                    return [Color(red: 0.11, green: 0.11, blue: 0.12), Color(red: 0.11, green: 0.11, blue: 0.12)]
+                } else {
+                    return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 0.98, green: 0.97, blue: 0.95)]
+                }
             } else if goalMet {
-                // Goal Met: Cream to very light green
-                return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 0.85, green: 0.95, blue: 0.85)]
+                // Goal Met: Subtle green tint
+                if isDark {
+                    return [Color(red: 0.11, green: 0.11, blue: 0.12), Color(red: 0.1, green: 0.18, blue: 0.1)]
+                } else {
+                    return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 0.85, green: 0.95, blue: 0.85)]
+                }
             } else {
-                // Active Fasting: Cream to very light orange
-                return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 1.0, green: 0.92, blue: 0.85)]
+                // Active Fasting: Subtle orange tint
+                if isDark {
+                    return [Color(red: 0.11, green: 0.11, blue: 0.12), Color(red: 0.2, green: 0.14, blue: 0.08)]
+                } else {
+                    return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 1.0, green: 0.92, blue: 0.85)]
+                }
             }
         }()
 
@@ -225,7 +241,7 @@ struct ContentView: View {
 
 // MARK: - Preview
 
-#Preview {
+#Preview("Not Fasting") {
     NotFastingView(
         savedGoalMinutes: 720,
         onStartFast: {},

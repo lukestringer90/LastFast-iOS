@@ -48,7 +48,7 @@ struct ActiveFastingView: View {
 
 // MARK: - Preview
 
-#Preview("In Progress") {
+#Preview("In Progress - Light") {
     ActiveFastingView(
         goalMet: false,
         hours: 8,
@@ -63,7 +63,23 @@ struct ActiveFastingView: View {
     )
 }
 
-#Preview("Goal Met") {
+#Preview("In Progress - Dark") {
+    ActiveFastingView(
+        goalMet: false,
+        hours: 8,
+        minutes: 30,
+        elapsedHours: 3,
+        elapsedMins: 30,
+        progress: 0.45,
+        startTime: Date().addingTimeInterval(-3.5 * 3600),
+        endTime: Date().addingTimeInterval(8.5 * 3600),
+        onStopFast: {},
+        onShowHistory: {}
+    )
+    .preferredColorScheme(.dark)
+}
+
+#Preview("Goal Met - Light") {
     ActiveFastingView(
         goalMet: true,
         hours: 0,
@@ -76,4 +92,20 @@ struct ActiveFastingView: View {
         onStopFast: {},
         onShowHistory: {}
     )
+}
+
+#Preview("Goal Met - Dark") {
+    ActiveFastingView(
+        goalMet: true,
+        hours: 0,
+        minutes: 0,
+        elapsedHours: 16,
+        elapsedMins: 5,
+        progress: 1.0,
+        startTime: Date().addingTimeInterval(-16.1 * 3600),
+        endTime: nil,
+        onStopFast: {},
+        onShowHistory: {}
+    )
+    .preferredColorScheme(.dark)
 }

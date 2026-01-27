@@ -36,11 +36,21 @@ struct NotFastingView: View {
 
 // MARK: - Preview
 
-#Preview {
+#Preview("Light Mode") {
     NotFastingView(
         savedGoalMinutes: 720,
         onStartFast: {},
         onShowGoalPicker: {},
         onShowHistory: {}
     )
+}
+
+#Preview("Dark Mode") {
+    NotFastingView(
+        savedGoalMinutes: 720,
+        onStartFast: {},
+        onShowGoalPicker: {},
+        onShowHistory: {}
+    )
+    .preferredColorScheme(.dark)
 }
