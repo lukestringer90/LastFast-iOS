@@ -50,6 +50,7 @@ final class FastingSession {
     var startTime: Date
     var endTime: Date?
     var goalMinutes: Int?
+    var goalCelebrationShown: Bool = false
     
     var isActive: Bool {
         endTime == nil
@@ -98,6 +99,7 @@ final class FastingSession {
         self.startTime = startTime
         self.endTime = nil
         self.goalMinutes = goalMinutes
+        self.goalCelebrationShown = false
     }
     
     func stop() {

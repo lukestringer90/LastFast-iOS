@@ -26,6 +26,7 @@ struct ContentView: View {
     @State private var showingGoalPicker = false
     @State private var showingStopConfirmation = false
     @State private var goalNotificationSent = false
+    @State private var showingConfetti = false
 
     @AppStorage("fastingGoalMinutes") private var savedGoalMinutes: Int = 720
 
@@ -95,11 +96,21 @@ struct ContentView: View {
                 .padding()
                 .animation(.easeInOut(duration: 0.4), value: activeFast != nil)
                 .animation(.easeInOut(duration: 0.4), value: goalMet)
+
+                if showingConfetti {
+                    ConfettiView(isShowing: $showingConfetti)
+                }
             }
             .onAppear(perform: handleAppear)
             .onDisappear { stopTimer() }
+            .onChange(of: goalMet) { _, newValue in
+                if newValue {
+                    checkForGoalCelebration()
+                }
+            }
             .onReceive(NotificationCenter.default.publisher(for: UIApplication.willEnterForegroundNotification)) { _ in
                 WidgetCenter.shared.reloadAllTimelines()
+                checkForGoalCelebration()
             }
             .sheet(isPresented: $showingHistory) {
                 HistoryView()
@@ -172,6 +183,17 @@ struct ContentView: View {
         if activeFast == nil {
             goalNotificationSent = false
         }
+        checkForGoalCelebration()
+    }
+
+    private func checkForGoalCelebration() {
+        guard let fast = activeFast,
+              fast.goalMet,
+              !fast.goalCelebrationShown else { return }
+
+        fast.goalCelebrationShown = true
+        try? modelContext.save()
+        showingConfetti = true
     }
 
     private func startFasting() {
