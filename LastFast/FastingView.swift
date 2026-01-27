@@ -1,8 +1,8 @@
 //
-//  ContentView.swift
+//  FastingView.swift
 //  LastFast
 //
-//  Main iOS app view
+//  Main fasting screen - displays active fast timer or start fast interface
 //
 
 import SwiftUI
@@ -13,9 +13,9 @@ import WidgetKit
 
 let useGraphHistoryView = true
 
-// MARK: - Content View
+// MARK: - Fasting View
 
-struct ContentView: View {
+struct FastingView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \FastingSession.startTime, order: .reverse) private var sessions: [FastingSession]
 
@@ -26,7 +26,7 @@ struct ContentView: View {
     @State private var showingGoalPicker = false
     @State private var showingStopConfirmation = false
     @State private var goalNotificationSent = false
-    @State private var showingConfetti = false
+    @State private var confettiInstances: [UUID] = []
 
     @AppStorage("fastingGoalMinutes") private var savedGoalMinutes: Int = 720
 
@@ -82,7 +82,8 @@ struct ContentView: View {
                             startTime: fast.startTime,
                             endTime: endTime,
                             onStopFast: { showingStopConfirmation = true },
-                            onShowHistory: { showingHistory = true }
+                            onShowHistory: { showingHistory = true },
+                            onCelebrate: goalMet ? { confettiInstances.append(UUID()) } : nil
                         )
                     } else {
                         NotFastingView(
@@ -97,8 +98,10 @@ struct ContentView: View {
                 .animation(.easeInOut(duration: 0.4), value: activeFast != nil)
                 .animation(.easeInOut(duration: 0.4), value: goalMet)
 
-                if showingConfetti {
-                    ConfettiView(isShowing: $showingConfetti)
+                ForEach(confettiInstances, id: \.self) { confettiId in
+                    ConfettiView(id: confettiId) { completedId in
+                        confettiInstances.removeAll { $0 == completedId }
+                    }
                 }
             }
             .onAppear(perform: handleAppear)
@@ -134,39 +137,22 @@ struct ContentView: View {
     @Environment(\.colorScheme) private var colorScheme
 
     private var backgroundGradient: some View {
-        let colors: [Color] = {
+        let color: Color = {
             let isDark = colorScheme == .dark
 
             if activeFast == nil {
                 // Idle: Plain background
-                if isDark {
-                    return [Color(red: 0.11, green: 0.11, blue: 0.12), Color(red: 0.11, green: 0.11, blue: 0.12)]
-                } else {
-                    return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 0.98, green: 0.97, blue: 0.95)]
-                }
+                return isDark ? Color(red: 0.11, green: 0.11, blue: 0.12) : Color(red: 0.98, green: 0.97, blue: 0.95)
             } else if goalMet {
                 // Goal Met: Subtle green tint
-                if isDark {
-                    return [Color(red: 0.11, green: 0.11, blue: 0.12), Color(red: 0.1, green: 0.18, blue: 0.1)]
-                } else {
-                    return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 0.85, green: 0.95, blue: 0.85)]
-                }
+                return isDark ? Color(red: 0.08, green: 0.14, blue: 0.08) : Color(red: 0.9, green: 0.96, blue: 0.9)
             } else {
-                // Active Fasting: Subtle orange tint
-                if isDark {
-                    return [Color(red: 0.11, green: 0.11, blue: 0.12), Color(red: 0.2, green: 0.14, blue: 0.08)]
-                } else {
-                    return [Color(red: 0.98, green: 0.97, blue: 0.95), Color(red: 1.0, green: 0.92, blue: 0.85)]
-                }
+                // Active Fasting: Subtle warm tint
+                return isDark ? Color(red: 0.14, green: 0.11, blue: 0.1) : Color(red: 0.98, green: 0.95, blue: 0.92)
             }
         }()
 
-        return LinearGradient(
-            colors: colors,
-            startPoint: .top,
-            endPoint: .bottom
-        )
-        .ignoresSafeArea()
+        return color.ignoresSafeArea()
     }
 
     // MARK: - Actions
@@ -193,7 +179,7 @@ struct ContentView: View {
 
         fast.goalCelebrationShown = true
         try? modelContext.save()
-        showingConfetti = true
+        confettiInstances.append(UUID())
     }
 
     private func startFasting() {

@@ -18,6 +18,7 @@ struct TimerDisplayView: View {
     let progress: Double
     let startTime: Date?
     let endTime: Date?
+    var onElapsedTimeTapped: (() -> Void)? = nil
 
     private var ringColor: Color {
         goalMet ? .green : .orange
@@ -25,15 +26,21 @@ struct TimerDisplayView: View {
 
     var body: some View {
         ZStack {
-            // Background ring
+            // Invisible circle to maintain consistent layout
             Circle()
-                .stroke(ringColor.opacity(0.3), lineWidth: 12)
+                .stroke(Color.clear, lineWidth: 12)
 
-            // Progress ring
-            Circle()
-                .trim(from: 0, to: goalMet ? 1.0 : progress)
-                .stroke(ringColor, style: StrokeStyle(lineWidth: 12, lineCap: .round))
-                .rotationEffect(.degrees(-90))
+            if !goalMet {
+                // Background ring (only show when goal not met)
+                Circle()
+                    .stroke(ringColor.opacity(0.3), lineWidth: 12)
+
+                // Progress ring
+                Circle()
+                    .trim(from: 0, to: progress)
+                    .stroke(ringColor, style: StrokeStyle(lineWidth: 12, lineCap: .round))
+                    .rotationEffect(.degrees(-90))
+            }
 
             // Time display and info label in center
             VStack(spacing: 4) {
@@ -81,6 +88,10 @@ struct TimerDisplayView: View {
         .monospacedDigit()
         .minimumScaleFactor(0.5)
         .lineLimit(1)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onElapsedTimeTapped?()
+        }
     }
 
     private var hoursAndMinutesDisplay: some View {

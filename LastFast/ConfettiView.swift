@@ -18,7 +18,8 @@ struct ConfettiPiece: Identifiable {
 }
 
 struct ConfettiView: View {
-    @Binding var isShowing: Bool
+    let id: UUID
+    var onComplete: ((UUID) -> Void)?
 
     @State private var pieces: [ConfettiPiece] = []
     @State private var animationProgress: CGFloat = 0
@@ -77,7 +78,7 @@ struct ConfettiView: View {
         }
 
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
-            isShowing = false
+            onComplete?(id)
         }
     }
 }
@@ -85,6 +86,6 @@ struct ConfettiView: View {
 #Preview {
     ZStack {
         Color.black.opacity(0.1)
-        ConfettiView(isShowing: .constant(true))
+        ConfettiView(id: UUID(), onComplete: nil)
     }
 }

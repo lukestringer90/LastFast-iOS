@@ -7,7 +7,7 @@ import SwiftData
 import BackgroundTasks
 import ActivityKit
 
-// Note: liveActivityEnabled is defined in ContentView.swift
+// Note: liveActivityEnabled is defined in FastingView.swift
 
 @main
 struct LastFastApp: App {
@@ -45,7 +45,7 @@ struct LastFastApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            FastingView()
         }
         .modelContainer(sharedModelContainer)
         .onChange(of: scenePhase) { oldPhase, newPhase in

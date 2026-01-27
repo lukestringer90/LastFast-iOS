@@ -18,6 +18,7 @@ struct ActiveFastingView: View {
     let endTime: Date?
     var onStopFast: () -> Void
     var onShowHistory: () -> Void
+    var onCelebrate: (() -> Void)? = nil
 
     var body: some View {
         VStack(spacing: 0) {
@@ -31,7 +32,8 @@ struct ActiveFastingView: View {
                 elapsedMins: elapsedMins,
                 progress: progress,
                 startTime: startTime,
-                endTime: endTime
+                endTime: endTime,
+                onElapsedTimeTapped: onCelebrate
             )
             .transition(.opacity.combined(with: .scale(scale: 0.8)))
 
