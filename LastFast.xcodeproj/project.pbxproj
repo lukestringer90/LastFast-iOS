@@ -7,13 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		A30FC28B2F05782500E5AEC6 /* LastFastWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A30FC2682F05782000E5AEC6 /* LastFastWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		A3A7C28D2F059976004E371E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3A7C28C2F059975004E371E /* WidgetKit.framework */; };
 		A3A7C28F2F059976004E371E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3A7C28E2F059976004E371E /* SwiftUI.framework */; };
 		A3A7C29E2F059978004E371E /* LastFastWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A3A7C28A2F059975004E371E /* LastFastWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		A3A7C2AC2F05B95A004E371E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3A7C28C2F059975004E371E /* WidgetKit.framework */; };
-		A3A7C2AD2F05B95A004E371E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3A7C28E2F059976004E371E /* SwiftUI.framework */; };
-		A3A7C2B62F05B95B004E371E /* LastFastWatchWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A3A7C2AB2F05B95A004E371E /* LastFastWatchWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -31,40 +27,12 @@
 			remoteGlobalIDString = A30FC2342F0577D200E5AEC6;
 			remoteInfo = LastFast;
 		};
-		A30FC2782F05782500E5AEC6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A30FC22D2F0577D200E5AEC6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A30FC2672F05782000E5AEC6;
-			remoteInfo = "LastFastWatch Watch App";
-		};
-		A30FC2822F05782500E5AEC6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A30FC22D2F0577D200E5AEC6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A30FC2672F05782000E5AEC6;
-			remoteInfo = "LastFastWatch Watch App";
-		};
-		A30FC2892F05782500E5AEC6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A30FC22D2F0577D200E5AEC6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A30FC2672F05782000E5AEC6;
-			remoteInfo = "LastFastWatch Watch App";
-		};
 		A3A7C29C2F059978004E371E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A30FC22D2F0577D200E5AEC6 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = A3A7C2892F059975004E371E;
 			remoteInfo = LastFastWidgetExtension;
-		};
-		A3A7C2B42F05B95B004E371E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A30FC22D2F0577D200E5AEC6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A3A7C2AA2F05B95A004E371E;
-			remoteInfo = LastFastWatchWidgetExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -75,7 +43,6 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
 			dstSubfolderSpec = 16;
 			files = (
-				A30FC28B2F05782500E5AEC6 /* LastFastWatch Watch App.app in Embed Watch Content */,
 			);
 			name = "Embed Watch Content";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -91,42 +58,19 @@
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A3A7C2BB2F05B95B004E371E /* Embed Foundation Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				A3A7C2B62F05B95B004E371E /* LastFastWatchWidgetExtension.appex in Embed Foundation Extensions */,
-			);
-			name = "Embed Foundation Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		A30FC2352F0577D200E5AEC6 /* LastFast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LastFast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A30FC2472F0577D400E5AEC6 /* LastFastTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastFastTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A30FC2512F0577D400E5AEC6 /* LastFastUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastFastUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A30FC2682F05782000E5AEC6 /* LastFastWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LastFastWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A30FC2772F05782500E5AEC6 /* LastFastWatch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LastFastWatch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		A30FC2812F05782500E5AEC6 /* LastFastWatch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "LastFastWatch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3A7C28A2F059975004E371E /* LastFastWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LastFastWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3A7C28C2F059975004E371E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A3A7C28E2F059976004E371E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		A3A7C2A42F0599DE004E371E /* LastFastWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LastFastWidgetExtension.entitlements; sourceTree = "<group>"; };
-		A3A7C2AB2F05B95A004E371E /* LastFastWatchWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LastFastWatchWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
-		A3A7C2BC2F05B987004E371E /* LastFastWatchWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LastFastWatchWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		A30FC29C2F05790100E5AEC6 /* Exceptions for "LastFast" folder in "LastFastWatch Watch App" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Shared/FastingSession.swift,
-			);
-			target = A30FC2672F05782000E5AEC6 /* LastFastWatch Watch App */;
-		};
 		A3A7C29F2F059978004E371E /* Exceptions for "LastFastWidget" folder in "LastFastWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
@@ -141,29 +85,13 @@
 			);
 			target = A3A7C2892F059975004E371E /* LastFastWidgetExtension */;
 		};
-		A3A7C2BA2F05B95B004E371E /* Exceptions for "LastFastWatchWidget" folder in "LastFastWatchWidgetExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = A3A7C2AA2F05B95A004E371E /* LastFastWatchWidgetExtension */;
-		};
-		A3A7C2BE2F05B9A1004E371E /* Exceptions for "LastFast" folder in "LastFastWatchWidgetExtension" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Shared/FastingSession.swift,
-			);
-			target = A3A7C2AA2F05B95A004E371E /* LastFastWatchWidgetExtension */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		A30FC2372F0577D200E5AEC6 /* LastFast */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				A30FC29C2F05790100E5AEC6 /* Exceptions for "LastFast" folder in "LastFastWatch Watch App" target */,
 				A3A7C2A62F059A03004E371E /* Exceptions for "LastFast" folder in "LastFastWidgetExtension" target */,
-				A3A7C2BE2F05B9A1004E371E /* Exceptions for "LastFast" folder in "LastFastWatchWidgetExtension" target */,
 			);
 			path = LastFast;
 			sourceTree = "<group>";
@@ -178,21 +106,6 @@
 			path = LastFastUITests;
 			sourceTree = "<group>";
 		};
-		A30FC2692F05782000E5AEC6 /* LastFastWatch Watch App */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "LastFastWatch Watch App";
-			sourceTree = "<group>";
-		};
-		A30FC27A2F05782500E5AEC6 /* LastFastWatch Watch AppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "LastFastWatch Watch AppTests";
-			sourceTree = "<group>";
-		};
-		A30FC2842F05782500E5AEC6 /* LastFastWatch Watch AppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "LastFastWatch Watch AppUITests";
-			sourceTree = "<group>";
-		};
 		A3A7C2902F059976004E371E /* LastFastWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -203,9 +116,6 @@
 		};
 		A3A7C2AE2F05B95A004E371E /* LastFastWatchWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				A3A7C2BA2F05B95B004E371E /* Exceptions for "LastFastWatchWidget" folder in "LastFastWatchWidgetExtension" target */,
-			);
 			path = LastFastWatchWidget;
 			sourceTree = "<group>";
 		};
@@ -233,27 +143,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A30FC2652F05782000E5AEC6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A30FC2742F05782500E5AEC6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A30FC27E2F05782500E5AEC6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A3A7C2872F059975004E371E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -263,29 +152,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A3A7C2A82F05B95A004E371E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A3A7C2AD2F05B95A004E371E /* SwiftUI.framework in Frameworks */,
-				A3A7C2AC2F05B95A004E371E /* WidgetKit.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		A30FC22C2F0577D200E5AEC6 = {
 			isa = PBXGroup;
 			children = (
-				A3A7C2BC2F05B987004E371E /* LastFastWatchWidgetExtension.entitlements */,
 				A3A7C2A42F0599DE004E371E /* LastFastWidgetExtension.entitlements */,
 				A30FC2372F0577D200E5AEC6 /* LastFast */,
 				A30FC24A2F0577D400E5AEC6 /* LastFastTests */,
 				A30FC2542F0577D400E5AEC6 /* LastFastUITests */,
-				A30FC2692F05782000E5AEC6 /* LastFastWatch Watch App */,
-				A30FC27A2F05782500E5AEC6 /* LastFastWatch Watch AppTests */,
-				A30FC2842F05782500E5AEC6 /* LastFastWatch Watch AppUITests */,
 				A3A7C2902F059976004E371E /* LastFastWidget */,
 				A3A7C2AE2F05B95A004E371E /* LastFastWatchWidget */,
 				A3A7C28B2F059975004E371E /* Frameworks */,
@@ -299,11 +175,7 @@
 				A30FC2352F0577D200E5AEC6 /* LastFast.app */,
 				A30FC2472F0577D400E5AEC6 /* LastFastTests.xctest */,
 				A30FC2512F0577D400E5AEC6 /* LastFastUITests.xctest */,
-				A30FC2682F05782000E5AEC6 /* LastFastWatch Watch App.app */,
-				A30FC2772F05782500E5AEC6 /* LastFastWatch Watch AppTests.xctest */,
-				A30FC2812F05782500E5AEC6 /* LastFastWatch Watch AppUITests.xctest */,
 				A3A7C28A2F059975004E371E /* LastFastWidgetExtension.appex */,
-				A3A7C2AB2F05B95A004E371E /* LastFastWatchWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -333,7 +205,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				A30FC28A2F05782500E5AEC6 /* PBXTargetDependency */,
 				A3A7C29D2F059978004E371E /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
@@ -392,76 +263,6 @@
 			productReference = A30FC2512F0577D400E5AEC6 /* LastFastUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
-		A30FC2672F05782000E5AEC6 /* LastFastWatch Watch App */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A30FC28C2F05782500E5AEC6 /* Build configuration list for PBXNativeTarget "LastFastWatch Watch App" */;
-			buildPhases = (
-				A30FC2642F05782000E5AEC6 /* Sources */,
-				A30FC2652F05782000E5AEC6 /* Frameworks */,
-				A30FC2662F05782000E5AEC6 /* Resources */,
-				A3A7C2BB2F05B95B004E371E /* Embed Foundation Extensions */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A3A7C2B52F05B95B004E371E /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				A30FC2692F05782000E5AEC6 /* LastFastWatch Watch App */,
-			);
-			name = "LastFastWatch Watch App";
-			packageProductDependencies = (
-			);
-			productName = "LastFastWatch Watch App";
-			productReference = A30FC2682F05782000E5AEC6 /* LastFastWatch Watch App.app */;
-			productType = "com.apple.product-type.application";
-		};
-		A30FC2762F05782500E5AEC6 /* LastFastWatch Watch AppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A30FC2902F05782600E5AEC6 /* Build configuration list for PBXNativeTarget "LastFastWatch Watch AppTests" */;
-			buildPhases = (
-				A30FC2732F05782500E5AEC6 /* Sources */,
-				A30FC2742F05782500E5AEC6 /* Frameworks */,
-				A30FC2752F05782500E5AEC6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A30FC2792F05782500E5AEC6 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				A30FC27A2F05782500E5AEC6 /* LastFastWatch Watch AppTests */,
-			);
-			name = "LastFastWatch Watch AppTests";
-			packageProductDependencies = (
-			);
-			productName = "LastFastWatch Watch AppTests";
-			productReference = A30FC2772F05782500E5AEC6 /* LastFastWatch Watch AppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		A30FC2802F05782500E5AEC6 /* LastFastWatch Watch AppUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A30FC2932F05782600E5AEC6 /* Build configuration list for PBXNativeTarget "LastFastWatch Watch AppUITests" */;
-			buildPhases = (
-				A30FC27D2F05782500E5AEC6 /* Sources */,
-				A30FC27E2F05782500E5AEC6 /* Frameworks */,
-				A30FC27F2F05782500E5AEC6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A30FC2832F05782500E5AEC6 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				A30FC2842F05782500E5AEC6 /* LastFastWatch Watch AppUITests */,
-			);
-			name = "LastFastWatch Watch AppUITests";
-			packageProductDependencies = (
-			);
-			productName = "LastFastWatch Watch AppUITests";
-			productReference = A30FC2812F05782500E5AEC6 /* LastFastWatch Watch AppUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		A3A7C2892F059975004E371E /* LastFastWidgetExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3A7C2A02F059978004E371E /* Build configuration list for PBXNativeTarget "LastFastWidgetExtension" */;
@@ -482,28 +283,6 @@
 			);
 			productName = LastFastWidgetExtension;
 			productReference = A3A7C28A2F059975004E371E /* LastFastWidgetExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
-		};
-		A3A7C2AA2F05B95A004E371E /* LastFastWatchWidgetExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A3A7C2B72F05B95B004E371E /* Build configuration list for PBXNativeTarget "LastFastWatchWidgetExtension" */;
-			buildPhases = (
-				A3A7C2A72F05B95A004E371E /* Sources */,
-				A3A7C2A82F05B95A004E371E /* Frameworks */,
-				A3A7C2A92F05B95A004E371E /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				A3A7C2AE2F05B95A004E371E /* LastFastWatchWidget */,
-			);
-			name = LastFastWatchWidgetExtension;
-			packageProductDependencies = (
-			);
-			productName = LastFastWatchWidgetExtension;
-			productReference = A3A7C2AB2F05B95A004E371E /* LastFastWatchWidgetExtension.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
@@ -527,21 +306,7 @@
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = A30FC2342F0577D200E5AEC6;
 					};
-					A30FC2672F05782000E5AEC6 = {
-						CreatedOnToolsVersion = 16.2;
-					};
-					A30FC2762F05782500E5AEC6 = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = A30FC2672F05782000E5AEC6;
-					};
-					A30FC2802F05782500E5AEC6 = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = A30FC2672F05782000E5AEC6;
-					};
 					A3A7C2892F059975004E371E = {
-						CreatedOnToolsVersion = 16.2;
-					};
-					A3A7C2AA2F05B95A004E371E = {
 						CreatedOnToolsVersion = 16.2;
 					};
 				};
@@ -561,13 +326,9 @@
 			projectRoot = "";
 			targets = (
 				A30FC2342F0577D200E5AEC6 /* LastFast */,
-				A30FC2672F05782000E5AEC6 /* LastFastWatch Watch App */,
 				A3A7C2892F059975004E371E /* LastFastWidgetExtension */,
-				A3A7C2AA2F05B95A004E371E /* LastFastWatchWidgetExtension */,
 				A30FC2462F0577D400E5AEC6 /* LastFastTests */,
 				A30FC2502F0577D400E5AEC6 /* LastFastUITests */,
-				A30FC2762F05782500E5AEC6 /* LastFastWatch Watch AppTests */,
-				A30FC2802F05782500E5AEC6 /* LastFastWatch Watch AppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -594,35 +355,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A30FC2662F05782000E5AEC6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A30FC2752F05782500E5AEC6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A30FC27F2F05782500E5AEC6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A3A7C2882F059975004E371E /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A3A7C2A92F05B95A004E371E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -653,35 +386,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A30FC2642F05782000E5AEC6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A30FC2732F05782500E5AEC6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A30FC27D2F05782500E5AEC6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A3A7C2862F059975004E371E /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A3A7C2A72F05B95A004E371E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -701,30 +406,10 @@
 			target = A30FC2342F0577D200E5AEC6 /* LastFast */;
 			targetProxy = A30FC2522F0577D400E5AEC6 /* PBXContainerItemProxy */;
 		};
-		A30FC2792F05782500E5AEC6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A30FC2672F05782000E5AEC6 /* LastFastWatch Watch App */;
-			targetProxy = A30FC2782F05782500E5AEC6 /* PBXContainerItemProxy */;
-		};
-		A30FC2832F05782500E5AEC6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A30FC2672F05782000E5AEC6 /* LastFastWatch Watch App */;
-			targetProxy = A30FC2822F05782500E5AEC6 /* PBXContainerItemProxy */;
-		};
-		A30FC28A2F05782500E5AEC6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A30FC2672F05782000E5AEC6 /* LastFastWatch Watch App */;
-			targetProxy = A30FC2892F05782500E5AEC6 /* PBXContainerItemProxy */;
-		};
 		A3A7C29D2F059978004E371E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = A3A7C2892F059975004E371E /* LastFastWidgetExtension */;
 			targetProxy = A3A7C29C2F059978004E371E /* PBXContainerItemProxy */;
-		};
-		A3A7C2B52F05B95B004E371E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A3A7C2AA2F05B95A004E371E /* LastFastWatchWidgetExtension */;
-			targetProxy = A3A7C2B42F05B95B004E371E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -982,142 +667,6 @@
 			};
 			name = Release;
 		};
-		A30FC28D2F05782500E5AEC6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "LastFastWatch Watch App/LastFastWatch Watch App.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"LastFastWatch Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = C7F3D3W6BZ;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Last Fast";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.stringer.lastfast;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 11.2;
-			};
-			name = Debug;
-		};
-		A30FC28E2F05782500E5AEC6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "LastFastWatch Watch App/LastFastWatch Watch App.entitlements";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"LastFastWatch Watch App/Preview Content\"";
-				DEVELOPMENT_TEAM = C7F3D3W6BZ;
-				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Last Fast";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = dev.stringer.lastfast;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 11.2;
-			};
-			name = Release;
-		};
-		A30FC2912F05782600E5AEC6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.tests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LastFastWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LastFastWatch Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 11.2;
-			};
-			name = Debug;
-		};
-		A30FC2922F05782600E5AEC6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.tests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LastFastWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LastFastWatch Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 11.2;
-			};
-			name = Release;
-		};
-		A30FC2942F05782600E5AEC6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.uitests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				TEST_TARGET_NAME = "LastFastWatch Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 11.2;
-			};
-			name = Debug;
-		};
-		A30FC2952F05782600E5AEC6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.uitests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				TEST_TARGET_NAME = "LastFastWatch Watch App";
-				WATCHOS_DEPLOYMENT_TARGET = 11.2;
-			};
-			name = Release;
-		};
 		A3A7C2A12F059978004E371E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1174,68 +723,6 @@
 			};
 			name = Release;
 		};
-		A3A7C2B82F05B95B004E371E /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = LastFastWatchWidgetExtension.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = C7F3D3W6BZ;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LastFastWatchWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LastFastWatchWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-					"@executable_path/../../../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.widget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 11.2;
-			};
-			name = Debug;
-		};
-		A3A7C2B92F05B95B004E371E /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
-				CODE_SIGN_ENTITLEMENTS = LastFastWatchWidgetExtension.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = C7F3D3W6BZ;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = LastFastWatchWidget/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = LastFastWatchWidget;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-					"@executable_path/../../../../Frameworks",
-				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.watchkitapp.widget;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = watchos;
-				SKIP_INSTALL = YES;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 11.2;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1275,47 +762,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A30FC28C2F05782500E5AEC6 /* Build configuration list for PBXNativeTarget "LastFastWatch Watch App" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A30FC28D2F05782500E5AEC6 /* Debug */,
-				A30FC28E2F05782500E5AEC6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A30FC2902F05782600E5AEC6 /* Build configuration list for PBXNativeTarget "LastFastWatch Watch AppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A30FC2912F05782600E5AEC6 /* Debug */,
-				A30FC2922F05782600E5AEC6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A30FC2932F05782600E5AEC6 /* Build configuration list for PBXNativeTarget "LastFastWatch Watch AppUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A30FC2942F05782600E5AEC6 /* Debug */,
-				A30FC2952F05782600E5AEC6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		A3A7C2A02F059978004E371E /* Build configuration list for PBXNativeTarget "LastFastWidgetExtension" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A3A7C2A12F059978004E371E /* Debug */,
 				A3A7C2A22F059978004E371E /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A3A7C2B72F05B95B004E371E /* Build configuration list for PBXNativeTarget "LastFastWatchWidgetExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A3A7C2B82F05B95B004E371E /* Debug */,
-				A3A7C2B92F05B95B004E371E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
