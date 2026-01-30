@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "BA781FDA-32A8-4112-B359-C9FEC36795C6",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:LastFast.xcodeproj",
+        "identifier" : "A34773102F2D6CAB00AA9686",
+        "name" : "LastFastUnitTests"
+      }
+    }
+  ],
+  "version" : 1
+}
