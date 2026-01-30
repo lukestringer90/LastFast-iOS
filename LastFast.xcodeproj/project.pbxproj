@@ -80,7 +80,7 @@
 		A3A7C2A62F059A03004E371E /* Exceptions for "LastFast" folder in "LastFastWidgetExtension" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
-				Shared/FastingSession.swift,
+				Shared/Models/FastingSession.swift,
 			);
 			target = A3A7C2892F059975004E371E /* LastFastWidgetExtension */;
 		};
@@ -93,11 +93,6 @@
 				A3A7C2A62F059A03004E371E /* Exceptions for "LastFast" folder in "LastFastWidgetExtension" target */,
 			);
 			path = LastFast;
-			sourceTree = "<group>";
-		};
-		A30FC24A2F0577D400E5AEC6 /* LastFastTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = LastFastTests;
 			sourceTree = "<group>";
 		};
 		A34773122F2D6CAB00AA9686 /* LastFastUnitTests */ = {
@@ -114,11 +109,6 @@
 				A3A7C29F2F059978004E371E /* Exceptions for "LastFastWidget" folder in "LastFastWidgetExtension" target */,
 			);
 			path = LastFastWidget;
-			sourceTree = "<group>";
-		};
-		A3A7C2AE2F05B95A004E371E /* LastFastWatchWidget */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = LastFastWatchWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -155,9 +145,7 @@
 			children = (
 				A3A7C2A42F0599DE004E371E /* LastFastWidgetExtension.entitlements */,
 				A30FC2372F0577D200E5AEC6 /* LastFast */,
-				A30FC24A2F0577D400E5AEC6 /* LastFastTests */,
 				A3A7C2902F059976004E371E /* LastFastWidget */,
-				A3A7C2AE2F05B95A004E371E /* LastFastWatchWidget */,
 				A34773122F2D6CAB00AA9686 /* LastFastUnitTests */,
 				A3A7C28B2F059975004E371E /* Frameworks */,
 				A30FC2362F0577D200E5AEC6 /* Products */,
