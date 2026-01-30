@@ -20,13 +20,6 @@
 			remoteGlobalIDString = A30FC2342F0577D200E5AEC6;
 			remoteInfo = LastFast;
 		};
-		A30FC2522F0577D400E5AEC6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = A30FC22D2F0577D200E5AEC6 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = A30FC2342F0577D200E5AEC6;
-			remoteInfo = LastFast;
-		};
 		A3A7C29C2F059978004E371E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = A30FC22D2F0577D200E5AEC6 /* Project object */;
@@ -63,7 +56,6 @@
 /* Begin PBXFileReference section */
 		A30FC2352F0577D200E5AEC6 /* LastFast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LastFast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A30FC2472F0577D400E5AEC6 /* LastFastTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastFastTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A30FC2512F0577D400E5AEC6 /* LastFastUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastFastUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3A7C28A2F059975004E371E /* LastFastWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LastFastWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3A7C28C2F059975004E371E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A3A7C28E2F059976004E371E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -101,11 +93,6 @@
 			path = LastFastTests;
 			sourceTree = "<group>";
 		};
-		A30FC2542F0577D400E5AEC6 /* LastFastUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = LastFastUITests;
-			sourceTree = "<group>";
-		};
 		A3A7C2902F059976004E371E /* LastFastWidget */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -136,13 +123,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A30FC24E2F0577D400E5AEC6 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A3A7C2872F059975004E371E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -161,7 +141,6 @@
 				A3A7C2A42F0599DE004E371E /* LastFastWidgetExtension.entitlements */,
 				A30FC2372F0577D200E5AEC6 /* LastFast */,
 				A30FC24A2F0577D400E5AEC6 /* LastFastTests */,
-				A30FC2542F0577D400E5AEC6 /* LastFastUITests */,
 				A3A7C2902F059976004E371E /* LastFastWidget */,
 				A3A7C2AE2F05B95A004E371E /* LastFastWatchWidget */,
 				A3A7C28B2F059975004E371E /* Frameworks */,
@@ -174,7 +153,6 @@
 			children = (
 				A30FC2352F0577D200E5AEC6 /* LastFast.app */,
 				A30FC2472F0577D400E5AEC6 /* LastFastTests.xctest */,
-				A30FC2512F0577D400E5AEC6 /* LastFastUITests.xctest */,
 				A3A7C28A2F059975004E371E /* LastFastWidgetExtension.appex */,
 			);
 			name = Products;
@@ -240,29 +218,6 @@
 			productReference = A30FC2472F0577D400E5AEC6 /* LastFastTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		A30FC2502F0577D400E5AEC6 /* LastFastUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = A30FC2612F0577D400E5AEC6 /* Build configuration list for PBXNativeTarget "LastFastUITests" */;
-			buildPhases = (
-				A30FC24D2F0577D400E5AEC6 /* Sources */,
-				A30FC24E2F0577D400E5AEC6 /* Frameworks */,
-				A30FC24F2F0577D400E5AEC6 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				A30FC2532F0577D400E5AEC6 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				A30FC2542F0577D400E5AEC6 /* LastFastUITests */,
-			);
-			name = LastFastUITests;
-			packageProductDependencies = (
-			);
-			productName = LastFastUITests;
-			productReference = A30FC2512F0577D400E5AEC6 /* LastFastUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		A3A7C2892F059975004E371E /* LastFastWidgetExtension */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = A3A7C2A02F059978004E371E /* Build configuration list for PBXNativeTarget "LastFastWidgetExtension" */;
@@ -302,10 +257,6 @@
 						CreatedOnToolsVersion = 16.2;
 						TestTargetID = A30FC2342F0577D200E5AEC6;
 					};
-					A30FC2502F0577D400E5AEC6 = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = A30FC2342F0577D200E5AEC6;
-					};
 					A3A7C2892F059975004E371E = {
 						CreatedOnToolsVersion = 16.2;
 					};
@@ -328,7 +279,6 @@
 				A30FC2342F0577D200E5AEC6 /* LastFast */,
 				A3A7C2892F059975004E371E /* LastFastWidgetExtension */,
 				A30FC2462F0577D400E5AEC6 /* LastFastTests */,
-				A30FC2502F0577D400E5AEC6 /* LastFastUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -342,13 +292,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A30FC2452F0577D400E5AEC6 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		A30FC24F2F0577D400E5AEC6 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -379,13 +322,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A30FC24D2F0577D400E5AEC6 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		A3A7C2862F059975004E371E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -400,11 +336,6 @@
 			isa = PBXTargetDependency;
 			target = A30FC2342F0577D200E5AEC6 /* LastFast */;
 			targetProxy = A30FC2482F0577D400E5AEC6 /* PBXContainerItemProxy */;
-		};
-		A30FC2532F0577D400E5AEC6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = A30FC2342F0577D200E5AEC6 /* LastFast */;
-			targetProxy = A30FC2522F0577D400E5AEC6 /* PBXContainerItemProxy */;
 		};
 		A3A7C29D2F059978004E371E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -635,38 +566,6 @@
 			};
 			name = Release;
 		};
-		A30FC2622F0577D400E5AEC6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.uitests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = LastFast;
-			};
-			name = Debug;
-		};
-		A30FC2632F0577D400E5AEC6 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = dev.stringer.lastfast.uitests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = LastFast;
-			};
-			name = Release;
-		};
 		A3A7C2A12F059978004E371E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -749,15 +648,6 @@
 			buildConfigurations = (
 				A30FC25F2F0577D400E5AEC6 /* Debug */,
 				A30FC2602F0577D400E5AEC6 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		A30FC2612F0577D400E5AEC6 /* Build configuration list for PBXNativeTarget "LastFastUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				A30FC2622F0577D400E5AEC6 /* Debug */,
-				A30FC2632F0577D400E5AEC6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
