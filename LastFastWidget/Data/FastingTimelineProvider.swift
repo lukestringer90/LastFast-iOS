@@ -53,6 +53,7 @@ struct FastingTimelineProvider: TimelineProvider {
                     isActive: data.isActive,
                     startTime: data.startTime,
                     goalMinutes: data.goalMinutes,
+                    savedGoalMinutes: data.savedGoalMinutes,
                     lastFastDuration: data.lastFastDuration,
                     lastFastGoalMet: data.lastFastGoalMet,
                     lastFastStartTime: data.lastFastStartTime,
@@ -61,7 +62,7 @@ struct FastingTimelineProvider: TimelineProvider {
                 )
                 entries.append(entry)
             }
-            
+
             let refreshDate = currentDate.addingTimeInterval(60 * 60)
             let timeline = Timeline(entries: entries, policy: .after(refreshDate))
             completion(timeline)
@@ -71,6 +72,7 @@ struct FastingTimelineProvider: TimelineProvider {
                 isActive: data.isActive,
                 startTime: data.startTime,
                 goalMinutes: data.goalMinutes,
+                savedGoalMinutes: data.savedGoalMinutes,
                 lastFastDuration: data.lastFastDuration,
                 lastFastGoalMet: data.lastFastGoalMet,
                 lastFastStartTime: data.lastFastStartTime,
@@ -78,7 +80,7 @@ struct FastingTimelineProvider: TimelineProvider {
                 recentFasts: data.recentFasts
             )
             entries.append(entry)
-            
+
             let refreshDate = currentDate.addingTimeInterval(15 * 60)
             let timeline = Timeline(entries: entries, policy: .after(refreshDate))
             completion(timeline)
@@ -92,6 +94,7 @@ struct FastingTimelineProvider: TimelineProvider {
             isActive: data.isActive,
             startTime: data.startTime,
             goalMinutes: data.goalMinutes,
+            savedGoalMinutes: data.savedGoalMinutes,
             lastFastDuration: data.lastFastDuration,
             lastFastGoalMet: data.lastFastGoalMet,
             lastFastStartTime: data.lastFastStartTime,
@@ -104,6 +107,7 @@ struct FastingTimelineProvider: TimelineProvider {
         let isActive: Bool
         let startTime: Date?
         let goalMinutes: Int?
+        let savedGoalMinutes: Int
         let lastFastDuration: TimeInterval?
         let lastFastGoalMet: Bool?
         let lastFastStartTime: Date?
@@ -112,6 +116,10 @@ struct FastingTimelineProvider: TimelineProvider {
     }
     
     private func fetchFastingData() -> FastingData {
+        let defaults = UserDefaults(suiteName: "group.dev.stringer.lastfast.shared")
+        let savedGoal = defaults?.integer(forKey: "fastingGoalMinutes") ?? 720
+        let savedGoalMinutes = savedGoal > 0 ? savedGoal : 720
+
         do {
             let schema = Schema([FastingSession.self])
             let modelConfiguration = ModelConfiguration(
@@ -121,22 +129,23 @@ struct FastingTimelineProvider: TimelineProvider {
             )
             let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
             let context = ModelContext(container)
-            
+
             let descriptor = FetchDescriptor<FastingSession>(
                 sortBy: [SortDescriptor(\.startTime, order: .reverse)]
             )
             let sessions = try context.fetch(descriptor)
-            
+
             let activeFast = sessions.first { $0.isActive }
             let lastCompletedFast = sessions.first { !$0.isActive }
-            
+
             // Get last 5 completed fasts
             let recentFasts = getRecentFasts(from: sessions)
-            
+
             return FastingData(
                 isActive: activeFast != nil,
                 startTime: activeFast?.startTime,
                 goalMinutes: activeFast?.goalMinutes,
+                savedGoalMinutes: savedGoalMinutes,
                 lastFastDuration: lastCompletedFast?.duration,
                 lastFastGoalMet: lastCompletedFast?.goalMet,
                 lastFastStartTime: lastCompletedFast?.startTime,
@@ -148,6 +157,7 @@ struct FastingTimelineProvider: TimelineProvider {
                 isActive: false,
                 startTime: nil,
                 goalMinutes: nil,
+                savedGoalMinutes: savedGoalMinutes,
                 lastFastDuration: nil,
                 lastFastGoalMet: nil,
                 lastFastStartTime: nil,

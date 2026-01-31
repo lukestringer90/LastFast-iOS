@@ -20,19 +20,21 @@ struct FastingEntry: TimelineEntry {
     let isActive: Bool
     let startTime: Date?
     let goalMinutes: Int?
+    let savedGoalMinutes: Int
     let lastFastDuration: TimeInterval?
     let lastFastGoalMet: Bool?
     let lastFastStartTime: Date?
     let lastFastEndTime: Date?
-    
+
     /// Last 5 completed fasts for the graph
     let recentFasts: [FastHistoryData]
-    
+
     init(
         date: Date,
         isActive: Bool,
         startTime: Date?,
         goalMinutes: Int?,
+        savedGoalMinutes: Int = 720,
         lastFastDuration: TimeInterval?,
         lastFastGoalMet: Bool?,
         lastFastStartTime: Date?,
@@ -43,6 +45,7 @@ struct FastingEntry: TimelineEntry {
         self.isActive = isActive
         self.startTime = startTime
         self.goalMinutes = goalMinutes
+        self.savedGoalMinutes = savedGoalMinutes
         self.lastFastDuration = lastFastDuration
         self.lastFastGoalMet = lastFastGoalMet
         self.lastFastStartTime = lastFastStartTime
