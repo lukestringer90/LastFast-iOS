@@ -81,6 +81,7 @@ struct FastingView: View {
                             progress: progress,
                             startTime: fast.startTime,
                             endTime: endTime,
+                            goalMinutes: fast.goalMinutes,
                             onStopFast: { showingStopConfirmation = true },
                             onShowHistory: { showingHistory = true },
                             onCelebrate: goalMet ? { confettiInstances.append(UUID()) } : nil
@@ -272,6 +273,7 @@ struct FastingView: View {
         progress: 0.45,
         startTime: Date().addingTimeInterval(-3.5 * 3600),
         endTime: Date().addingTimeInterval(8.5 * 3600),
+        goalMinutes: 16 * 60,
         onStopFast: {},
         onShowHistory: {}
     )
@@ -287,6 +289,7 @@ struct FastingView: View {
         progress: 1.0,
         startTime: Date().addingTimeInterval(-16.1 * 3600),
         endTime: nil,
+        goalMinutes: 16 * 60,
         onStopFast: {},
         onShowHistory: {}
     )

@@ -16,6 +16,7 @@ struct ActiveFastingView: View {
     let progress: Double
     let startTime: Date?
     let endTime: Date?
+    let goalMinutes: Int?
     var onStopFast: () -> Void
     var onShowHistory: () -> Void
     var onCelebrate: (() -> Void)? = nil
@@ -33,6 +34,7 @@ struct ActiveFastingView: View {
                 progress: progress,
                 startTime: startTime,
                 endTime: endTime,
+                goalMinutes: goalMinutes,
                 onElapsedTimeTapped: onCelebrate
             )
             .transition(.opacity.combined(with: .scale(scale: 0.8)))
@@ -60,6 +62,7 @@ struct ActiveFastingView: View {
         progress: 0.45,
         startTime: Date().addingTimeInterval(-3.5 * 3600),
         endTime: Date().addingTimeInterval(8.5 * 3600),
+        goalMinutes: 16 * 60,
         onStopFast: {},
         onShowHistory: {}
     )
@@ -75,6 +78,7 @@ struct ActiveFastingView: View {
         progress: 0.45,
         startTime: Date().addingTimeInterval(-3.5 * 3600),
         endTime: Date().addingTimeInterval(8.5 * 3600),
+        goalMinutes: 16 * 60,
         onStopFast: {},
         onShowHistory: {}
     )
@@ -91,6 +95,7 @@ struct ActiveFastingView: View {
         progress: 1.0,
         startTime: Date().addingTimeInterval(-16.1 * 3600),
         endTime: nil,
+        goalMinutes: 16 * 60,
         onStopFast: {},
         onShowHistory: {}
     )
@@ -106,6 +111,7 @@ struct ActiveFastingView: View {
         progress: 1.0,
         startTime: Date().addingTimeInterval(-16.1 * 3600),
         endTime: nil,
+        goalMinutes: 16 * 60,
         onStopFast: {},
         onShowHistory: {}
     )

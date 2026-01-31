@@ -18,6 +18,7 @@ struct TimerDisplayView: View {
     let progress: Double
     let startTime: Date?
     let endTime: Date?
+    let goalMinutes: Int?
     var onElapsedTimeTapped: (() -> Void)? = nil
 
     private var ringColor: Color {
@@ -43,7 +44,8 @@ struct TimerDisplayView: View {
             }
 
             // Time display and info label in center
-            VStack(spacing: 4) {
+            VStack(spacing: 8) {
+                headerLabel
                 timeDisplay
                 infoLabel
             }
@@ -54,16 +56,29 @@ struct TimerDisplayView: View {
         .padding(.horizontal, 16)
     }
 
+    // MARK: - Header Label
+
+    @ViewBuilder
+    private var headerLabel: some View {
+        if goalMet {
+            Text("GOAL MET")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(.green.opacity(0.8))
+        } else {
+            Text("FAST UNTIL")
+                .font(.system(size: 16, weight: .semibold))
+                .foregroundStyle(.secondary)
+        }
+    }
+
     // MARK: - Time Display
 
     @ViewBuilder
     private var timeDisplay: some View {
         if goalMet {
             elapsedTimeDisplay
-        } else if hours > 0 {
-            hoursAndMinutesDisplay
         } else {
-            minutesOnlyDisplay
+            endTimeDisplay
         }
     }
 
@@ -94,38 +109,17 @@ struct TimerDisplayView: View {
         }
     }
 
-    private var hoursAndMinutesDisplay: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 4) {
-            Text("\(hours)")
-                .font(.system(size: 96, weight: .bold, design: .rounded))
-                .foregroundStyle(.orange)
-
-            Text("h")
-                .font(.system(size: 36, weight: .medium, design: .rounded))
-                .foregroundStyle(.orange.opacity(0.7))
-
-            Text("\(minutes)")
-                .font(.system(size: 96, weight: .bold, design: .rounded))
-                .foregroundStyle(.orange)
-
-            Text("m")
-                .font(.system(size: 36, weight: .medium, design: .rounded))
-                .foregroundStyle(.orange.opacity(0.7))
-        }
-        .monospacedDigit()
-        .minimumScaleFactor(0.5)
-        .lineLimit(1)
-    }
-
-    private var minutesOnlyDisplay: some View {
-        HStack(alignment: .firstTextBaseline, spacing: 4) {
-            Text("\(minutes)")
-                .font(.system(size: 96, weight: .bold, design: .rounded))
-                .foregroundStyle(.orange)
-
-            Text("m")
-                .font(.system(size: 36, weight: .medium, design: .rounded))
-                .foregroundStyle(.orange.opacity(0.7))
+    private var endTimeDisplay: some View {
+        Group {
+            if let end = endTime {
+                Text(formatTime(end))
+                    .font(.system(size: 96, weight: .bold, design: .rounded))
+                    .foregroundStyle(.orange)
+            } else {
+                Text("--:--")
+                    .font(.system(size: 96, weight: .bold, design: .rounded))
+                    .foregroundStyle(.orange)
+            }
         }
         .monospacedDigit()
         .minimumScaleFactor(0.5)
@@ -134,6 +128,7 @@ struct TimerDisplayView: View {
 
     // MARK: - Info Label
 
+    @ViewBuilder
     private var infoLabel: some View {
         Group {
             if goalMet {
@@ -143,10 +138,10 @@ struct TimerDisplayView: View {
                     Text("Started: --:--")
                 }
             } else {
-                if let end = endTime {
-                    Text("Ends: \(formatTime(end))")
+                if let goal = goalMinutes {
+                    Text("Goal: \(goal / 60)h\(goal % 60 > 0 ? " \(goal % 60)m" : "")")
                 } else {
-                    Text("Ends: --:--")
+                    Text("")
                 }
             }
         }
@@ -174,7 +169,8 @@ struct TimerDisplayView: View {
         elapsedMins: 30,
         progress: 0.47,
         startTime: Date().addingTimeInterval(-7.5 * 3600),
-        endTime: Date().addingTimeInterval(8.5 * 3600)
+        endTime: Date().addingTimeInterval(8.5 * 3600),
+        goalMinutes: 16 * 60
     )
 }
 
@@ -187,6 +183,7 @@ struct TimerDisplayView: View {
         elapsedMins: 5,
         progress: 1.0,
         startTime: Date().addingTimeInterval(-16.1 * 3600),
-        endTime: nil
+        endTime: nil,
+        goalMinutes: 16 * 60
     )
 }
