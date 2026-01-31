@@ -61,9 +61,9 @@ struct TimerDisplayView: View {
     @ViewBuilder
     private var headerLabel: some View {
         if goalMet {
-            Text("GOAL MET")
+            Text("YOU'VE FASTED FOR")
                 .font(.system(size: 16, weight: .semibold))
-                .foregroundStyle(.green.opacity(0.8))
+                .foregroundStyle(.secondary)
         } else {
             Text("FAST UNTIL")
                 .font(.system(size: 16, weight: .semibold))
@@ -130,24 +130,25 @@ struct TimerDisplayView: View {
 
     @ViewBuilder
     private var infoLabel: some View {
-        Group {
-            if goalMet {
-                if let start = startTime {
-                    Text("Started: \(formatTime(start))")
-                } else {
-                    Text("Started: --:--")
-                }
-            } else {
-                if let goal = goalMinutes {
+        if goalMet {
+            if let goal = goalMinutes {
+                HStack(spacing: 6) {
                     Text("Goal: \(goal / 60)h\(goal % 60 > 0 ? " \(goal % 60)m" : "")")
-                } else {
-                    Text("")
+                    Image(systemName: "checkmark")
+                        .fontWeight(.bold)
                 }
+                .font(.title3)
+                .fontWeight(.medium)
+                .foregroundStyle(.green)
+            }
+        } else {
+            if let goal = goalMinutes {
+                Text("Goal: \(goal / 60)h\(goal % 60 > 0 ? " \(goal % 60)m" : "")")
+                    .font(.title3)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.orange.opacity(0.8))
             }
         }
-        .font(.title3)
-        .fontWeight(.medium)
-        .foregroundStyle(goalMet ? .green.opacity(0.8) : .orange.opacity(0.8))
     }
 
     private func formatTime(_ date: Date) -> String {
