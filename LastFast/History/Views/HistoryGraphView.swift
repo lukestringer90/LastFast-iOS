@@ -54,7 +54,7 @@ struct HistoryGraphView: View {
     }
 
     private var chartSessions: [FastingSession] {
-        Array(sessions.reversed().suffix(5))
+        Array(sessions.reversed())
     }
 }
 

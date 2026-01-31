@@ -11,6 +11,9 @@ struct HistoryBarChart: View {
     let sessions: [FastingSession]
     @Binding var selectedSession: FastingSession?
 
+    private let barWidth: CGFloat = 56
+    private let barSpacing: CGFloat = 8
+
     private var maxDuration: TimeInterval {
         let maxFasted = sessions.max(by: { $0.duration < $1.duration })?.duration ?? 3600
         let maxGoal = sessions.compactMap { $0.goalMinutes }.max().map { TimeInterval($0 * 60) } ?? 0
@@ -18,12 +21,11 @@ struct HistoryBarChart: View {
     }
 
     var body: some View {
-        GeometryReader { geometry in
-            let barWidth = max(40, (geometry.size.width - CGFloat(sessions.count - 1) * 8 - 32) / CGFloat(max(sessions.count, 1)))
-            let durationLabelHeight: CGFloat = 20
-            let dateLabelHeight: CGFloat = 20
-            let barAreaHeight: CGFloat = 160
+        let durationLabelHeight: CGFloat = 20
+        let dateLabelHeight: CGFloat = 20
+        let barAreaHeight: CGFloat = 160
 
+        ScrollView(.horizontal, showsIndicators: false) {
             VStack(spacing: 0) {
                 durationLabelsRow(barWidth: barWidth, height: durationLabelHeight)
                 barsAndGoalLine(barWidth: barWidth, barAreaHeight: barAreaHeight)
@@ -33,6 +35,7 @@ struct HistoryBarChart: View {
             }
             .padding(.horizontal, 16)
         }
+        .defaultScrollAnchor(.trailing)
         .frame(height: 240)
         .padding(.vertical, 16)
         .background(
@@ -44,7 +47,7 @@ struct HistoryBarChart: View {
     // MARK: - Subviews
 
     private func durationLabelsRow(barWidth: CGFloat, height: CGFloat) -> some View {
-        HStack(alignment: .bottom, spacing: 8) {
+        LazyHStack(alignment: .bottom, spacing: barSpacing) {
             ForEach(sessions) { session in
                 Text(formatShortDuration(session.duration))
                     .font(.system(size: 12, weight: .semibold))
@@ -59,25 +62,16 @@ struct HistoryBarChart: View {
 
     private func barsAndGoalLine(barWidth: CGFloat, barAreaHeight: CGFloat) -> some View {
         ZStack(alignment: .bottom) {
-            barsRow(barWidth: barWidth, barAreaHeight: barAreaHeight)
-            goalLine(barWidth: barWidth, barAreaHeight: barAreaHeight)
-            goalDots(barWidth: barWidth, barAreaHeight: barAreaHeight)
-        }
-    }
-
-    private func barsRow(barWidth: CGFloat, barAreaHeight: CGFloat) -> some View {
-        HStack(alignment: .bottom, spacing: 8) {
-            ForEach(sessions) { session in
-                let barHeight = maxDuration > 0 ? max(4, CGFloat(session.duration / maxDuration) * barAreaHeight) : 4
-                let isSelected = selectedSession?.id == session.id
-
-                RoundedRectangle(cornerRadius: 6)
-                    .fill(barColor(for: session, isSelected: isSelected))
-                    .frame(width: barWidth, height: barHeight)
-                    .onTapGesture {
-                        toggleSelection(session)
-                    }
+            // Lazy bars with goal dots
+            LazyHStack(alignment: .bottom, spacing: barSpacing) {
+                ForEach(sessions) { session in
+                    barColumn(session: session, barWidth: barWidth, barAreaHeight: barAreaHeight)
+                }
             }
+
+            // Goal line overlay (lightweight Path, not lazy but very efficient)
+            goalLine(barWidth: barWidth, barAreaHeight: barAreaHeight)
+                .allowsHitTesting(false)
         }
     }
 
@@ -85,7 +79,7 @@ struct HistoryBarChart: View {
         Path { path in
             let points = sessions.enumerated().compactMap { index, session -> CGPoint? in
                 guard let goalMinutes = session.goalMinutes, maxDuration > 0 else { return nil }
-                let x = CGFloat(index) * (barWidth + 8) + barWidth / 2
+                let x = CGFloat(index) * (barWidth + barSpacing) + barWidth / 2
                 let goalHeight = CGFloat(TimeInterval(goalMinutes * 60) / maxDuration) * barAreaHeight
                 let y = barAreaHeight - goalHeight
                 return CGPoint(x: x, y: y)
@@ -101,23 +95,37 @@ struct HistoryBarChart: View {
         .stroke(Color.primary, style: StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
     }
 
-    private func goalDots(barWidth: CGFloat, barAreaHeight: CGFloat) -> some View {
-        ForEach(Array(sessions.enumerated()), id: \.element.id) { index, session in
-            if let goalMinutes = session.goalMinutes, maxDuration > 0 {
-                let x = CGFloat(index) * (barWidth + 8) + barWidth / 2
-                let goalHeight = CGFloat(TimeInterval(goalMinutes * 60) / maxDuration) * barAreaHeight
-                let y = barAreaHeight - goalHeight
+    private func barColumn(session: FastingSession, barWidth: CGFloat, barAreaHeight: CGFloat) -> some View {
+        let barHeight = maxDuration > 0 ? max(4, CGFloat(session.duration / maxDuration) * barAreaHeight) : 4
+        let isSelected = selectedSession?.id == session.id
+        let goalHeight: CGFloat? = {
+            guard let goalMinutes = session.goalMinutes, maxDuration > 0 else { return nil }
+            return CGFloat(TimeInterval(goalMinutes * 60) / maxDuration) * barAreaHeight
+        }()
 
+        return ZStack(alignment: .bottom) {
+            // Bar
+            RoundedRectangle(cornerRadius: 6)
+                .fill(barColor(for: session, isSelected: isSelected))
+                .frame(width: barWidth, height: barHeight)
+
+            // Goal dot positioned within the column
+            if let goalHeight = goalHeight {
                 Circle()
                     .fill(Color.primary)
                     .frame(width: 6, height: 6)
-                    .position(x: x, y: y)
+                    .offset(y: -(goalHeight - 3))
             }
+        }
+        .frame(width: barWidth, height: barAreaHeight, alignment: .bottom)
+        .id(session.id)
+        .onTapGesture {
+            toggleSelection(session)
         }
     }
 
     private func dateLabelsRow(barWidth: CGFloat, height: CGFloat) -> some View {
-        HStack(alignment: .top, spacing: 8) {
+        LazyHStack(alignment: .top, spacing: barSpacing) {
             ForEach(sessions) { session in
                 Text(formatChartDate(session.startTime))
                     .font(.system(size: 10))
