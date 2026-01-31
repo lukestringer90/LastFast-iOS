@@ -417,3 +417,29 @@ struct LockScreenRectangularCombinedCenterView: View {
 } timeline: {
     FastingEntry(date: Date(), isActive: true, startTime: Date().addingTimeInterval(-18 * 3600 - 30 * 60), goalMinutes: 16 * 60, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
 }
+
+// MARK: Inactive State Previews
+
+#Preview("Circular - Inactive", as: .accessoryCircular) {
+    LastFastWidget()
+} timeline: {
+    FastingEntry(date: Date(), isActive: false, startTime: nil, goalMinutes: nil, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
+}
+
+#Preview("Rect Left - Inactive", as: .accessoryRectangular) {
+    RectangularCombinedWidget()
+} timeline: {
+    FastingEntry(date: Date(), isActive: false, startTime: nil, goalMinutes: nil, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
+}
+
+#Preview("Rect Right - Inactive", as: .accessoryRectangular) {
+    RectangularCombinedRightWidget()
+} timeline: {
+    FastingEntry(date: Date(), isActive: false, startTime: nil, goalMinutes: nil, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
+}
+
+#Preview("Rect Center - Inactive", as: .accessoryRectangular) {
+    RectangularCombinedCenterWidget()
+} timeline: {
+    FastingEntry(date: Date(), isActive: false, startTime: nil, goalMinutes: nil, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
+}

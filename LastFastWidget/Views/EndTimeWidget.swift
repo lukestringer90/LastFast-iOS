@@ -209,7 +209,7 @@ struct SmallEndTimeWidgetView: View {
 
 struct EndTimeWidget: Widget {
     let kind: String = "EndTimeWidget"
-    
+
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: FastingTimelineProvider()) { entry in
             SmallEndTimeWidgetView(entry: entry)
@@ -218,5 +218,97 @@ struct EndTimeWidget: Widget {
         .description("Shows when your fast will end.")
         .supportedFamilies([.systemSmall])
     }
+}
+
+// MARK: - Previews
+
+#Preview("Active - In Progress", as: .systemSmall) {
+    EndTimeWidget()
+} timeline: {
+    FastingEntry(
+        date: .now,
+        isActive: true,
+        startTime: Date.now.addingTimeInterval(-6 * 3600),
+        goalMinutes: 16 * 60,
+        lastFastDuration: nil,
+        lastFastGoalMet: nil,
+        lastFastStartTime: nil,
+        lastFastEndTime: nil
+    )
+}
+
+#Preview("Active - Almost Done", as: .systemSmall) {
+    EndTimeWidget()
+} timeline: {
+    FastingEntry(
+        date: .now,
+        isActive: true,
+        startTime: Date.now.addingTimeInterval(-15.5 * 3600),
+        goalMinutes: 16 * 60,
+        lastFastDuration: nil,
+        lastFastGoalMet: nil,
+        lastFastStartTime: nil,
+        lastFastEndTime: nil
+    )
+}
+
+#Preview("Active - Goal Met", as: .systemSmall) {
+    EndTimeWidget()
+} timeline: {
+    FastingEntry(
+        date: .now,
+        isActive: true,
+        startTime: Date.now.addingTimeInterval(-18 * 3600),
+        goalMinutes: 16 * 60,
+        lastFastDuration: nil,
+        lastFastGoalMet: nil,
+        lastFastStartTime: nil,
+        lastFastEndTime: nil
+    )
+}
+
+#Preview("Inactive - With History", as: .systemSmall) {
+    EndTimeWidget()
+} timeline: {
+    FastingEntry(
+        date: .now,
+        isActive: false,
+        startTime: nil,
+        goalMinutes: nil,
+        lastFastDuration: 16 * 3600,
+        lastFastGoalMet: true,
+        lastFastStartTime: Date.now.addingTimeInterval(-20 * 3600),
+        lastFastEndTime: Date.now.addingTimeInterval(-4 * 3600)
+    )
+}
+
+#Preview("Inactive - Goal Not Met", as: .systemSmall) {
+    EndTimeWidget()
+} timeline: {
+    FastingEntry(
+        date: .now,
+        isActive: false,
+        startTime: nil,
+        goalMinutes: nil,
+        lastFastDuration: 12 * 3600,
+        lastFastGoalMet: false,
+        lastFastStartTime: Date.now.addingTimeInterval(-16 * 3600),
+        lastFastEndTime: Date.now.addingTimeInterval(-4 * 3600)
+    )
+}
+
+#Preview("Inactive - No History", as: .systemSmall) {
+    EndTimeWidget()
+} timeline: {
+    FastingEntry(
+        date: .now,
+        isActive: false,
+        startTime: nil,
+        goalMinutes: nil,
+        lastFastDuration: nil,
+        lastFastGoalMet: nil,
+        lastFastStartTime: nil,
+        lastFastEndTime: nil
+    )
 }
 

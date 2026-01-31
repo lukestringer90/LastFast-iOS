@@ -60,7 +60,7 @@ struct SpacerWidget: Widget {
 
 struct RectangularSpacerWidget: Widget {
     let kind: String = "RectangularSpacerWidget"
-    
+
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: kind, provider: SpacerTimelineProvider()) { _ in
             SpacerWidgetView()
@@ -69,4 +69,18 @@ struct RectangularSpacerWidget: Widget {
         .description("A blank medium-width widget to use as a spacer on the Lock Screen.")
         .supportedFamilies([.accessoryRectangular])
     }
+}
+
+// MARK: - Previews
+
+#Preview("Circular Spacer", as: .accessoryCircular) {
+    SpacerWidget()
+} timeline: {
+    SpacerEntry(date: .now)
+}
+
+#Preview("Rectangular Spacer", as: .accessoryRectangular) {
+    RectangularSpacerWidget()
+} timeline: {
+    SpacerEntry(date: .now)
 }
