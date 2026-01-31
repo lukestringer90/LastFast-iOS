@@ -18,14 +18,16 @@ struct LastFastApp: App {
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([FastingSession.self])
-        let modelConfiguration = ModelConfiguration(
+
+        // CloudKit-enabled configuration for iCloud sync
+        let cloudConfiguration = ModelConfiguration(
             schema: schema,
             isStoredInMemoryOnly: false,
-            groupContainer: .identifier("group.dev.stringer.lastfast.shared")
+            cloudKitDatabase: .private("iCloud.dev.stringer.lastfast")
         )
-        
+
         do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
+            return try ModelContainer(for: schema, configurations: [cloudConfiguration])
         } catch {
             fatalError("Could not create ModelContainer: \(error)")
         }

@@ -125,7 +125,7 @@ struct FastingTimelineProvider: TimelineProvider {
             let modelConfiguration = ModelConfiguration(
                 schema: schema,
                 isStoredInMemoryOnly: false,
-                groupContainer: .identifier("group.dev.stringer.lastfast.shared")
+                cloudKitDatabase: .private("iCloud.dev.stringer.lastfast")
             )
             let container = try ModelContainer(for: schema, configurations: [modelConfiguration])
             let context = ModelContext(container)
