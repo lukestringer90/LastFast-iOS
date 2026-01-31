@@ -13,7 +13,7 @@ struct LastFastWidgetBundle: WidgetBundle {
     var body: some Widget {
         // Home Screen Widgets
         LastFastWidget()
-        EndTimeWidget()
+        SmallWidget()
 
         // Lock Screen Rectangular Widgets
         RectangularCombinedWidget()
