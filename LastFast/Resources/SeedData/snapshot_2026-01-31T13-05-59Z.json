@@ -1,0 +1,216 @@
+{
+  "exportDate" : "2026-01-31T13:05:59Z",
+  "sessions" : [
+    {
+      "endTime" : "2026-01-31T11:49:20Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "D317085A-C5D7-4392-94A6-B729395ACFB5",
+      "startTime" : "2026-01-31T11:48:11Z"
+    },
+    {
+      "endTime" : "2026-01-31T10:41:12Z",
+      "goalCelebrationShown" : true,
+      "goalMinutes" : 900,
+      "id" : "71E73A47-70FE-43B1-B742-4513EBF2DC93",
+      "startTime" : "2026-01-30T19:36:29Z"
+    },
+    {
+      "endTime" : "2026-01-30T10:44:17Z",
+      "goalCelebrationShown" : true,
+      "goalMinutes" : 960,
+      "id" : "B299D7D5-9CF2-4CAD-8098-1C2980CA2CFA",
+      "startTime" : "2026-01-29T18:31:19Z"
+    },
+    {
+      "endTime" : "2026-01-29T09:41:58Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 960,
+      "id" : "2557C966-FA7F-4EBA-8EC7-1790CFB81041",
+      "startTime" : "2026-01-28T18:10:40Z"
+    },
+    {
+      "endTime" : "2026-01-28T10:37:08Z",
+      "goalCelebrationShown" : true,
+      "goalMinutes" : 900,
+      "id" : "AF2EE3D4-44A8-460C-95C9-DF2D6E9BD82C",
+      "startTime" : "2026-01-27T19:25:59Z"
+    },
+    {
+      "endTime" : "2026-01-27T11:09:58Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "9CAFD0C5-B90B-45CD-8583-A3816184E4BE",
+      "startTime" : "2026-01-26T17:51:06Z"
+    },
+    {
+      "endTime" : "2026-01-26T10:16:00Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "3A9B5D5B-8B93-48FA-9F51-740940BF9667",
+      "startTime" : "2026-01-25T19:03:45Z"
+    },
+    {
+      "endTime" : "2026-01-25T11:40:12Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "B2143EF8-3E20-40CC-AF83-D37AC1D4041E",
+      "startTime" : "2026-01-24T18:17:48Z"
+    },
+    {
+      "endTime" : "2026-01-24T10:37:33Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "1741A9B3-A780-4ADD-822C-D78302FDE915",
+      "startTime" : "2026-01-23T18:46:14Z"
+    },
+    {
+      "endTime" : "2026-01-23T10:52:23Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "466ED617-A93A-468B-84E7-4A7BFE1FC9C0",
+      "startTime" : "2026-01-22T19:08:34Z"
+    },
+    {
+      "endTime" : "2026-01-22T10:16:29Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "94DD2C8B-53A6-42A5-AC0F-E0E73BA5543D",
+      "startTime" : "2026-01-21T19:01:32Z"
+    },
+    {
+      "endTime" : "2026-01-21T11:14:26Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "CAC7CFEB-3712-4B20-85AB-0811F80FCDE9",
+      "startTime" : "2026-01-20T18:23:44Z"
+    },
+    {
+      "endTime" : "2026-01-20T10:16:50Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "EBDA26BB-C767-401A-8CA1-DD841567E73C",
+      "startTime" : "2026-01-19T19:32:33Z"
+    },
+    {
+      "endTime" : "2026-01-19T11:08:56Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "DD4FE50E-8810-46A7-BA98-4C3034CDF8D2",
+      "startTime" : "2026-01-18T18:58:44Z"
+    },
+    {
+      "endTime" : "2026-01-18T11:00:40Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "490C741E-73C9-4DAE-BCA2-00AE8FE1445E",
+      "startTime" : "2026-01-17T18:59:46Z"
+    },
+    {
+      "endTime" : "2026-01-17T11:23:44Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "9B052F28-0F75-46DE-85F3-9A0DD5A971B9",
+      "startTime" : "2026-01-16T19:50:17Z"
+    },
+    {
+      "endTime" : "2026-01-16T10:18:15Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "B5E65418-6E94-4E6D-A930-AB050120E937",
+      "startTime" : "2026-01-15T18:25:03Z"
+    },
+    {
+      "endTime" : "2026-01-15T10:38:12Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "3D326586-B024-47D1-9F6E-263BDE6C2620",
+      "startTime" : "2026-01-14T18:31:09Z"
+    },
+    {
+      "endTime" : "2026-01-13T08:48:25Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "9D8D5F7B-C1E0-4244-8BCB-FC81B4616C28",
+      "startTime" : "2026-01-12T18:52:29Z"
+    },
+    {
+      "endTime" : "2026-01-12T12:20:58Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "321ABDAC-368A-49ED-B988-B84CEA2BD112",
+      "startTime" : "2026-01-11T18:39:59Z"
+    },
+    {
+      "endTime" : "2026-01-11T10:46:19Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "7F977735-3382-464F-8B0F-F214F53ADB29",
+      "startTime" : "2026-01-10T18:40:58Z"
+    },
+    {
+      "endTime" : "2026-01-10T10:04:27Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "A5AEEA4B-9D55-47B4-891E-BD29D36AAEF1",
+      "startTime" : "2026-01-09T18:38:22Z"
+    },
+    {
+      "endTime" : "2026-01-09T10:25:33Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "7DD8F29A-E947-4796-90E0-F1627FA2DD39",
+      "startTime" : "2026-01-08T19:25:19Z"
+    },
+    {
+      "endTime" : "2026-01-08T10:24:44Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "69BC9F17-190B-40FB-AD42-94B7A1A01C6A",
+      "startTime" : "2026-01-07T19:07:23Z"
+    },
+    {
+      "endTime" : "2026-01-07T09:56:08Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 881,
+      "id" : "8736B2D9-CE17-4888-B416-9BF7BE83DF8E",
+      "startTime" : "2026-01-06T18:34:12Z"
+    },
+    {
+      "endTime" : "2026-01-06T10:26:02Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "38867BA7-8EBF-491C-BB1F-25777E506EF7",
+      "startTime" : "2026-01-05T19:16:02Z"
+    },
+    {
+      "endTime" : "2026-01-05T10:08:57Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 840,
+      "id" : "C996A69F-75BD-423E-AE6F-64F871FBF2DF",
+      "startTime" : "2026-01-04T19:43:22Z"
+    },
+    {
+      "endTime" : "2026-01-04T11:56:05Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "5BA45866-7EDA-4D44-902F-6B551EE66AFB",
+      "startTime" : "2026-01-03T19:23:20Z"
+    },
+    {
+      "endTime" : "2026-01-03T11:45:11Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 900,
+      "id" : "56726D0A-F729-4F75-9606-138FD4A4B2A8",
+      "startTime" : "2026-01-02T19:06:46Z"
+    },
+    {
+      "endTime" : "2026-01-02T10:03:35Z",
+      "goalCelebrationShown" : false,
+      "goalMinutes" : 720,
+      "id" : "EAA94CA4-3705-4D17-8EDA-9CF7A4E4F6E2",
+      "startTime" : "2026-01-01T20:57:23Z"
+    }
+  ],
+  "version" : 1
+}

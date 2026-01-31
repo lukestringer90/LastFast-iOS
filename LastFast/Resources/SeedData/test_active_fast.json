@@ -1,0 +1,20 @@
+{
+  "version": 1,
+  "exportDate": "2024-01-31T12:00:00Z",
+  "sessions": [
+    {
+      "id": "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA",
+      "startTime": "2024-01-31T06:00:00Z",
+      "endTime": null,
+      "goalMinutes": 960,
+      "goalCelebrationShown": false
+    },
+    {
+      "id": "BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB",
+      "startTime": "2024-01-29T20:00:00Z",
+      "endTime": "2024-01-30T12:00:00Z",
+      "goalMinutes": 960,
+      "goalCelebrationShown": true
+    }
+  ]
+}

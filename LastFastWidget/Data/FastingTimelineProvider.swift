@@ -153,6 +153,7 @@ struct FastingTimelineProvider: TimelineProvider {
                 recentFasts: recentFasts
             )
         } catch {
+            print("Widget: Failed to fetch fasting data: \(error)")
             return FastingData(
                 isActive: false,
                 startTime: nil,

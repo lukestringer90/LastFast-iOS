@@ -158,6 +158,10 @@ struct FastingView: View {
     // MARK: - Actions
 
     private func handleAppear() {
+        #if DEBUG
+        DataSnapshotManager.shared.handleLaunchArguments(context: modelContext)
+        #endif
+
         startTimer()
         if liveActivityEnabled {
             LiveActivityManager.resumeIfNeeded(
