@@ -211,7 +211,7 @@ struct SmallEndTimeWidgetView: View {
 
     private var inactiveView: some View {
         VStack(spacing: 4) {
-            subtitleLabel("NEXT FAST")
+            subtitleLabel("FAST GOAL")
 
             // Goal length as primary text in blue
             timeDisplay(hours: savedGoalHours, minutes: savedGoalMins, color: .blue)
