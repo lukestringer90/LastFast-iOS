@@ -342,7 +342,7 @@ struct LockScreenRectangularCombinedCenterView: View {
                         .gaugeStyle(.accessoryCircularCapacity)
                         .frame(width: 40, height: 40)
 
-                        VStack(alignment: .leading, spacing: 2) {
+                        VStack(alignment: .center, spacing: 2) {
                             Text("UNTIL")
                                 .font(.system(size: 10, weight: .medium))
                                 .foregroundStyle(.secondary)
