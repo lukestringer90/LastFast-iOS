@@ -140,7 +140,7 @@ struct EditFastView: View {
     EditFastView(session: {
         let session = FastingSession(
             startTime: Date().addingTimeInterval(-57600),
-            goalMinutes: 720
+            goalMinutes: defaultFastingGoalMinutes
         )
         session.endTime = Date()
         return session

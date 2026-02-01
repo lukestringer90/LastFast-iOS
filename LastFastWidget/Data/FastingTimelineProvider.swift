@@ -117,8 +117,8 @@ struct FastingTimelineProvider: TimelineProvider {
     
     private func fetchFastingData() -> FastingData {
         let defaults = UserDefaults(suiteName: "group.dev.stringer.lastfast.shared")
-        let savedGoal = defaults?.integer(forKey: "fastingGoalMinutes") ?? 720
-        let savedGoalMinutes = savedGoal > 0 ? savedGoal : 720
+        let savedGoal = defaults?.integer(forKey: "fastingGoalMinutes") ?? defaultFastingGoalMinutes
+        let savedGoalMinutes = savedGoal > 0 ? savedGoal : defaultFastingGoalMinutes
 
         do {
             let schema = Schema([FastingSession.self])

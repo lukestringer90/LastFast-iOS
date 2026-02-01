@@ -103,7 +103,7 @@ struct LastFastButtonContent: View {
         LastFastButtonContent(lastFast: {
             let session = FastingSession(
                 startTime: Date().addingTimeInterval(-86400),
-                goalMinutes: 720
+                goalMinutes: defaultFastingGoalMinutes
             )
             session.endTime = Date().addingTimeInterval(-43200)
             return session

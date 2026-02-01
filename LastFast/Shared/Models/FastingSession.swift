@@ -11,8 +11,8 @@ import ActivityKit
 
 // MARK: - Constants
 
-/// Default fasting goal in minutes (12 hours)
-let defaultFastingGoalMinutes: Int = 720
+/// Default fasting goal in minutes (16 hours)
+let defaultFastingGoalMinutes: Int = 960
 
 /// App Storage key for fasting goal
 let fastingGoalStorageKey = "fastingGoalMinutes"

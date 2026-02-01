@@ -28,7 +28,7 @@ struct FastingView: View {
     @State private var goalNotificationSent = false
     @State private var confettiInstances: [UUID] = []
 
-    @AppStorage("fastingGoalMinutes") private var savedGoalMinutes: Int = 720
+    @AppStorage("fastingGoalMinutes") private var savedGoalMinutes: Int = defaultFastingGoalMinutes
 
     // MARK: - Computed Properties
 
@@ -262,7 +262,7 @@ struct FastingView: View {
 
 #Preview("Not Fasting") {
     NotFastingView(
-        savedGoalMinutes: 720,
+        savedGoalMinutes: defaultFastingGoalMinutes,
         lastFastDuration: 16.5 * 3600,
         onStartFast: {},
         onShowGoalPicker: {},

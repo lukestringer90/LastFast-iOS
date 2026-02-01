@@ -94,7 +94,7 @@ struct FastingHistoryRow: View {
         FastingHistoryRow(session: {
             let session = FastingSession(
                 startTime: Date().addingTimeInterval(-57600), // 16h ago
-                goalMinutes: 720 // 12h goal
+                goalMinutes: defaultFastingGoalMinutes
             )
             session.endTime = Date()
             return session
@@ -107,7 +107,7 @@ struct FastingHistoryRow: View {
         FastingHistoryRow(session: {
             let session = FastingSession(
                 startTime: Date().addingTimeInterval(-7200), // 2h ago
-                goalMinutes: 720 // 12h goal
+                goalMinutes: defaultFastingGoalMinutes
             )
             session.endTime = Date()
             return session

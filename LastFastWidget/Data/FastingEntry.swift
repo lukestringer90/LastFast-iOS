@@ -34,7 +34,7 @@ struct FastingEntry: TimelineEntry {
         isActive: Bool,
         startTime: Date?,
         goalMinutes: Int?,
-        savedGoalMinutes: Int = 720,
+        savedGoalMinutes: Int = defaultFastingGoalMinutes,
         lastFastDuration: TimeInterval?,
         lastFastGoalMet: Bool?,
         lastFastStartTime: Date?,

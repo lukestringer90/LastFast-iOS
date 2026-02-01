@@ -41,7 +41,7 @@ struct NotFastingView: View {
 
 #Preview("Light Mode") {
     NotFastingView(
-        savedGoalMinutes: 720,
+        savedGoalMinutes: defaultFastingGoalMinutes,
         lastFastDuration: 16.5 * 3600,
         onStartFast: {},
         onShowGoalPicker: {},
@@ -51,7 +51,7 @@ struct NotFastingView: View {
 
 #Preview("Dark Mode") {
     NotFastingView(
-        savedGoalMinutes: 720,
+        savedGoalMinutes: defaultFastingGoalMinutes,
         lastFastDuration: 16.5 * 3600,
         onStartFast: {},
         onShowGoalPicker: {},

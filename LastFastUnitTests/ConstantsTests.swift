@@ -10,14 +10,14 @@ import XCTest
 
 final class ConstantsTests: XCTestCase {
     
-    func testDefaultFastingGoalMinutes_Is12Hours() {
+    func testDefaultFastingGoalMinutes_Is16Hours() {
         // Given: The default constant
-        
+
         // When: Checking its value
         let defaultGoal = defaultFastingGoalMinutes
-        
-        // Then: Should be 720 minutes (12 hours)
-        XCTAssertEqual(defaultGoal, 720)
+
+        // Then: Should be 960 minutes (16 hours)
+        XCTAssertEqual(defaultGoal, 960)
     }
     
     func testFastingGoalStorageKey_HasCorrectValue() {

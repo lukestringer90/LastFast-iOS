@@ -103,7 +103,7 @@ private func previewContainer() -> ModelContainer {
     let container = try! ModelContainer(for: FastingSession.self, configurations: ModelConfiguration(isStoredInMemoryOnly: true))
     let context = container.mainContext
 
-    let session1 = FastingSession(startTime: Date().addingTimeInterval(-5 * 86400 - 57600), goalMinutes: 720)
+    let session1 = FastingSession(startTime: Date().addingTimeInterval(-5 * 86400 - 57600), goalMinutes: defaultFastingGoalMinutes)
     session1.endTime = Date().addingTimeInterval(-5 * 86400)
     context.insert(session1)
 
@@ -115,7 +115,7 @@ private func previewContainer() -> ModelContainer {
     session3.endTime = Date().addingTimeInterval(-3 * 86400)
     context.insert(session3)
 
-    let session4 = FastingSession(startTime: Date().addingTimeInterval(-2 * 86400 - 36000), goalMinutes: 720)
+    let session4 = FastingSession(startTime: Date().addingTimeInterval(-2 * 86400 - 36000), goalMinutes: defaultFastingGoalMinutes)
     session4.endTime = Date().addingTimeInterval(-2 * 86400)
     context.insert(session4)
 

@@ -31,6 +31,7 @@ struct GoalSetterView: View {
                 Text("FAST GOAL")
                     .font(.system(size: 16, weight: .semibold))
                     .foregroundColor(Color(.secondaryLabel))
+                    .accessibilityIdentifier("fastGoalLabel")
 
                 // Time display matching TimerDisplayView style
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
@@ -70,7 +71,7 @@ struct GoalSetterView: View {
 
 #Preview {
     GoalSetterView(
-        savedGoalMinutes: 720,
+        savedGoalMinutes: defaultFastingGoalMinutes,
         onTap: {}
     )
 }

@@ -152,7 +152,7 @@ struct SessionCard: View {
         SessionCard(session: {
             let session = FastingSession(
                 startTime: Date().addingTimeInterval(-57600),
-                goalMinutes: 720
+                goalMinutes: defaultFastingGoalMinutes
             )
             session.endTime = Date()
             return session
@@ -161,7 +161,7 @@ struct SessionCard: View {
         SessionCard(session: {
             let session = FastingSession(
                 startTime: Date().addingTimeInterval(-7200),
-                goalMinutes: 720
+                goalMinutes: defaultFastingGoalMinutes
             )
             session.endTime = Date()
             return session
@@ -183,7 +183,7 @@ struct SessionCard: View {
             session: {
                 let session = FastingSession(
                     startTime: Date().addingTimeInterval(-57600),
-                    goalMinutes: 720
+                    goalMinutes: defaultFastingGoalMinutes
                 )
                 session.endTime = Date()
                 return session
@@ -195,7 +195,7 @@ struct SessionCard: View {
             session: {
                 let session = FastingSession(
                     startTime: Date().addingTimeInterval(-7200),
-                    goalMinutes: 720
+                    goalMinutes: defaultFastingGoalMinutes
                 )
                 session.endTime = Date()
                 return session
