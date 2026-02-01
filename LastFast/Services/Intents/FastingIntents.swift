@@ -36,8 +36,10 @@ struct StartFastingIntent: AppIntent {
             return .result(dialog: "You're already fasting. Your fast started at \(format24HourTime(activeSessions.first!.startTime)).")
         }
         
-        // Start new fast with default goal
-        let newSession = FastingSession(goalMinutes: defaultFastingGoalMinutes)
+        // Start new fast with user's saved goal (or default if not set)
+        let savedGoal = UserDefaults.standard.integer(forKey: "fastingGoalMinutes")
+        let goalMinutes = savedGoal > 0 ? savedGoal : defaultFastingGoalMinutes
+        let newSession = FastingSession(goalMinutes: goalMinutes)
         context.insert(newSession)
         try context.save()
         
