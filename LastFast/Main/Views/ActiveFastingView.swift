@@ -17,6 +17,7 @@ struct ActiveFastingView: View {
     let startTime: Date?
     let endTime: Date?
     let goalMinutes: Int?
+    let lastFastDuration: TimeInterval?
     var onStopFast: () -> Void
     var onShowHistory: () -> Void
     var onCelebrate: (() -> Void)? = nil
@@ -44,7 +45,7 @@ struct ActiveFastingView: View {
             FastingActionButton(isActive: true, onTap: onStopFast)
                 .padding(.bottom, 24)
 
-            HistoryButton(onTap: onShowHistory)
+            HistoryButton(lastFastDuration: lastFastDuration, onTap: onShowHistory)
                 .padding(.bottom, 40)
         }
     }
@@ -63,6 +64,7 @@ struct ActiveFastingView: View {
         startTime: Date().addingTimeInterval(-3.5 * 3600),
         endTime: Date().addingTimeInterval(8.5 * 3600),
         goalMinutes: 16 * 60,
+        lastFastDuration: 14.5 * 3600,
         onStopFast: {},
         onShowHistory: {}
     )
@@ -79,6 +81,7 @@ struct ActiveFastingView: View {
         startTime: Date().addingTimeInterval(-3.5 * 3600),
         endTime: Date().addingTimeInterval(8.5 * 3600),
         goalMinutes: 16 * 60,
+        lastFastDuration: 14.5 * 3600,
         onStopFast: {},
         onShowHistory: {}
     )
@@ -96,6 +99,7 @@ struct ActiveFastingView: View {
         startTime: Date().addingTimeInterval(-16.1 * 3600),
         endTime: nil,
         goalMinutes: 16 * 60,
+        lastFastDuration: 14.5 * 3600,
         onStopFast: {},
         onShowHistory: {}
     )
@@ -112,6 +116,7 @@ struct ActiveFastingView: View {
         startTime: Date().addingTimeInterval(-16.1 * 3600),
         endTime: nil,
         goalMinutes: 16 * 60,
+        lastFastDuration: 14.5 * 3600,
         onStopFast: {},
         onShowHistory: {}
     )

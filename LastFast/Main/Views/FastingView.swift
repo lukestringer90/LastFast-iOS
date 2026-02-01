@@ -62,6 +62,10 @@ struct FastingView: View {
         return min(1.0, (currentDuration / 60) / Double(goal))
     }
 
+    private var lastCompletedFastDuration: TimeInterval? {
+        sessions.first { !$0.isActive }?.duration
+    }
+
     // MARK: - Body
 
     var body: some View {
@@ -82,6 +86,7 @@ struct FastingView: View {
                             startTime: fast.startTime,
                             endTime: endTime,
                             goalMinutes: fast.goalMinutes,
+                            lastFastDuration: lastCompletedFastDuration,
                             onStopFast: { showingStopConfirmation = true },
                             onShowHistory: { showingHistory = true },
                             onCelebrate: goalMet ? { confettiInstances.append(UUID()) } : nil
@@ -89,6 +94,7 @@ struct FastingView: View {
                     } else {
                         NotFastingView(
                             savedGoalMinutes: savedGoalMinutes,
+                            lastFastDuration: lastCompletedFastDuration,
                             onStartFast: startFasting,
                             onShowGoalPicker: { showingGoalPicker = true },
                             onShowHistory: { showingHistory = true }
@@ -257,6 +263,7 @@ struct FastingView: View {
 #Preview("Not Fasting") {
     NotFastingView(
         savedGoalMinutes: 720,
+        lastFastDuration: 16.5 * 3600,
         onStartFast: {},
         onShowGoalPicker: {},
         onShowHistory: {}
@@ -274,6 +281,7 @@ struct FastingView: View {
         startTime: Date().addingTimeInterval(-3.5 * 3600),
         endTime: Date().addingTimeInterval(8.5 * 3600),
         goalMinutes: 16 * 60,
+        lastFastDuration: 14.5 * 3600,
         onStopFast: {},
         onShowHistory: {}
     )
@@ -290,6 +298,7 @@ struct FastingView: View {
         startTime: Date().addingTimeInterval(-16.1 * 3600),
         endTime: nil,
         goalMinutes: 16 * 60,
+        lastFastDuration: 14.5 * 3600,
         onStopFast: {},
         onShowHistory: {}
     )

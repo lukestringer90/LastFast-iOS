@@ -9,6 +9,7 @@ import SwiftUI
 
 struct NotFastingView: View {
     let savedGoalMinutes: Int
+    let lastFastDuration: TimeInterval?
     var onStartFast: () -> Void
     var onShowGoalPicker: () -> Void
     var onShowHistory: () -> Void
@@ -28,7 +29,7 @@ struct NotFastingView: View {
             FastingActionButton(isActive: false, onTap: onStartFast)
                 .padding(.bottom, 24)
 
-            HistoryButton(onTap: onShowHistory)
+            HistoryButton(lastFastDuration: lastFastDuration, onTap: onShowHistory)
                 .padding(.bottom, 40)
         }
     }
@@ -39,6 +40,7 @@ struct NotFastingView: View {
 #Preview("Light Mode") {
     NotFastingView(
         savedGoalMinutes: 720,
+        lastFastDuration: 16.5 * 3600,
         onStartFast: {},
         onShowGoalPicker: {},
         onShowHistory: {}
@@ -48,6 +50,7 @@ struct NotFastingView: View {
 #Preview("Dark Mode") {
     NotFastingView(
         savedGoalMinutes: 720,
+        lastFastDuration: 16.5 * 3600,
         onStartFast: {},
         onShowGoalPicker: {},
         onShowHistory: {}

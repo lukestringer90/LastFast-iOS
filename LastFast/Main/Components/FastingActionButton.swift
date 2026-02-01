@@ -25,12 +25,11 @@ struct FastingActionButton: View {
                     .fontWeight(.semibold)
             }
             .foregroundStyle(.white)
-            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 32)
             .frame(height: 60)
             .background(isActive ? Color.red : Color.green)
             .clipShape(RoundedRectangle(cornerRadius: 16))
         }
-        .padding(.horizontal, 20)
     }
 }
 
