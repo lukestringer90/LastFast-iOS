@@ -27,10 +27,12 @@ struct NotFastingView: View {
             Spacer()
 
             FastingActionButton(isActive: false, onTap: onStartFast)
-                .padding(.bottom, 24)
+                .padding(.bottom, lastFastDuration != nil ? 24 : 40)
 
-            HistoryButton(lastFastDuration: lastFastDuration, onTap: onShowHistory)
-                .padding(.bottom, 40)
+            if lastFastDuration != nil {
+                HistoryButton(lastFastDuration: lastFastDuration, onTap: onShowHistory)
+                    .padding(.bottom, 40)
+            }
         }
     }
 }
