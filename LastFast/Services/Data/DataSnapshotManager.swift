@@ -196,6 +196,14 @@ extension DataSnapshotManager {
                 print("❌ Export failed: \(error.localizedDescription)")
             }
         }
+
+        // Handle --ui-test-goal <minutes> for UI testing with custom goal
+        if let goalIndex = args.firstIndex(of: "--ui-test-goal"),
+           goalIndex + 1 < args.count,
+           let goalMinutes = Int(args[goalIndex + 1]) {
+            UserDefaults.standard.set(goalMinutes, forKey: "fastingGoalMinutes")
+            print("🧪 UI Test goal set: \(goalMinutes) minutes")
+        }
     }
 }
 

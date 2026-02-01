@@ -64,10 +64,12 @@ struct TimerDisplayView: View {
             Text("YOU'VE FASTED FOR")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(.secondary)
+                .accessibilityIdentifier("goalMetHeader")
         } else {
             Text("FAST UNTIL")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundStyle(.secondary)
+                .accessibilityIdentifier("fastUntilHeader")
         }
     }
 
@@ -140,6 +142,7 @@ struct TimerDisplayView: View {
                 .font(.title3)
                 .fontWeight(.medium)
                 .foregroundStyle(.green)
+                .accessibilityIdentifier("goalMetCheckmark")
             }
         } else {
             if let goal = goalMinutes {
@@ -147,6 +150,7 @@ struct TimerDisplayView: View {
                     .font(.title3)
                     .fontWeight(.medium)
                     .foregroundStyle(.orange.opacity(0.8))
+                    .accessibilityIdentifier("activeGoalLabel")
             }
         }
     }

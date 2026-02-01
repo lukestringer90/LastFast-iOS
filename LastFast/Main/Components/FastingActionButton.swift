@@ -30,6 +30,7 @@ struct FastingActionButton: View {
             .background(isActive ? Color.red : Color.green)
             .clipShape(RoundedRectangle(cornerRadius: 16))
         }
+        .accessibilityIdentifier(isActive ? "stopFastButton" : "startFastButton")
     }
 }
 
