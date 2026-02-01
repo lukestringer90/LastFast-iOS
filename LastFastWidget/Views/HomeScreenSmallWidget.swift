@@ -236,7 +236,7 @@ struct SmallEndTimeWidgetView: View {
 
 // MARK: - End Time Widget Configuration
 
-struct AccessoryWidget: Widget {
+struct HomeScreenSmallWidget: Widget {
     let kind: String = "EndTimeWidget"
 
     var body: some WidgetConfiguration {
@@ -252,7 +252,7 @@ struct AccessoryWidget: Widget {
 // MARK: - Previews
 
 #Preview("Active - In Progress", as: .systemSmall) {
-    AccessoryWidget()
+    HomeScreenSmallWidget()
 } timeline: {
     FastingEntry(
         date: .now,
@@ -267,7 +267,7 @@ struct AccessoryWidget: Widget {
 }
 
 #Preview("Active - Almost Done", as: .systemSmall) {
-    AccessoryWidget()
+    HomeScreenSmallWidget()
 } timeline: {
     FastingEntry(
         date: .now,
@@ -282,7 +282,7 @@ struct AccessoryWidget: Widget {
 }
 
 #Preview("Active - Goal Met", as: .systemSmall) {
-    AccessoryWidget()
+    HomeScreenSmallWidget()
 } timeline: {
     FastingEntry(
         date: .now,
@@ -297,7 +297,7 @@ struct AccessoryWidget: Widget {
 }
 
 #Preview("Inactive - With History", as: .systemSmall) {
-    AccessoryWidget()
+    HomeScreenSmallWidget()
 } timeline: {
     FastingEntry(
         date: .now,
@@ -312,7 +312,7 @@ struct AccessoryWidget: Widget {
 }
 
 #Preview("Inactive - Goal Not Met", as: .systemSmall) {
-    AccessoryWidget()
+    HomeScreenSmallWidget()
 } timeline: {
     FastingEntry(
         date: .now,
@@ -327,7 +327,7 @@ struct AccessoryWidget: Widget {
 }
 
 #Preview("Inactive - No History", as: .systemSmall) {
-    AccessoryWidget()
+    HomeScreenSmallWidget()
 } timeline: {
     FastingEntry(
         date: .now,

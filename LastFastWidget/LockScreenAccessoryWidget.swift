@@ -20,7 +20,7 @@ struct LastFastWidgetEntryView: View {
 
 // MARK: - Widget Configuration
 
-struct SmallSystemWidget: Widget {
+struct LockScreenAccessoryWidget: Widget {
     let kind: String = "LastFastWidget"
 
     var body: some WidgetConfiguration {
@@ -36,7 +36,7 @@ struct SmallSystemWidget: Widget {
 // MARK: - Previews
 
 #Preview("Circular - In Progress", as: .accessoryCircular) {
-    SmallSystemWidget()
+    LockScreenAccessoryWidget()
 } timeline: {
     FastingEntry(
         date: .now,
@@ -51,7 +51,7 @@ struct SmallSystemWidget: Widget {
 }
 
 #Preview("Circular - Goal Met", as: .accessoryCircular) {
-    SmallSystemWidget()
+    LockScreenAccessoryWidget()
 } timeline: {
     FastingEntry(
         date: .now,
@@ -66,7 +66,7 @@ struct SmallSystemWidget: Widget {
 }
 
 #Preview("Circular - Inactive", as: .accessoryCircular) {
-    SmallSystemWidget()
+    LockScreenAccessoryWidget()
 } timeline: {
     FastingEntry(
         date: .now,

@@ -365,13 +365,13 @@ struct LockScreenRectangularCombinedCenterView: View {
 // MARK: - Previews
 
 #Preview("Circular - In Progress", as: .accessoryCircular) {
-    SmallSystemWidget()
+    LockScreenAccessoryWidget()
 } timeline: {
     FastingEntry(date: Date(), isActive: true, startTime: Date().addingTimeInterval(-10 * 3600), goalMinutes: 16 * 60, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
 }
 
 #Preview("Circular - Goal Met", as: .accessoryCircular) {
-    SmallSystemWidget()
+    LockScreenAccessoryWidget()
 } timeline: {
     FastingEntry(date: Date(), isActive: true, startTime: Date().addingTimeInterval(-18 * 3600 - 30 * 60), goalMinutes: 16 * 60, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
 }
@@ -421,7 +421,7 @@ struct LockScreenRectangularCombinedCenterView: View {
 // MARK: Inactive State Previews
 
 #Preview("Circular - Inactive", as: .accessoryCircular) {
-    SmallSystemWidget()
+    LockScreenAccessoryWidget()
 } timeline: {
     FastingEntry(date: Date(), isActive: false, startTime: nil, goalMinutes: nil, lastFastDuration: nil, lastFastGoalMet: nil, lastFastStartTime: nil, lastFastEndTime: nil)
 }
