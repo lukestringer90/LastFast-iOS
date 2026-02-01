@@ -14,9 +14,24 @@ struct GoalSetterView: View {
     private var hours: Int { savedGoalMinutes / 60 }
     private var minutes: Int { savedGoalMinutes % 60 }
 
+    private var endTime: Date {
+        Date().addingTimeInterval(TimeInterval(savedGoalMinutes * 60))
+    }
+
+    private func formatTime(_ date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH:mm"
+        return formatter.string(from: date)
+    }
+
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 8) {
+                // "FAST GOAL" label above
+                Text("FAST GOAL")
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(Color(.secondaryLabel))
+
                 // Time display matching TimerDisplayView style
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text("\(hours)")
@@ -41,10 +56,11 @@ struct GoalSetterView: View {
                 .minimumScaleFactor(0.5)
                 .lineLimit(1)
 
-                // "Fast Goal" label underneath
-                Text("Fast Goal")
+                // "Ends: <time>" label underneath
+                Text("Ends: \(formatTime(endTime))")
                     .font(.title3)
-                    .foregroundStyle(.secondary)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.blue.opacity(0.8))
             }
         }
     }
