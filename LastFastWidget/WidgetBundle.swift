@@ -11,20 +11,7 @@ import WidgetKit
 @main
 struct LastFastWidgetBundle: WidgetBundle {
     var body: some Widget {
-        // Home Screen Widgets
-        LastFastWidget()
-        SmallWidget()
-
-        // Lock Screen Rectangular Widgets
-        RectangularCombinedWidget()
-        RectangularCombinedRightWidget()
-        RectangularCombinedCenterWidget()
-        
-        // Spacer Widgets
-        SpacerWidget()
-        RectangularSpacerWidget()
-        
-        // Live Activity
-        LastFastWidgetLiveActivity()
+        SmallSystemWidget() // home screen
+        AccessoryWidget() // lock screen / control center
     }
 }
