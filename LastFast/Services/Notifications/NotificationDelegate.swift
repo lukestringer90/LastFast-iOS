@@ -50,7 +50,7 @@ class NotificationDelegate: NSObject, UNUserNotificationCenterDelegate {
         withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         // Show notification even when app is in foreground
-        completionHandler([.banner, .sound, .badge])
+        completionHandler([.banner, .sound])
     }
     
     // MARK: - Helper Methods
