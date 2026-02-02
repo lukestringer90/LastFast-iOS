@@ -47,14 +47,14 @@ struct SessionCard: View {
     private var cardContent: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text(session.startTime.formatted(date: .abbreviated, time: .omitted))
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-
                 Text(formatDuration(hours: hours, minutes: minutes))
                     .font(.system(.title3, design: .rounded))
                     .fontWeight(.semibold)
                     .foregroundStyle(durationColor)
+
+                Text(session.startTime.formatted(date: .abbreviated, time: .omitted))
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
 
             Spacer()
