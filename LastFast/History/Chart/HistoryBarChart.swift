@@ -139,9 +139,8 @@ struct HistoryBarChart: View {
 
     private func toggleSelection(_ session: FastingSession) {
         withAnimation(.easeInOut(duration: 0.2)) {
-            if selectedSession?.id == session.id {
-                selectedSession = nil
-            } else {
+            // Only allow selecting a different session, not deselecting
+            if selectedSession?.id != session.id {
                 selectedSession = session
             }
         }

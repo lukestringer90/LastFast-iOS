@@ -53,6 +53,11 @@ struct HistoryView: View {
                 onShowListView: { showingListView = true },
                 onDeleteSession: deleteSession
             )
+            .onAppear {
+                if selectedSession == nil {
+                    selectedSession = completedSessions.first
+                }
+            }
         } else {
             listView
         }
@@ -89,7 +94,15 @@ struct HistoryView: View {
 
     private func deleteSession(_ session: FastingSession) {
         withAnimation {
-            selectedSession = nil
+            // Select the next most recent fast after deletion
+            if let currentIndex = completedSessions.firstIndex(where: { $0.id == session.id }) {
+                let remainingSessions = completedSessions.filter { $0.id != session.id }
+                if currentIndex < remainingSessions.count {
+                    selectedSession = remainingSessions[currentIndex]
+                } else {
+                    selectedSession = remainingSessions.first
+                }
+            }
             modelContext.delete(session)
             try? modelContext.save()
         }
