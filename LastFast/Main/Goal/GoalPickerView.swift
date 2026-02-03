@@ -7,46 +7,37 @@
 
 import SwiftUI
 
-// MARK: - Goal Mode
-
-enum GoalMode: String, CaseIterable {
-    case duration = "Duration"
-    case endTime = "End Time"
-}
-
 // MARK: - Goal Picker View
 
 struct GoalPickerView: View {
     @Environment(\.dismiss) private var dismiss
     @Binding var goalMinutes: Int
-    
+
     @State private var goalMode: GoalMode = .duration
     @State private var selectedHours: Int = 8
     @State private var selectedMinutes: Int = 0
     @State private var selectedEndTime: Date = Date().addingTimeInterval(8 * 3600)
-    
-    private var isValidGoal: Bool {
-        switch goalMode {
-        case .duration:
-            return selectedHours > 0 || selectedMinutes > 0
-        case .endTime:
-            return minutesUntilEndTime > 0
-        }
-    }
-    
+
     private var minutesUntilEndTime: Int {
-        let now = Date()
-        let interval = selectedEndTime.timeIntervalSince(now)
-        return max(0, Int(interval / 60))
+        calculateMinutesUntilEndTime(selectedEndTime)
     }
-    
+
+    private var isValidGoal: Bool {
+        isGoalValid(
+            mode: goalMode,
+            selectedHours: selectedHours,
+            selectedMinutes: selectedMinutes,
+            minutesUntilEndTime: minutesUntilEndTime
+        )
+    }
+
     private var computedGoalMinutes: Int {
-        switch goalMode {
-        case .duration:
-            return selectedHours * 60 + selectedMinutes
-        case .endTime:
-            return minutesUntilEndTime
-        }
+        computeGoalMinutes(
+            mode: goalMode,
+            selectedHours: selectedHours,
+            selectedMinutes: selectedMinutes,
+            minutesUntilEndTime: minutesUntilEndTime
+        )
     }
     
     var body: some View {
@@ -92,8 +83,8 @@ struct GoalPickerView: View {
                 }
             }
             .onAppear {
-                selectedHours = goalMinutes / 60
-                selectedMinutes = goalMinutes % 60
+                selectedHours = hoursFromMinutes(goalMinutes)
+                selectedMinutes = minutesComponent(goalMinutes)
                 selectedEndTime = Date().addingTimeInterval(TimeInterval(goalMinutes * 60))
             }
             .onChange(of: goalMode) { _, newMode in
@@ -103,8 +94,8 @@ struct GoalPickerView: View {
                     selectedEndTime = Date().addingTimeInterval(TimeInterval(currentGoal * 60))
                 } else {
                     let minutes = minutesUntilEndTime
-                    selectedHours = minutes / 60
-                    selectedMinutes = minutes % 60
+                    selectedHours = hoursFromMinutes(minutes)
+                    selectedMinutes = minutesComponent(minutes)
                 }
             }
         }
@@ -168,8 +159,8 @@ struct GoalPickerView: View {
     private var totalDisplaySection: some View {
         Group {
             if isValidGoal {
-                let hours = computedGoalMinutes / 60
-                let mins = computedGoalMinutes % 60
+                let hours = hoursFromMinutes(computedGoalMinutes)
+                let mins = minutesComponent(computedGoalMinutes)
                 VStack(spacing: 4) {
                     Text("Total: \(formatDuration(hours: hours, minutes: mins))")
                         .font(.title3)
