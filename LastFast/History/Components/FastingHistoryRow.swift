@@ -14,13 +14,6 @@ struct FastingHistoryRow: View {
 
     @State private var showingEditSheet = false
 
-    private var hours: Int {
-        Int(session.duration) / 3600
-    }
-    
-    private var minutes: Int {
-        (Int(session.duration) % 3600) / 60
-    }
     
     var body: some View {
         HStack {
@@ -50,24 +43,15 @@ struct FastingHistoryRow: View {
         HStack(spacing: 8) {
             Text(session.startTime.formatted(date: .abbreviated, time: .omitted))
                 .font(.headline)
-            
+
             if session.goalMinutes != nil {
-                Image(systemName: session.goalMet ? "checkmark.circle.fill" : "xmark.circle.fill")
-                    .foregroundStyle(session.goalMet ? .green : .red)
-                    .font(.subheadline)
+                GoalStatusIcon(goalMet: session.goalMet)
             }
         }
     }
-    
+
     private var timeRangeRow: some View {
-        HStack(spacing: 4) {
-            Text(format24HourTime(session.startTime))
-            Image(systemName: "arrow.right")
-                .font(.caption2)
-            Text(session.endTime.map { format24HourTime($0) } ?? "—")
-        }
-        .font(.subheadline)
-        .foregroundStyle(.secondary)
+        TimeRangeLabel(startTime: session.startTime, endTime: session.endTime)
     }
     
     @ViewBuilder
@@ -80,10 +64,10 @@ struct FastingHistoryRow: View {
     }
     
     private var durationLabel: some View {
-        Text(formatDuration(hours: hours, minutes: minutes))
+        Text(formatDuration(from: session.duration))
             .font(.system(.title3, design: .rounded))
             .fontWeight(.semibold)
-            .foregroundStyle(session.goalMet ? .green : .orange)
+            .foregroundStyle(GoalStatusColors.durationColor(goalMet: session.goalMet))
     }
 }
 

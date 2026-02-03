@@ -2,10 +2,26 @@
 //  DurationFormatting.swift
 //  LastFast
 //
-//  Helper functions for formatting durations
+//  Helper functions for formatting durations and times
 //
 
 import Foundation
+
+// MARK: - Time Formatting
+
+/// Cached DateFormatter for 24-hour time (HH:mm)
+private let timeFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "HH:mm"
+    return formatter
+}()
+
+/// Formats a date as 24-hour time (HH:mm)
+/// - Parameter date: The date to format
+/// - Returns: Formatted string like "08:30" or "14:45"
+func format24HourTime(_ date: Date) -> String {
+    timeFormatter.string(from: date)
+}
 
 // MARK: - Duration Formatting
 

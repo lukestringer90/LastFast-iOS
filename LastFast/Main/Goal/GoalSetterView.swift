@@ -18,12 +18,6 @@ struct GoalSetterView: View {
         Date().addingTimeInterval(TimeInterval(savedGoalMinutes * 60))
     }
 
-    private func formatTime(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        return formatter.string(from: date)
-    }
-
     var body: some View {
         Button(action: onTap) {
             VStack(spacing: 8) {
@@ -36,21 +30,19 @@ struct GoalSetterView: View {
                 // Time display matching TimerDisplayView style
                 HStack(alignment: .firstTextBaseline, spacing: 4) {
                     Text("\(hours)")
-                        .font(.system(size: 96, weight: .bold, design: .rounded))
+                        .largeTimerFont()
                         .foregroundStyle(.blue)
 
                     Text("h")
-                        .font(.system(size: 36, weight: .medium, design: .rounded))
-                        .foregroundStyle(.blue.opacity(0.7))
+                        .unitLabel(color: .blue)
 
                     if minutes > 0 {
                         Text("\(minutes)")
-                            .font(.system(size: 96, weight: .bold, design: .rounded))
+                            .largeTimerFont()
                             .foregroundStyle(.blue)
 
                         Text("m")
-                            .font(.system(size: 36, weight: .medium, design: .rounded))
-                            .foregroundStyle(.blue.opacity(0.7))
+                            .unitLabel(color: .blue)
                     }
                 }
                 .monospacedDigit()
@@ -58,7 +50,7 @@ struct GoalSetterView: View {
                 .lineLimit(1)
 
                 // "Ends: <time>" label underneath
-                Text("Ends: \(formatTime(endTime))")
+                Text("Ends: \(format24HourTime(endTime))")
                     .font(.title3)
                     .fontWeight(.medium)
                     .foregroundStyle(.blue.opacity(0.8))

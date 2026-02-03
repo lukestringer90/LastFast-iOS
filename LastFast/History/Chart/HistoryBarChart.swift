@@ -147,11 +147,8 @@ struct HistoryBarChart: View {
     }
 
     private func barColor(for session: FastingSession, isSelected: Bool) -> Color {
-        if isSelected {
-            return session.goalMet ? .green : .orange
-        } else {
-            return session.goalMet ? .green.opacity(0.6) : .orange.opacity(0.6)
-        }
+        let baseColor = GoalStatusColors.durationColor(goalMet: session.goalMet)
+        return isSelected ? baseColor : baseColor.opacity(0.6)
     }
 
     private func formatChartDate(_ date: Date) -> String {
@@ -161,8 +158,7 @@ struct HistoryBarChart: View {
     }
 
     private func formatShortDuration(_ duration: TimeInterval) -> String {
-        let hours = Int(duration) / 3600
-        let minutes = (Int(duration) % 3600) / 60
+        let (hours, minutes) = hoursAndMinutes(from: duration)
         if hours > 0 {
             return "\(hours)h\(minutes)m"
         } else {

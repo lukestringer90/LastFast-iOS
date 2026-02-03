@@ -17,13 +17,6 @@ struct SessionCard: View {
     @State private var showingActions = false
     @State private var showingEditSheet = false
 
-    private var hours: Int {
-        Int(session.duration) / 3600
-    }
-
-    private var minutes: Int {
-        (Int(session.duration) % 3600) / 60
-    }
 
     var body: some View {
         ZStack(alignment: .trailing) {
@@ -47,10 +40,10 @@ struct SessionCard: View {
     private var cardContent: some View {
         HStack {
             VStack(alignment: .leading, spacing: 4) {
-                Text(formatDuration(hours: hours, minutes: minutes))
+                Text(formatDuration(from: session.duration))
                     .font(.system(.title3, design: .rounded))
                     .fontWeight(.semibold)
-                    .foregroundStyle(durationColor)
+                    .foregroundStyle(GoalStatusColors.durationColor(goalMet: session.goalMet, hasGoal: session.goalMinutes != nil))
 
                 Text(session.startTime.formatted(date: .abbreviated, time: .omitted))
                     .font(.caption)
@@ -60,8 +53,7 @@ struct SessionCard: View {
             Spacer()
 
             VStack(alignment: .trailing, spacing: 4) {
-                Text("\(format24HourTime(session.startTime)) → \(session.endTime.map { format24HourTime($0) } ?? "—")")
-                    .font(.subheadline)
+                TimeRangeLabel(startTime: session.startTime, endTime: session.endTime)
 
                 if let goal = session.goalMinutes {
                     Text("Goal: \(formatDuration(hours: goal / 60, minutes: goal % 60))")
@@ -73,12 +65,6 @@ struct SessionCard: View {
         .padding(showBackground ? 16 : 8)
     }
 
-    private var durationColor: Color {
-        if session.goalMinutes == nil {
-            return .primary
-        }
-        return session.goalMet ? .green : .orange
-    }
 
     @ViewBuilder
     private var background: some View {

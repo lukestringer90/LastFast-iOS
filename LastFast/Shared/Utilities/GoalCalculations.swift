@@ -7,14 +7,6 @@
 
 import Foundation
 
-// MARK: - Goal Mode
-
-/// The mode for setting a fasting goal
-enum GoalMode: String, CaseIterable {
-    case duration = "Duration"
-    case endTime = "End Time"
-}
-
 // MARK: - Goal Validation
 
 /// Validates if the goal is valid based on the mode and values

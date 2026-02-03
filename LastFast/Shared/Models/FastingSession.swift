@@ -1,13 +1,12 @@
-// FastingSession.swift
-// LastFast
-// SwiftData model for fasting sessions
+//
+//  FastingSession.swift
+//  LastFast
+//
+//  SwiftData model for fasting sessions
+//
 
 import Foundation
 import SwiftData
-
-#if canImport(ActivityKit)
-import ActivityKit
-#endif
 
 // MARK: - Constants
 
@@ -16,31 +15,6 @@ let defaultFastingGoalMinutes: Int = 960
 
 /// App Storage key for fasting goal
 let fastingGoalStorageKey = "fastingGoalMinutes"
-
-// MARK: - Time Formatting
-
-/// Formats a date as 24-hour time (HH:mm)
-func format24HourTime(_ date: Date) -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "HH:mm"
-    return formatter.string(from: date)
-}
-
-// MARK: - Live Activity Attributes
-
-#if canImport(ActivityKit)
-struct LastFastWidgetAttributes: ActivityAttributes {
-    public struct ContentState: Codable, Hashable {
-        // Dynamic state - updated as fast progresses
-        var elapsedSeconds: Int
-        var goalMet: Bool
-    }
-    
-    // Fixed properties - set when activity starts
-    var startTime: Date
-    var goalMinutes: Int
-}
-#endif
 
 // MARK: - Fasting Session Model
 

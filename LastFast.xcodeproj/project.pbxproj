@@ -89,6 +89,8 @@
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Shared/Models/FastingSession.swift,
+				Shared/Models/LastFastWidgetAttributes.swift,
+				Shared/Utilities/DurationFormatting.swift,
 			);
 			target = A3A7C2892F059975004E371E /* LastFastWidgetExtension */;
 		};

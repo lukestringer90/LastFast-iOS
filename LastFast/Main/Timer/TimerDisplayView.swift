@@ -22,7 +22,7 @@ struct TimerDisplayView: View {
     var onElapsedTimeTapped: (() -> Void)? = nil
 
     private var ringColor: Color {
-        goalMet ? .green : .orange
+        GoalStatusColors.durationColor(goalMet: goalMet)
     }
 
     var body: some View {
@@ -87,20 +87,18 @@ struct TimerDisplayView: View {
     private var elapsedTimeDisplay: some View {
         HStack(alignment: .firstTextBaseline, spacing: 4) {
             Text("\(elapsedHours)")
-                .font(.system(size: 96, weight: .bold, design: .rounded))
+                .largeTimerFont()
                 .foregroundStyle(.green)
 
             Text("h")
-                .font(.system(size: 36, weight: .medium, design: .rounded))
-                .foregroundStyle(.green.opacity(0.7))
+                .unitLabel(color: .green)
 
             Text("\(elapsedMins)")
-                .font(.system(size: 96, weight: .bold, design: .rounded))
+                .largeTimerFont()
                 .foregroundStyle(.green)
 
             Text("m")
-                .font(.system(size: 36, weight: .medium, design: .rounded))
-                .foregroundStyle(.green.opacity(0.7))
+                .unitLabel(color: .green)
         }
         .monospacedDigit()
         .minimumScaleFactor(0.5)
@@ -114,12 +112,12 @@ struct TimerDisplayView: View {
     private var endTimeDisplay: some View {
         Group {
             if let end = endTime {
-                Text(formatTime(end))
-                    .font(.system(size: 96, weight: .bold, design: .rounded))
+                Text(format24HourTime(end))
+                    .largeTimerFont()
                     .foregroundStyle(.orange)
             } else {
                 Text("--:--")
-                    .font(.system(size: 96, weight: .bold, design: .rounded))
+                    .largeTimerFont()
                     .foregroundStyle(.orange)
             }
         }
@@ -153,12 +151,6 @@ struct TimerDisplayView: View {
                     .accessibilityIdentifier("activeGoalLabel")
             }
         }
-    }
-
-    private func formatTime(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "HH:mm"
-        return formatter.string(from: date)
     }
 
 }

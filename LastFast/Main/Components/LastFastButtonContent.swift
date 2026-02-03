@@ -32,18 +32,14 @@ struct LastFastButtonContent: View {
                         .foregroundStyle(.secondary)
                         .textCase(.uppercase)
                     
-                    let hours = Int(session.duration) / 3600
-                    let mins = (Int(session.duration) % 3600) / 60
                     HStack(spacing: 6) {
-                        Text(formatDuration(hours: hours, minutes: mins))
+                        Text(formatDuration(from: session.duration))
                             .font(.title2)
                             .fontWeight(.bold)
-                            .foregroundStyle(session.goalMet ? .green : .orange)
-                        
+                            .foregroundStyle(GoalStatusColors.durationColor(goalMet: session.goalMet))
+
                         if session.goalMinutes != nil {
-                            Image(systemName: session.goalMet ? "checkmark.circle.fill" : "xmark.circle.fill")
-                                .foregroundStyle(session.goalMet ? .green : .red)
-                                .font(.subheadline)
+                            GoalStatusIcon(goalMet: session.goalMet)
                         }
                     }
                 }

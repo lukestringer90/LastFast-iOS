@@ -7,15 +7,7 @@
 
 import SwiftUI
 
-struct ConfettiPiece: Identifiable {
-    let id = UUID()
-    var x: CGFloat
-    var y: CGFloat
-    let color: Color
-    let rotation: Double
-    let scale: CGFloat
-    let isCircle: Bool
-}
+// MARK: - Confetti View
 
 struct ConfettiView: View {
     let id: UUID
