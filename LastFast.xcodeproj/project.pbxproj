@@ -67,6 +67,7 @@
 		A3A7C28C2F059975004E371E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A3A7C28E2F059976004E371E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		A3A7C2A42F0599DE004E371E /* LastFastWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LastFastWidgetExtension.entitlements; sourceTree = "<group>"; };
+		A3E571A22F33D86200C07F5E /* LastFastUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = LastFastUITests.xctestplan; path = LastFastUITests/LastFastUITests.xctestplan; sourceTree = "<group>"; };
 		B1234567890ABCDEF0000010 /* LastFastUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastFastUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -165,6 +166,7 @@
 		A30FC22C2F0577D200E5AEC6 = {
 			isa = PBXGroup;
 			children = (
+				A3E571A22F33D86200C07F5E /* LastFastUITests.xctestplan */,
 				A3A7C2A42F0599DE004E371E /* LastFastWidgetExtension.entitlements */,
 				A30FC2372F0577D200E5AEC6 /* LastFast */,
 				A3A7C2902F059976004E371E /* LastFastWidget */,

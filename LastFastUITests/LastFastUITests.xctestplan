@@ -1,0 +1,25 @@
+{
+  "configurations" : [
+    {
+      "id" : "87EF97F0-3DAB-4D3B-BC9B-E3861940A434",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "performanceAntipatternCheckerEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:LastFast.xcodeproj",
+        "identifier" : "B1234567890ABCDEF0000000",
+        "name" : "LastFastUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
