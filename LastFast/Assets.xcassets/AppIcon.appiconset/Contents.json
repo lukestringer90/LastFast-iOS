@@ -1,7 +1,7 @@
 {
   "images" : [
     {
-      "filename" : "last-fast-icon-light.png",
+      "filename" : "last-fast-icon-2.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
@@ -13,7 +13,7 @@
           "value" : "dark"
         }
       ],
-      "filename" : "last-fast-icon-dark.png",
+      "filename" : "last-fast-icon-2-dark.png",
       "idiom" : "universal",
       "platform" : "ios",
       "size" : "1024x1024"
