@@ -68,12 +68,8 @@ struct LockScreenCircularView: View {
                     .opacity(isLuminanceReduced ? 0.5 : 1.0)
                 }
             } else {
-                VStack(spacing: 2) {
-                    Image(systemName: "clock.arrow.trianglehead.clockwise.rotate.90.path.dotted")
-                        .font(.system(size: 18))
-                    Text("Start Fast")
-                        .font(.system(size: 10, weight: .medium, design: .rounded))
-                }
+                Image("last_fast")
+                    .renderingMode(.template).opacity(isLuminanceReduced ? 0.3 : 1.0)
             }
         }
         .containerBackground(for: .widget) { }
