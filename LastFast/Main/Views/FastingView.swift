@@ -8,6 +8,7 @@
 import SwiftUI
 import SwiftData
 import WidgetKit
+import FirebaseCrashlytics
 
 // MARK: - Feature Flags
 

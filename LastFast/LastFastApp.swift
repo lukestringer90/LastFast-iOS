@@ -6,6 +6,7 @@ import SwiftUI
 import SwiftData
 import BackgroundTasks
 import ActivityKit
+import FirebaseCore
 
 // Note: liveActivityEnabled is defined in FastingView.swift
 
@@ -34,6 +35,7 @@ struct LastFastApp: App {
     }()
     
     init() {
+        FirebaseApp.configure()
         // Set notification delegate
         UNUserNotificationCenter.current().delegate = notificationDelegate
         
