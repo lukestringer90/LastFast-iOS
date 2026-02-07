@@ -125,9 +125,15 @@ struct FastingView: View {
             }
             .sheet(isPresented: $showingHistory) {
                 HistoryView()
+                    .onAppear {
+                        AnalyticsManager.logEvent("view_history")
+                    }
             }
             .sheet(isPresented: $showingGoalPicker) {
                 GoalPickerView(goalMinutes: $savedGoalMinutes)
+                    .onDisappear {
+                        AnalyticsManager.logEvent("set_fast_goal", parameters: ["goal_minutes": savedGoalMinutes])
+                    }
             }
             .alert("Stop Fast?", isPresented: $showingStopConfirmation) {
                 Button("Cancel", role: .cancel) { }
@@ -192,6 +198,7 @@ struct FastingView: View {
         fast.goalCelebrationShown = true
         try? modelContext.save()
         confettiInstances.append(UUID())
+        AnalyticsManager.logEvent("goal_met", parameters: ["goal_minutes": fast.goalMinutes ?? 0])
     }
 
     private func startFasting() {
@@ -210,10 +217,13 @@ struct FastingView: View {
         NotificationManager.scheduleGoalNotification(startTime: newSession.startTime, goalMinutes: savedGoalMinutes)
 
         LiveActivityManager.start(startTime: newSession.startTime, goalMinutes: savedGoalMinutes)
+        
+        AnalyticsManager.logEvent("start_fast", parameters: ["goal_minutes": savedGoalMinutes])
     }
 
     private func stopFasting() {
         if let fast = activeFast {
+            let duration = fast.duration
             fast.stop()
             try? modelContext.save()
             WidgetCenter.shared.reloadAllTimelines()
@@ -226,6 +236,8 @@ struct FastingView: View {
             goalNotificationSent = false
 
             LiveActivityManager.end()
+            
+            AnalyticsManager.logEvent("stop_fast", parameters: ["duration_minutes": duration / 60])
         }
     }
 

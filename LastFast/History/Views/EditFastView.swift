@@ -7,6 +7,8 @@
 
 import SwiftUI
 import SwiftData
+import FirebaseAnalytics // Added for AnalyticsManager
+import AppTrackingTransparency // For AnalyticsManager.swift
 
 // MARK: - Edit Fast View
 
@@ -125,11 +127,27 @@ struct EditFastView: View {
     }
 
     private func saveChanges() {
+        // Capture old values for analytics
+        let oldStartTime = session.startTime
+        let oldEndTime = session.endTime ?? oldStartTime // If no end time, assume same as start time for comparison
+        let oldGoalMinutes = session.goalMinutes ?? 0
+
         session.startTime = startTime
         session.endTime = endTime
         session.goalMinutes = goalTotalMinutes
 
         try? modelContext.save()
+        
+        AnalyticsManager.logEvent("edit_fast", parameters: [
+            "fast_id": session.id.uuidString,
+            "old_start_time": oldStartTime.timeIntervalSince1970,
+            "old_end_time": oldEndTime.timeIntervalSince1970,
+            "old_goal_minutes": oldGoalMinutes,
+            "new_start_time": startTime.timeIntervalSince1970,
+            "new_end_time": endTime.timeIntervalSince1970,
+            "new_goal_minutes": goalTotalMinutes
+        ])
+        
         dismiss()
     }
 }

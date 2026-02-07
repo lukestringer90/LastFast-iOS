@@ -7,6 +7,8 @@
 
 import SwiftUI
 import SwiftData
+import FirebaseAnalytics // Added for AnalyticsManager
+import AppTrackingTransparency // For AnalyticsManager.swift
 
 struct HistoryListView: View {
     @Environment(\.modelContext) private var modelContext
@@ -51,6 +53,9 @@ struct HistoryListView: View {
             .sheet(item: $sessionToEdit) { session in
                 EditFastView(session: session)
             }
+        }
+        .onAppear {
+            AnalyticsManager.logEvent("view_full_fast_list")
         }
     }
 

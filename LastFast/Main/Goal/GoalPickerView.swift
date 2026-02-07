@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import FirebaseAnalytics // Added for AnalyticsManager
+import Foundation // Already exists for `Date` and `TimeInterval`
+import AppTrackingTransparency // For AnalyticsManager.swift
 
 // MARK: - Goal Picker View
 
@@ -76,6 +79,17 @@ struct GoalPickerView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Save") {
                         goalMinutes = computedGoalMinutes
+                        
+                        var parameters: [String: Any] = ["goal_minutes": computedGoalMinutes]
+                        parameters["goal_mode"] = goalMode.rawValue
+                        if goalMode == .duration {
+                            parameters["selected_hours"] = selectedHours
+                            parameters["selected_minutes"] = selectedMinutes
+                        } else {
+                            parameters["selected_end_time"] = selectedEndTime.timeIntervalSince1970
+                        }
+                        AnalyticsManager.logEvent("set_fast_goal", parameters: parameters)
+                        
                         dismiss()
                     }
                     .fontWeight(.semibold)
@@ -97,6 +111,7 @@ struct GoalPickerView: View {
                     selectedHours = hoursFromMinutes(minutes)
                     selectedMinutes = minutesComponent(minutes)
                 }
+                AnalyticsManager.logEvent("goal_mode_selected", parameters: ["mode": newMode.rawValue])
             }
         }
         .presentationDetents([.medium])

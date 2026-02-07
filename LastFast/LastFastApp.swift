@@ -36,6 +36,7 @@ struct LastFastApp: App {
     
     init() {
         FirebaseApp.configure()
+        AnalyticsManager.requestTrackingPermission()
         // Set notification delegate
         UNUserNotificationCenter.current().delegate = notificationDelegate
         
