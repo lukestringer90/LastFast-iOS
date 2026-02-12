@@ -591,6 +591,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LastFast/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Last Fast";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSSiriUsageDescription = "Allows you to start and stop fasting with your voice";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This allows us to collect data to improve your app experience.";
@@ -630,6 +631,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LastFast/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Last Fast";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSSiriUsageDescription = "Allows you to start and stop fasting with your voice";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
 				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This allows us to collect data to improve your app experience.";
