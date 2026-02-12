@@ -7,6 +7,7 @@ import SwiftData
 import BackgroundTasks
 import ActivityKit
 import FirebaseCore
+import AppTrackingTransparency
 
 // Note: liveActivityEnabled is defined in FastingView.swift
 
@@ -36,7 +37,6 @@ struct LastFastApp: App {
     
     init() {
         FirebaseApp.configure()
-        AnalyticsManager.requestTrackingPermission()
         // Set notification delegate
         UNUserNotificationCenter.current().delegate = notificationDelegate
         
@@ -51,6 +51,12 @@ struct LastFastApp: App {
     var body: some Scene {
         WindowGroup {
             FastingView()
+                .onAppear {
+                    Task {
+                        try? await Task.sleep(nanoseconds:500_000_000) // 0.5 seconds
+                        AnalyticsManager.requestTrackingPermission()
+                    }
+                }
         }
         .modelContainer(sharedModelContainer)
         .onChange(of: scenePhase) { oldPhase, newPhase in

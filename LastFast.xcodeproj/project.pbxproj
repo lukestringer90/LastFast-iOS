@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A38E8D222F3A9E3A0029440C /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A38E8D212F3A9E3A0029440C /* AdSupport.framework */; };
 		A3A7C28D2F059976004E371E /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3A7C28C2F059975004E371E /* WidgetKit.framework */; };
 		A3A7C28F2F059976004E371E /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A3A7C28E2F059976004E371E /* SwiftUI.framework */; };
 		A3A7C29E2F059978004E371E /* LastFastWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A3A7C28A2F059975004E371E /* LastFastWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A3B0E6A32F3E7F0A00FEDCBA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A3B0E6A22F3E7F0A00ABCDEF /* GoogleService-Info.plist */; };
 		A3EFEA732F37A78300EE791F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = A3EFEA722F37A78300EE791F /* FirebaseAnalytics */; };
 		A3EFEA752F37A78300EE791F /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = A3EFEA742F37A78300EE791F /* FirebaseCrashlytics */; };
 		A3EFEA772F37A78300EE791F /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = A3EFEA762F37A78300EE791F /* FirebasePerformance */; };
@@ -66,10 +68,12 @@
 /* Begin PBXFileReference section */
 		A30FC2352F0577D200E5AEC6 /* LastFast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LastFast.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A34773112F2D6CAB00AA9686 /* LastFastUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastFastUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		A38E8D212F3A9E3A0029440C /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		A3A7C28A2F059975004E371E /* LastFastWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = LastFastWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A3A7C28C2F059975004E371E /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		A3A7C28E2F059976004E371E /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		A3A7C2A42F0599DE004E371E /* LastFastWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LastFastWidgetExtension.entitlements; sourceTree = "<group>"; };
+		A3B0E6A22F3E7F0A00ABCDEF /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "LastFast/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A3E571A22F33D86200C07F5E /* LastFastUITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; name = LastFastUITests.xctestplan; path = LastFastUITests/LastFastUITests.xctestplan; sourceTree = "<group>"; };
 		B1234567890ABCDEF0000010 /* LastFastUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LastFastUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -145,6 +149,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A38E8D222F3A9E3A0029440C /* AdSupport.framework in Frameworks */,
 				A3EFEA732F37A78300EE791F /* FirebaseAnalytics in Frameworks */,
 				A3EFEA752F37A78300EE791F /* FirebaseCrashlytics in Frameworks */,
 				A3EFEA772F37A78300EE791F /* FirebasePerformance in Frameworks */,
@@ -188,6 +193,7 @@
 				B1234567890ABCDEF0000020 /* LastFastUITests */,
 				A3A7C28B2F059975004E371E /* Frameworks */,
 				A30FC2362F0577D200E5AEC6 /* Products */,
+				A38E8C542F3A9C450029440C /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -202,9 +208,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		A38E8C542F3A9C450029440C /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				A3B0E6A22F3E7F0A00ABCDEF /* GoogleService-Info.plist */,
+			);
+			name = "Recovered References";
+			sourceTree = "<group>";
+		};
 		A3A7C28B2F059975004E371E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A38E8D212F3A9E3A0029440C /* AdSupport.framework */,
 				A3A7C28C2F059975004E371E /* WidgetKit.framework */,
 				A3A7C28E2F059976004E371E /* SwiftUI.framework */,
 			);
@@ -366,6 +381,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A3B0E6A32F3E7F0A00FEDCBA /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -577,7 +593,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Last Fast";
 				INFOPLIST_KEY_NSSiriUsageDescription = "Allows you to start and stop fasting with your voice";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This allows us to collect data to\n         improve your app experience.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This allows us to collect data to improve your app experience.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -616,7 +632,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Last Fast";
 				INFOPLIST_KEY_NSSiriUsageDescription = "Allows you to start and stop fasting with your voice";
 				INFOPLIST_KEY_NSSupportsLiveActivities = YES;
-				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This allows us to collect data to\n         improve your app experience.";
+				INFOPLIST_KEY_NSUserTrackingUsageDescription = "This allows us to collect data to improve your app experience.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
