@@ -9,21 +9,20 @@ struct OnboardingView: View {
     var onComplete: () -> Void
 
     @State private var currentPage = 0
-    private let totalPages = 10
+    private let totalPages = 9
 
     var body: some View {
         ZStack(alignment: .top) {
             TabView(selection: $currentPage) {
                 WelcomePage().tag(0)
-                SetGoalPage().tag(1)
-                StartFastPage().tag(2)
-                TrackProgressPage().tag(3)
-                GoalAchievedPage().tag(4)
-                EndFastPage().tag(5)
-                HistoryPage().tag(6)
-                NotificationsPage().tag(7)
-                WidgetsPage().tag(8)
-                SiriPage().tag(9)
+                StartFastPage().tag(1)
+                TrackProgressPage().tag(2)
+                GoalAchievedPage().tag(3)
+                EndFastPage().tag(4)
+                HistoryPage().tag(5)
+                NotificationsPage().tag(6)
+                WidgetsPage().tag(7)
+                SiriPage().tag(8)
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .animation(.easeInOut, value: currentPage)
@@ -63,7 +62,7 @@ struct OnboardingView: View {
 
     private func advance() {
         // Request notification permission when leaving the notifications page
-        if currentPage == 7 {
+        if currentPage == 6 {
             NotificationManager.requestPermission()
         }
 
