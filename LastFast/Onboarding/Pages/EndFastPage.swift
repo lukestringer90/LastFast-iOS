@@ -9,7 +9,7 @@ struct EndFastPage: View {
             iconName: "stop.circle.fill",
             iconColor: .red,
             title: "End Your Fast",
-            description: "Tap Stop Fast whenever you're done. LastFast saves your session to History automatically."
+            description: "Tap Stop Fast whenever you're done. Last Fast saves your session to History automatically."
         ) {
             HStack(spacing: 10) {
                 Image(systemName: "square.fill")

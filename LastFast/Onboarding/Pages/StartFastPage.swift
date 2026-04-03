@@ -9,7 +9,7 @@ struct StartFastPage: View {
             iconName: "play.circle.fill",
             iconColor: .green,
             title: "Start Your Fast",
-            description: "When you're ready, tap Start Fast. LastFast begins tracking your elapsed time against your goal immediately."
+            description: "When you're ready, tap Start Fast. Last Fast begins tracking your elapsed time against your goal immediately."
         ) {
             HStack(spacing: 10) {
                 Image(systemName: "play.fill")

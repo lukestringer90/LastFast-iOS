@@ -30,7 +30,7 @@ struct HistoryPage: View {
     var body: some View {
         OnboardingPageView(
             iconName: "clock.arrow.circlepath",
-            iconColor: .purple,
+            iconColor: .indigo,
             title: "Review Your History",
             description: "Every completed fast is saved. See your progress over time with the history graph."
         ) {

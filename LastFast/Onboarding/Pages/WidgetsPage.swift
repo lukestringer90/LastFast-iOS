@@ -11,7 +11,7 @@ struct WidgetsPage: View {
             iconName: "rectangle.stack.fill",
             iconColor: .indigo,
             title: "Widgets Everywhere",
-            description: "Add LastFast to your Home Screen or Lock Screen to check your fast at a glance — no need to open the app."
+            description: "Add Last Fast to your Home Screen or Lock Screen to check your fast at a glance — no need to open the app."
         ) {
             HStack(alignment: .top, spacing: 16) {
                 // Home Screen widget

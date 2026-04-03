@@ -9,7 +9,7 @@ struct WelcomePage: View {
             iconName: "bolt.heart.fill",
             iconColor: .orange,
             imageName: "AppIconDisplay",
-            title: "Welcome to LastFast",
+            title: "Welcome to Last Fast",
             description: "Track your intermittent fasts and hit your goals. Start by setting how long you want to fast."
         ) {
             VStack(spacing: 6) {

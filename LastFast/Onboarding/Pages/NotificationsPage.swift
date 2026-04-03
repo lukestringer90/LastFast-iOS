@@ -9,7 +9,7 @@ struct NotificationsPage: View {
             iconName: "bell.badge.fill",
             iconColor: .orange,
             title: "Stay on Track",
-            description: "LastFast can notify you one hour before your goal and when you've achieved it. You can change this in Settings any time."
+            description: "Last Fast can notify you one hour before your goal and when you've achieved it. You can change this in Settings any time."
         ) {
             VStack(spacing: 10) {
                 notificationBanner(
