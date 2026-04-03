@@ -4,6 +4,8 @@
 import SwiftUI
 
 struct GoalAchievedPage: View {
+    @State private var showConfetti = false
+
     var body: some View {
         OnboardingPageView(
             iconName: "checkmark.seal.fill",
@@ -13,14 +15,6 @@ struct GoalAchievedPage: View {
         ) {
             VStack(spacing: 16) {
                 ZStack {
-                    // Confetti dots
-                    ForEach(confettiItems, id: \.id) { item in
-                        Circle()
-                            .fill(item.color)
-                            .frame(width: item.size, height: item.size)
-                            .offset(x: item.x, y: item.y)
-                    }
-
                     Circle()
                         .stroke(Color.green.opacity(0.2), lineWidth: 10)
 
@@ -53,24 +47,22 @@ struct GoalAchievedPage: View {
             }
             .frame(maxWidth: .infinity)
             .cardBackground()
+            .clipShape(RoundedRectangle(cornerRadius: 12))
+            .overlay {
+                if showConfetti {
+                    ConfettiView(id: UUID(), onComplete: nil)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+            }
+        }
+        .task {
+            try? await Task.sleep(for: .seconds(1.0))
+            showConfetti = true
+        }
+        .onDisappear {
+            showConfetti = false
         }
     }
-
-    private struct ConfettiItem {
-        let id: Int
-        let color: Color
-        let size: CGFloat
-        let x: CGFloat
-        let y: CGFloat
-    }
-
-    private let confettiItems: [ConfettiItem] = [
-        ConfettiItem(id: 0, color: .green, size: 10, x: -100, y: -79),
-        ConfettiItem(id: 1, color: .mint, size: 8, x: 93, y: -71),
-        ConfettiItem(id: 2, color: .teal, size: 12, x: -86, y: 79),
-        ConfettiItem(id: 3, color: .green.opacity(0.6), size: 7, x: 100, y: 71),
-        ConfettiItem(id: 4, color: .mint, size: 9, x: 0, y: -107),
-    ]
 }
 
 #Preview {
