@@ -22,7 +22,6 @@ struct TrackProgressPage: View {
                         .trim(from: 0, to: progress)
                         .stroke(Color.orange, style: StrokeStyle(lineWidth: 10, lineCap: .round))
                         .rotationEffect(.degrees(-90))
-                        .animation(.easeInOut(duration: 1.5), value: progress)
 
                     VStack(spacing: 2) {
                         Text("FAST UNTIL")
@@ -48,7 +47,7 @@ struct TrackProgressPage: View {
             .onDisappear { progress = 0.5 }
             .task {
                 try? await Task.sleep(for: .seconds(1.0))
-                progress = 0.75
+                withAnimation(.easeInOut(duration: 1.5)) { progress = 0.75 }
             }
         }
     }
