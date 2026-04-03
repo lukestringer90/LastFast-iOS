@@ -45,18 +45,20 @@ struct OnboardingView: View {
             VStack {
                 Spacer()
                 Button(action: advance) {
-                    Text(currentPage == totalPages - 1 ? "Get Started" : "Next")
-                        .font(.title3)
-                        .fontWeight(.semibold)
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 56)
-                        .background(Color.orange)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                    HStack(spacing: 6) {
+                        Text(currentPage == totalPages - 1 ? "Get Started" : "Next")
+                        Image(systemName: "chevron.right")
+                    }
+                    .font(.title3)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.blue)
                 }
-                .padding(.horizontal, 24)
                 .padding(.bottom, 40)
             }
+        }
+        .onAppear {
+            UIPageControl.appearance().currentPageIndicatorTintColor = .label
+            UIPageControl.appearance().pageIndicatorTintColor = UIColor.label.withAlphaComponent(0.3)
         }
     }
 
