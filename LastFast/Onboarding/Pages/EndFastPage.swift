@@ -25,7 +25,6 @@ struct EndFastPage: View {
             .background(Color.red)
             .clipShape(RoundedRectangle(cornerRadius: 16))
             .tapHint()
-            .padding(.horizontal, 24)
         }
     }
 }

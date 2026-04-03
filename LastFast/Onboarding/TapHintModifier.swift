@@ -10,14 +10,6 @@ struct TapHintModifier: ViewModifier {
 
     private enum Phase { case offScreen, onScreen, tapping }
 
-    private var handOpacity: Double {
-        switch phase {
-        case .offScreen: 0
-        case .onScreen: 0.45
-        case .tapping: 0.65
-        }
-    }
-
     func body(content: Content) -> some View {
         ZStack(alignment: .bottomTrailing) {
             content
@@ -25,7 +17,7 @@ struct TapHintModifier: ViewModifier {
             Image(systemName: "hand.tap.fill")
                 .font(.largeTitle)
                 .foregroundStyle(.primary)
-                .opacity(handOpacity)
+                .opacity(phase == .offScreen ? 0 : 1)
                 .scaleEffect(phase == .tapping ? 0.82 : 1.0)
                 .offset(
                     x: phase == .offScreen ? 30 : 0,
