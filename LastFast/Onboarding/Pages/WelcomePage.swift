@@ -8,6 +8,7 @@ struct WelcomePage: View {
         OnboardingPageView(
             iconName: "bolt.heart.fill",
             iconColor: .orange,
+            imageName: "AppIconDisplay",
             title: "Welcome to LastFast",
             description: "Track your intermittent fasts and hit your goals. Start by setting how long you want to fast."
         ) {

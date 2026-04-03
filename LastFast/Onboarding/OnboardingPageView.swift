@@ -8,6 +8,7 @@ import SwiftUI
 struct OnboardingPageView<Mockup: View>: View {
     let iconName: String
     let iconColor: Color
+    var imageName: String? = nil
     let title: String
     let description: String
     @ViewBuilder let mockup: () -> Mockup
@@ -18,12 +19,20 @@ struct OnboardingPageView<Mockup: View>: View {
         ScrollView {
             VStack(spacing: 24) {
                 ZStack {
-                    Circle()
-                        .fill(iconColor.opacity(0.15))
-                        .frame(width: 100, height: 100)
-                    Image(systemName: iconName)
-                        .font(.system(size: 44))
-                        .foregroundStyle(iconColor)
+                    if let imageName {
+                        Image(imageName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 90, height: 90)
+                            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                    } else {
+                        Circle()
+                            .fill(iconColor.opacity(0.15))
+                            .frame(width: 100, height: 100)
+                        Image(systemName: iconName)
+                            .font(.system(size: 44))
+                            .foregroundStyle(iconColor)
+                    }
                 }
                 .scaleEffect(appeared ? 1.0 : 0.8)
                 .opacity(appeared ? 1.0 : 0.0)
