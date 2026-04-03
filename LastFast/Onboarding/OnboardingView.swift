@@ -9,7 +9,7 @@ struct OnboardingView: View {
     var onComplete: () -> Void
 
     @State private var currentPage = 0
-    private let totalPages = 9
+    private let totalPages = 8
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -22,7 +22,6 @@ struct OnboardingView: View {
                 HistoryPage().tag(5)
                 NotificationsPage().tag(6)
                 WidgetsPage().tag(7)
-                SiriPage().tag(8)
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .animation(.easeInOut, value: currentPage)

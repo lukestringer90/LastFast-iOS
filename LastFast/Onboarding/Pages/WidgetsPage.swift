@@ -46,25 +46,19 @@ struct WidgetsPage: View {
 
                 // Lock Screen widget
                 VStack(spacing: 8) {
-                    RoundedRectangle(cornerRadius: 12)
+                    RoundedRectangle(cornerRadius: 16)
                         .fill(Color(.secondarySystemBackground))
-                        .frame(width: 90, height: 44)
+                        .frame(width: 80, height: 80)
                         .overlay(
-                            HStack(spacing: 8) {
-                                ZStack {
-                                    Circle()
-                                        .stroke(Color.orange.opacity(0.25), lineWidth: 3)
-                                    Circle()
-                                        .trim(from: 0, to: 0.65)
-                                        .stroke(Color.orange, style: StrokeStyle(lineWidth: 3, lineCap: .round))
-                                        .rotationEffect(.degrees(-90))
-                                }
-                                .frame(width: 22, height: 22)
-
-                                Text("08:30")
-                                    .font(.system(size: 14, weight: .bold, design: .rounded))
-                                    .foregroundStyle(.orange)
+                            Gauge(value: 0.65) {
+                                Text("")
+                            } currentValueLabel: {
+                                Text("08:00")
+                                    .font(.system(size: 13, weight: .bold, design: .rounded))
+                                    .minimumScaleFactor(0.7)
                             }
+                            .gaugeStyle(.accessoryCircularCapacity)
+                            .frame(width: 52, height: 52)
                         )
 
                     Text("Lock Screen")
