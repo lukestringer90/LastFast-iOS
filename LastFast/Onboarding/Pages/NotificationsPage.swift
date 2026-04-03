@@ -26,14 +26,11 @@ struct NotificationsPage: View {
 
     private func notificationBanner(title: String, body: String) -> some View {
         HStack(alignment: .top, spacing: 12) {
-            RoundedRectangle(cornerRadius: 10)
-                .fill(Color.orange)
+            Image("AppIconDisplay")
+                .resizable()
+                .scaledToFit()
                 .frame(width: 36, height: 36)
-                .overlay(
-                    Image(systemName: "timer")
-                        .font(.system(size: 18))
-                        .foregroundStyle(.white)
-                )
+                .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
 
             VStack(alignment: .leading, spacing: 2) {
                 Text(title)
