@@ -35,12 +35,12 @@ struct GoalAchievedPage: View {
                             .fontWeight(.semibold)
                             .foregroundStyle(.secondary)
                             .tracking(1)
-                        Text("16h 00m")
+                        Text("16h 12m")
                             .font(.system(size: 30, weight: .bold, design: .rounded))
                             .foregroundStyle(.green)
                     }
                 }
-                .frame(width: 140, height: 140)
+                .frame(width: 200, height: 200)
 
                 HStack(spacing: 4) {
                     Image(systemName: "checkmark.circle.fill")
@@ -65,11 +65,11 @@ struct GoalAchievedPage: View {
     }
 
     private let confettiItems: [ConfettiItem] = [
-        ConfettiItem(id: 0, color: .green, size: 10, x: -70, y: -55),
-        ConfettiItem(id: 1, color: .mint, size: 8, x: 65, y: -50),
-        ConfettiItem(id: 2, color: .teal, size: 12, x: -60, y: 55),
-        ConfettiItem(id: 3, color: .green.opacity(0.6), size: 7, x: 70, y: 50),
-        ConfettiItem(id: 4, color: .mint, size: 9, x: 0, y: -75),
+        ConfettiItem(id: 0, color: .green, size: 10, x: -100, y: -79),
+        ConfettiItem(id: 1, color: .mint, size: 8, x: 93, y: -71),
+        ConfettiItem(id: 2, color: .teal, size: 12, x: -86, y: 79),
+        ConfettiItem(id: 3, color: .green.opacity(0.6), size: 7, x: 100, y: 71),
+        ConfettiItem(id: 4, color: .mint, size: 9, x: 0, y: -107),
     ]
 }
 

@@ -4,6 +4,8 @@
 import SwiftUI
 
 struct TrackProgressPage: View {
+    @State private var progress: CGFloat = 0.5
+
     var body: some View {
         OnboardingPageView(
             iconName: "chart.line.uptrend.xyaxis",
@@ -17,9 +19,10 @@ struct TrackProgressPage: View {
                         .stroke(Color.orange.opacity(0.2), lineWidth: 10)
 
                     Circle()
-                        .trim(from: 0, to: 0.6)
+                        .trim(from: 0, to: progress)
                         .stroke(Color.orange, style: StrokeStyle(lineWidth: 10, lineCap: .round))
                         .rotationEffect(.degrees(-90))
+                        .animation(.easeInOut(duration: 1.5), value: progress)
 
                     VStack(spacing: 2) {
                         Text("FAST UNTIL")
@@ -32,7 +35,7 @@ struct TrackProgressPage: View {
                             .foregroundStyle(.orange)
                     }
                 }
-                .frame(width: 140, height: 140)
+                .frame(width: 200, height: 200)
 
                 Text("Goal: 16h")
                     .font(.subheadline)
@@ -41,6 +44,12 @@ struct TrackProgressPage: View {
             }
             .frame(maxWidth: .infinity)
             .cardBackground()
+            .onAppear { progress = 0.5 }
+            .onDisappear { progress = 0.5 }
+            .task {
+                try? await Task.sleep(for: .seconds(1.0))
+                progress = 0.75
+            }
         }
     }
 }
