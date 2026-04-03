@@ -48,6 +48,8 @@ struct LastFastApp: App {
         }
     }
     
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+
     var body: some Scene {
         WindowGroup {
             FastingView()
@@ -55,6 +57,11 @@ struct LastFastApp: App {
                     Task {
                         try? await Task.sleep(nanoseconds:500_000_000) // 0.5 seconds
                         AnalyticsManager.requestTrackingPermission()
+                    }
+                }
+                .fullScreenCover(isPresented: .constant(!hasCompletedOnboarding)) {
+                    OnboardingView {
+                        hasCompletedOnboarding = true
                     }
                 }
         }
