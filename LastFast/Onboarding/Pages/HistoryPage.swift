@@ -15,16 +15,11 @@ struct HistoryPage: View {
                 sessionRow(duration: "16h 10m", durationColor: .green, date: "Yesterday")
                 Divider()
                     .padding(.leading, 44)
-                ZStack(alignment: .bottomTrailing) {
-                    sessionRow(duration: "14h 30m", durationColor: .orange, date: "2 days ago")
-                    Image(systemName: "hand.tap.fill")
-                        .font(.title2)
-                        .foregroundStyle(.secondary)
-                        .padding(8)
-                }
+                sessionRow(duration: "14h 30m", durationColor: .orange, date: "2 days ago")
             }
             .cardBackground(padding: 0)
             .clipShape(RoundedRectangle(cornerRadius: 12))
+            .tapHint()
         }
     }
 
