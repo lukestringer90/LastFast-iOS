@@ -19,6 +19,7 @@ let useGraphHistoryView = true
 struct FastingView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \FastingSession.startTime, order: .reverse) private var sessions: [FastingSession]
+    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
     @State private var timer: Timer?
     @State private var liveActivityTimer: Timer?
@@ -183,7 +184,9 @@ struct FastingView: View {
                 goalMinutes: activeFast?.goalMinutes ?? savedGoalMinutes
             )
         }
-        NotificationManager.requestPermission()
+        if hasCompletedOnboarding {
+            NotificationManager.requestPermission()
+        }
         if activeFast == nil {
             goalNotificationSent = false
         }

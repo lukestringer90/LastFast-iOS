@@ -1,0 +1,83 @@
+// OnboardingView.swift
+// LastFast
+//
+// Main onboarding container — shown once on first launch via fullScreenCover
+
+import SwiftUI
+
+struct OnboardingView: View {
+    var onComplete: () -> Void
+
+    @State private var currentPage = 0
+    private let totalPages = 10
+
+    var body: some View {
+        ZStack(alignment: .top) {
+            TabView(selection: $currentPage) {
+                WelcomePage().tag(0)
+                SetGoalPage().tag(1)
+                StartFastPage().tag(2)
+                TrackProgressPage().tag(3)
+                GoalAchievedPage().tag(4)
+                EndFastPage().tag(5)
+                HistoryPage().tag(6)
+                NotificationsPage().tag(7)
+                WidgetsPage().tag(8)
+                SiriPage().tag(9)
+            }
+            .tabViewStyle(.page(indexDisplayMode: .always))
+            .animation(.easeInOut, value: currentPage)
+
+            // Skip button — hidden on last page
+            if currentPage < totalPages - 1 {
+                HStack {
+                    Spacer()
+                    Button("Skip") {
+                        AnalyticsManager.logEvent("onboarding_skipped", parameters: ["page": currentPage])
+                        onComplete()
+                    }
+                    .foregroundStyle(.secondary)
+                    .padding(.horizontal, 20)
+                    .padding(.top, 56)
+                }
+            }
+
+            // Next / Get Started button pinned to bottom
+            VStack {
+                Spacer()
+                Button(action: advance) {
+                    Text(currentPage == totalPages - 1 ? "Get Started" : "Next")
+                        .font(.title3)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 56)
+                        .background(Color.orange)
+                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 40)
+            }
+        }
+    }
+
+    private func advance() {
+        // Request notification permission when leaving the notifications page
+        if currentPage == 7 {
+            NotificationManager.requestPermission()
+        }
+
+        if currentPage == totalPages - 1 {
+            AnalyticsManager.logEvent("onboarding_completed")
+            onComplete()
+        } else {
+            withAnimation {
+                currentPage += 1
+            }
+        }
+    }
+}
+
+#Preview {
+    OnboardingView(onComplete: {})
+}

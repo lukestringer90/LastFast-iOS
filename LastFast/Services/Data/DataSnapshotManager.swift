@@ -197,6 +197,12 @@ extension DataSnapshotManager {
             }
         }
 
+        // Handle --show-onboarding to force the onboarding flow to appear
+        if args.contains("--show-onboarding") {
+            UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
+            print("🎓 Onboarding reset: will show on next launch")
+        }
+
         // Handle --ui-test-goal <minutes> for UI testing with custom goal
         if let goalIndex = args.firstIndex(of: "--ui-test-goal"),
            goalIndex + 1 < args.count,
