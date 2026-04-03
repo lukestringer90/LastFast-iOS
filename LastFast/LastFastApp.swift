@@ -49,6 +49,9 @@ struct LastFastApp: App {
     }
     
     @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = false
+    @AppStorage("showOnboarding") private var showOnboarding = false
+
+    private var shouldShowOnboarding: Bool { !hasCompletedOnboarding || showOnboarding }
 
     var body: some Scene {
         WindowGroup {
@@ -59,9 +62,10 @@ struct LastFastApp: App {
                         AnalyticsManager.requestTrackingPermission()
                     }
                 }
-                .fullScreenCover(isPresented: .constant(!hasCompletedOnboarding)) {
+                .fullScreenCover(isPresented: .constant(shouldShowOnboarding)) {
                     OnboardingView {
                         hasCompletedOnboarding = true
+                        showOnboarding = false
                     }
                 }
         }

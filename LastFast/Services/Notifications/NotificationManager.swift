@@ -58,8 +58,11 @@ struct NotificationManager {
     ///   - startTime: When the fast started
     ///   - goalMinutes: The goal duration in minutes
     static func scheduleOneHourBeforeNotification(startTime: Date, goalMinutes: Int) {
+        // Respect the user's Settings.app preference (defaults to enabled)
+        guard UserDefaults.standard.object(forKey: "oneHourReminderEnabled") as? Bool ?? true else { return }
+
         let center = UNUserNotificationCenter.current()
-        
+
         // Calculate when the goal will be met
         let goalTime = startTime.addingTimeInterval(TimeInterval(goalMinutes * 60))
         let oneHourBefore = goalTime.addingTimeInterval(-3600) // 1 hour before
