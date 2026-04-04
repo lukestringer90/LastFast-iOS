@@ -10,12 +10,12 @@ import WidgetKit
 
 struct StartFastingIntent: AppIntent {
     static var title: LocalizedStringResource = "Start a fast"
-    static var description = IntentDescription("Start tracking a new fasting session with your default goal or a custom duration")
+    static var description = IntentDescription("Start tracking a new fasting session for a set duration")
 
     static var openAppWhenRun: Bool = false
 
-    @Parameter(title: "Duration (hours)", description: "Fast duration in hours (e.g., 16 or 18.5). Leave empty to use your default goal.")
-    var durationHours: Double?
+    @Parameter(title: "Duration (hours)", description: "Fast duration in hours (e.g., 16 or 18.5).")
+    var durationHours: Double
 
     static var parameterSummary: some ParameterSummary {
         Summary("Start a fast for \(\.$durationHours) hours")
@@ -43,31 +43,15 @@ struct StartFastingIntent: AppIntent {
             return .result(dialog: "You're already fasting. Your fast started at \(formatTime(activeSessions.first!.startTime)).")
         }
 
-        // Determine goal minutes from parameter or saved settings
-        let goalMinutes: Int
+        // Determine goal minutes from parameter
+        let goalMinutes = Int(durationHours * 60)
+        let wholeHours = Int(durationHours)
+        let mins = Int((durationHours - Double(wholeHours)) * 60)
         let goalDescription: String
-
-        if let hours = durationHours {
-            // User specified duration in hours
-            goalMinutes = Int(hours * 60)
-            let wholeHours = Int(hours)
-            let mins = Int((hours - Double(wholeHours)) * 60)
-            if mins > 0 {
-                goalDescription = "\(wholeHours) hours and \(mins) minutes"
-            } else {
-                goalDescription = "\(wholeHours) hours"
-            }
+        if mins > 0 {
+            goalDescription = "\(wholeHours) hours and \(mins) minutes"
         } else {
-            // Use saved goal or default
-            let savedGoal = UserDefaults.standard.integer(forKey: "fastingGoalMinutes")
-            goalMinutes = savedGoal > 0 ? savedGoal : defaultFastingGoalMinutes
-            let hours = goalMinutes / 60
-            let mins = goalMinutes % 60
-            if mins > 0 {
-                goalDescription = "\(hours) hours and \(mins) minutes"
-            } else {
-                goalDescription = "\(hours) hours"
-            }
+            goalDescription = "\(wholeHours) hours"
         }
 
         let newSession = FastingSession(goalMinutes: goalMinutes)
