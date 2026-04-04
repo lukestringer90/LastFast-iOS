@@ -203,6 +203,12 @@ extension DataSnapshotManager {
             print("🎓 Onboarding reset: will show on next launch")
         }
 
+        // Handle --skip-onboarding to suppress onboarding during UI testing
+        if args.contains("--skip-onboarding") {
+            UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
+            print("🧪 Onboarding suppressed for UI testing")
+        }
+
         // Handle --ui-test-goal <minutes> for UI testing with custom goal
         if let goalIndex = args.firstIndex(of: "--ui-test-goal"),
            goalIndex + 1 < args.count,

@@ -17,7 +17,7 @@ final class FastingUITests: XCTestCase {
         app = XCUIApplication()
 
         // Clear any existing data and set 1 minute goal for testing
-        app.launchArguments = ["--clear-data", "--ui-test-goal", "1"]
+        app.launchArguments = ["--clear-data", "--skip-onboarding", "--ui-test-goal", "1"]
     }
 
     override func tearDownWithError() throws {
