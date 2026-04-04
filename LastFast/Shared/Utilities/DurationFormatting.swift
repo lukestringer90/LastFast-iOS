@@ -9,17 +9,18 @@ import Foundation
 
 // MARK: - Time Formatting
 
-/// Cached DateFormatter for 24-hour time (HH:mm)
+/// Cached DateFormatter for time — respects the user's 12/24-hour preference
 private let timeFormatter: DateFormatter = {
     let formatter = DateFormatter()
-    formatter.dateFormat = "HH:mm"
+    formatter.dateStyle = .none
+    formatter.timeStyle = .short
     return formatter
 }()
 
-/// Formats a date as 24-hour time (HH:mm)
+/// Formats a date as a short time string, respecting the user's 12/24-hour preference
 /// - Parameter date: The date to format
-/// - Returns: Formatted string like "08:30" or "14:45"
-func format24HourTime(_ date: Date) -> String {
+/// - Returns: Formatted string like "8:30 AM" or "14:30" depending on device settings
+func formatTime(_ date: Date) -> String {
     timeFormatter.string(from: date)
 }
 

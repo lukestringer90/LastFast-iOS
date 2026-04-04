@@ -112,7 +112,7 @@ struct TimerDisplayView: View {
     private var endTimeDisplay: some View {
         Group {
             if let end = endTime {
-                Text(format24HourTime(end))
+                Text(formatTime(end))
                     .largeTimerFont()
                     .foregroundStyle(.orange)
             } else {

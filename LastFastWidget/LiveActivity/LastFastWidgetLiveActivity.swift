@@ -60,11 +60,11 @@ struct LastFastWidgetLiveActivity: Widget {
                         
                         // Right side - END TIME
                         VStack(alignment: .trailing, spacing: 4) {
-                            Text("\(format24HourTime(startTime)) to")
+                            Text("\(formatTime(startTime)) to")
                                 .font(.caption)
                                 .foregroundColor(.secondary)
                             
-                            Text(format24HourTime(endTime))
+                            Text(formatTime(endTime))
                                 .font(.system(size: 28, weight: .bold, design: .rounded))
                                 .foregroundColor(.orange)
                         }
@@ -116,7 +116,7 @@ struct LastFastWidgetLiveActivity: Widget {
                             .font(.system(size: 24))
                             .foregroundColor(.green)
                     } else {
-                        Text(format24HourTime(endTime))
+                        Text(formatTime(endTime))
                             .font(.system(size: 16, weight: .bold))
                             .foregroundColor(.orange)
                     }
@@ -149,7 +149,7 @@ struct LastFastWidgetLiveActivity: Widget {
                     Image(systemName: "checkmark.circle.fill")
                         .foregroundColor(.green)
                 } else {
-                    Text(format24HourTime(endTime))
+                    Text(formatTime(endTime))
                         .font(.system(size: 10))
                         .fontWeight(.medium)
                         .foregroundColor(.orange)

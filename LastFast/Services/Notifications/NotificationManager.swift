@@ -73,7 +73,8 @@ struct NotificationManager {
         
         // Format the goal time
         let timeFormatter = DateFormatter()
-        timeFormatter.dateFormat = "HH:mm"
+        timeFormatter.dateStyle = .none
+        timeFormatter.timeStyle = .short
         let goalTimeText = timeFormatter.string(from: goalTime)
         
         // Create notification content
@@ -118,7 +119,8 @@ struct NotificationManager {
         
         // Format times for the body
         let timeFormatter = DateFormatter()
-        timeFormatter.dateFormat = "HH:mm"
+        timeFormatter.dateStyle = .none
+        timeFormatter.timeStyle = .short
         let startTimeText = timeFormatter.string(from: startTime)
         let endTimeText = timeFormatter.string(from: goalTime)
         

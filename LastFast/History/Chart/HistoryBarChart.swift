@@ -153,7 +153,7 @@ struct HistoryBarChart: View {
 
     private func formatChartDate(_ date: Date) -> String {
         let formatter = DateFormatter()
-        formatter.dateFormat = "dd/MM"
+        formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "Md", options: 0, locale: .current)
         return formatter.string(from: date)
     }
 

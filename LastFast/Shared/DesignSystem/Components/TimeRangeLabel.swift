@@ -16,10 +16,10 @@ struct TimeRangeLabel: View {
 
     var body: some View {
         HStack(spacing: 4) {
-            Text(format24HourTime(startTime))
+            Text(formatTime(startTime))
             Image(systemName: "arrow.right")
                 .font(.caption2)
-            Text(endTime.map { format24HourTime($0) } ?? "—")
+            Text(endTime.map { formatTime($0) } ?? "—")
         }
         .font(font)
         .foregroundStyle(.secondary)

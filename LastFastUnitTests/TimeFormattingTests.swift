@@ -10,123 +10,77 @@ import XCTest
 
 final class TimeFormattingTests: XCTestCase {
 
-    // MARK: - format24HourTime Tests Using Helper
+    // Reference formatter matching the production formatter configuration
+    private let referenceFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .none
+        formatter.timeStyle = .short
+        return formatter
+    }()
 
-    func testFormat24HourTime_MorningTime_FormatsCorrectly() {
-        // Given: A morning time (9:30 AM)
+    // MARK: - formatTime Tests
+
+    func testFormatTime_MorningTime_FormatsCorrectly() {
         let date = TestDateBuilder.date(hour: 9, minute: 30)
-
-        // When: Formatting the time
-        let formatted = format24HourTime(date)
-
-        // Then: Should show "09:30"
-        XCTAssertEqual(formatted, "09:30")
+        let formatted = formatTime(date)
+        XCTAssertEqual(formatted, referenceFormatter.string(from: date))
     }
 
-    func testFormat24HourTime_AfternoonTime_FormatsCorrectly() {
-        // Given: An afternoon time (2:45 PM)
+    func testFormatTime_AfternoonTime_FormatsCorrectly() {
         let date = TestDateBuilder.date(hour: 14, minute: 45)
-
-        // When: Formatting the time
-        let formatted = format24HourTime(date)
-
-        // Then: Should show "14:45"
-        XCTAssertEqual(formatted, "14:45")
+        let formatted = formatTime(date)
+        XCTAssertEqual(formatted, referenceFormatter.string(from: date))
     }
 
-    func testFormat24HourTime_Midnight_FormatsCorrectly() {
-        // Given: Midnight
+    func testFormatTime_Midnight_FormatsCorrectly() {
         let date = TestDateBuilder.date(hour: 0, minute: 0)
-
-        // When: Formatting the time
-        let formatted = format24HourTime(date)
-
-        // Then: Should show "00:00"
-        XCTAssertEqual(formatted, "00:00")
+        let formatted = formatTime(date)
+        XCTAssertEqual(formatted, referenceFormatter.string(from: date))
     }
 
-    func testFormat24HourTime_Noon_FormatsCorrectly() {
-        // Given: Noon
+    func testFormatTime_Noon_FormatsCorrectly() {
         let date = TestDateBuilder.date(hour: 12, minute: 0)
-
-        // When: Formatting the time
-        let formatted = format24HourTime(date)
-
-        // Then: Should show "12:00"
-        XCTAssertEqual(formatted, "12:00")
+        let formatted = formatTime(date)
+        XCTAssertEqual(formatted, referenceFormatter.string(from: date))
     }
 
-    func testFormat24HourTime_SingleDigitMinutes_PadsWithZero() {
-        // Given: A time with single digit minutes (3:05 PM)
+    func testFormatTime_SingleDigitMinutes_FormatsCorrectly() {
         let date = TestDateBuilder.date(hour: 15, minute: 5)
-
-        // When: Formatting the time
-        let formatted = format24HourTime(date)
-
-        // Then: Should show "15:05" (padded)
-        XCTAssertEqual(formatted, "15:05")
+        let formatted = formatTime(date)
+        XCTAssertEqual(formatted, referenceFormatter.string(from: date))
     }
 
-    func testFormat24HourTime_EndOfDay_FormatsCorrectly() {
-        // Given: 11:59 PM
+    func testFormatTime_EndOfDay_FormatsCorrectly() {
         let date = TestDateBuilder.date(hour: 23, minute: 59)
-
-        // When: Formatting the time
-        let formatted = format24HourTime(date)
-
-        // Then: Should show "23:59"
-        XCTAssertEqual(formatted, "23:59")
+        let formatted = formatTime(date)
+        XCTAssertEqual(formatted, referenceFormatter.string(from: date))
     }
 
-    // MARK: - Additional Edge Cases
-
-    func testFormat24HourTime_SingleDigitHour_PadsWithZero() {
-        // Given: A time with single digit hour (1:00 AM)
+    func testFormatTime_SingleDigitHour_FormatsCorrectly() {
         let date = TestDateBuilder.date(hour: 1, minute: 0)
-
-        // When: Formatting the time
-        let formatted = format24HourTime(date)
-
-        // Then: Should show "01:00" (padded)
-        XCTAssertEqual(formatted, "01:00")
+        let formatted = formatTime(date)
+        XCTAssertEqual(formatted, referenceFormatter.string(from: date))
     }
 
-    func testFormat24HourTime_AllSingleDigits_PadsBoth() {
-        // Given: A time with both single digit hour and minute (5:07 AM)
-        let date = TestDateBuilder.date(hour: 5, minute: 7)
+    func testFormatTime_VariousTimesOfDay() {
+        let hours = [0, 6, 9, 12, 13, 18, 23]
+        let minutes = [0, 30, 15, 0, 45, 30, 59]
 
-        // When: Formatting the time
-        let formatted = format24HourTime(date)
-
-        // Then: Should show "05:07" (both padded)
-        XCTAssertEqual(formatted, "05:07")
-    }
-
-    // MARK: - Parameterized Tests
-
-    func testFormat24HourTime_VariousTimesOfDay() {
-        // Given: Various times throughout the day
-        let testCases: [(hour: Int, minute: Int, expected: String)] = [
-            (0, 0, "00:00"),    // Midnight
-            (6, 30, "06:30"),   // Early morning
-            (9, 15, "09:15"),   // Mid morning
-            (12, 0, "12:00"),   // Noon
-            (13, 45, "13:45"),  // Early afternoon
-            (18, 30, "18:30"),  // Evening
-            (23, 59, "23:59"),  // End of day
-        ]
-
-        for testCase in testCases {
-            // When: Formatting
-            let date = TestDateBuilder.date(hour: testCase.hour, minute: testCase.minute)
-            let formatted = format24HourTime(date)
-
-            // Then: Should match expected format
+        for (hour, minute) in zip(hours, minutes) {
+            let date = TestDateBuilder.date(hour: hour, minute: minute)
+            let formatted = formatTime(date)
             XCTAssertEqual(
                 formatted,
-                testCase.expected,
-                "Failed for \(testCase.hour):\(testCase.minute)"
+                referenceFormatter.string(from: date),
+                "Failed for \(hour):\(minute)"
             )
         }
+    }
+
+    // MARK: - Non-empty output
+
+    func testFormatTime_ReturnsNonEmptyString() {
+        let date = TestDateBuilder.date(hour: 8, minute: 0)
+        XCTAssertFalse(formatTime(date).isEmpty)
     }
 }

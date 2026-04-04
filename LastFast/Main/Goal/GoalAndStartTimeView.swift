@@ -27,7 +27,7 @@ struct GoalAndStartTimeView: View {
 
             if let fast = activeFast, let goal = fast.goalMinutes {
                 let completionTime = fast.startTime.addingTimeInterval(TimeInterval(goal * 60))
-                Text("\(format24HourTime(fast.startTime)) → \(format24HourTime(completionTime))")
+                Text("\(formatTime(fast.startTime)) → \(formatTime(completionTime))")
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
 

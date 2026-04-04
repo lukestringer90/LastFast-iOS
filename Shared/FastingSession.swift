@@ -19,10 +19,11 @@ let fastingGoalStorageKey = "fastingGoalMinutes"
 
 // MARK: - Time Formatting
 
-/// Formats a date as 24-hour time (HH:mm)
-func format24HourTime(_ date: Date) -> String {
+/// Formats a date as a short time string, respecting the user's 12/24-hour preference
+func formatTime(_ date: Date) -> String {
     let formatter = DateFormatter()
-    formatter.dateFormat = "HH:mm"
+    formatter.dateStyle = .none
+    formatter.timeStyle = .short
     return formatter.string(from: date)
 }
 

@@ -40,7 +40,7 @@ struct StartFastingIntent: AppIntent {
         let activeSessions = try context.fetch(descriptor)
 
         if !activeSessions.isEmpty {
-            return .result(dialog: "You're already fasting. Your fast started at \(format24HourTime(activeSessions.first!.startTime)).")
+            return .result(dialog: "You're already fasting. Your fast started at \(formatTime(activeSessions.first!.startTime)).")
         }
 
         // Determine goal minutes from parameter or saved settings
@@ -115,7 +115,7 @@ struct StartFastingWithEndTimeIntent: AppIntent {
         let activeSessions = try context.fetch(descriptor)
 
         if !activeSessions.isEmpty {
-            return .result(dialog: "You're already fasting. Your fast started at \(format24HourTime(activeSessions.first!.startTime)).")
+            return .result(dialog: "You're already fasting. Your fast started at \(formatTime(activeSessions.first!.startTime)).")
         }
 
         // Calculate minutes from now until end time
@@ -131,7 +131,7 @@ struct StartFastingWithEndTimeIntent: AppIntent {
         // Refresh widgets
         WidgetCenter.shared.reloadAllTimelines()
 
-        return .result(dialog: "Started your fast until \(format24HourTime(endTime)). Good luck!")
+        return .result(dialog: "Started your fast until \(formatTime(endTime)). Good luck!")
     }
 }
 

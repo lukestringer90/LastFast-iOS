@@ -94,7 +94,7 @@ struct SmallEndTimeWidgetView: View {
                         // In progress: show end time
                         subtitleLabel("FAST UNTIL")
                         if let end = endTime {
-                            Text(format24HourTime(end))
+                            Text(formatTime(end))
                                 .font(.system(size: 36, weight: .bold, design: .rounded))
                                 .foregroundStyle(.orange)
                                 .minimumScaleFactor(0.5)

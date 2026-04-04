@@ -50,7 +50,7 @@ struct GoalSetterView: View {
                 .lineLimit(1)
 
                 // "Ends: <time>" label underneath
-                Text("Ends: \(format24HourTime(endTime))")
+                Text("Ends: \(formatTime(endTime))")
                     .font(.title3)
                     .fontWeight(.medium)
                     .foregroundStyle(.blue.opacity(0.8))
