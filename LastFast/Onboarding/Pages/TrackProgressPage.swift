@@ -7,6 +7,11 @@ struct TrackProgressPage: View {
     var isActive: Bool = false
     @State private var progress: CGFloat = 0.5
 
+    private var endTimeString: String {
+        let date = Calendar.current.date(bySettingHour: 10, minute: 30, second: 0, of: Date()) ?? Date()
+        return formatTime(date)
+    }
+
     var body: some View {
         OnboardingPageView(
             iconName: "chart.line.uptrend.xyaxis",
@@ -30,7 +35,7 @@ struct TrackProgressPage: View {
                             .fontWeight(.semibold)
                             .foregroundStyle(.secondary)
                             .tracking(1)
-                        Text("08:30")
+                        Text(endTimeString)
                             .font(.system(size: 36, weight: .bold, design: .rounded))
                             .foregroundStyle(.orange)
                     }

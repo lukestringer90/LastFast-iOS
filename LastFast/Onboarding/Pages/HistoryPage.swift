@@ -12,14 +12,23 @@ struct HistoryPage: View {
         let date: String
     }
 
-    private let bars: [BarData] = [
-        BarData(label: "14h", fraction: 0.75, goalMet: false, date: "28/03"),
-        BarData(label: "16h", fraction: 0.86, goalMet: true,  date: "29/03"),
-        BarData(label: "18h", fraction: 1.00, goalMet: true,  date: "30/03"),
-        BarData(label: "14h", fraction: 0.75, goalMet: false,  date: "31/03"),
-        BarData(label: "13h", fraction: 0.60, goalMet: false, date: "01/04"),
-        BarData(label: "16h", fraction: 0.86, goalMet: true,  date: "02/04"),
-    ]
+    private var bars: [BarData] {
+        [
+            BarData(label: "14h", fraction: 0.75, goalMet: false, date: barDate(daysAgo: 5)),
+            BarData(label: "16h", fraction: 0.86, goalMet: true,  date: barDate(daysAgo: 4)),
+            BarData(label: "18h", fraction: 1.00, goalMet: true,  date: barDate(daysAgo: 3)),
+            BarData(label: "14h", fraction: 0.75, goalMet: false,  date: barDate(daysAgo: 2)),
+            BarData(label: "13h", fraction: 0.60, goalMet: false, date: barDate(daysAgo: 1)),
+            BarData(label: "16h", fraction: 0.86, goalMet: true,  date: barDate(daysAgo: 0)),
+        ]
+    }
+
+    private func barDate(daysAgo: Int) -> String {
+        let date = Calendar.current.date(byAdding: .day, value: -daysAgo, to: Date()) ?? Date()
+        let formatter = DateFormatter()
+        formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "Md", options: 0, locale: .current)
+        return formatter.string(from: date)
+    }
 
     private let barWidth: CGFloat = 36
     private let barSpacing: CGFloat = 8

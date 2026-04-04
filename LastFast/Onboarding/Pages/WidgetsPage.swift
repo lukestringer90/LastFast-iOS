@@ -6,6 +6,25 @@ import SwiftUI
 struct WidgetsPage: View {
     @State private var progress: CGFloat = 0.5
 
+    private var mockEndDate: Date {
+        Calendar.current.date(bySettingHour: 10, minute: 30, second: 0, of: Date()) ?? Date()
+    }
+
+    private var endTimeString: String {
+        formatTime(mockEndDate)
+    }
+
+    @ViewBuilder
+    private var lockScreenTimeLabel: some View {
+        let parts = splitTimeForDisplay(date: mockEndDate)
+        if let period = parts.period {
+            Text(parts.time + "\n" + period)
+                .multilineTextAlignment(.center)
+        } else {
+            Text(parts.time)
+        }
+    }
+
     var body: some View {
         OnboardingPageView(
             iconName: "rectangle.stack.fill",
@@ -31,7 +50,7 @@ struct WidgetsPage: View {
                                     Text("FAST UNTIL")
                                         .font(.system(size: 10, weight: .semibold))
                                         .foregroundStyle(.secondary)
-                                    Text("08:30")
+                                    Text(endTimeString)
                                         .font(.system(size: 30, weight: .bold, design: .rounded))
                                         .foregroundStyle(.orange)
                                         .minimumScaleFactor(0.5)
@@ -63,7 +82,7 @@ struct WidgetsPage: View {
                                     .trim(from: 0, to: progress)
                                     .stroke(Color.primary, style: StrokeStyle(lineWidth: 6, lineCap: .round))
                                     .rotationEffect(.degrees(-90))
-                                Text("08:30")
+                                lockScreenTimeLabel
                                     .font(.system(size: 11, weight: .bold, design: .rounded))
                                     .minimumScaleFactor(0.7)
                             }

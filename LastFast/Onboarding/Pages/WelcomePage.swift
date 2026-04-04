@@ -4,6 +4,11 @@
 import SwiftUI
 
 struct WelcomePage: View {
+    private var endTimeString: String {
+        let date = Calendar.current.date(bySettingHour: 10, minute: 30, second: 0, of: Date()) ?? Date()
+        return formatTime(date)
+    }
+
     var body: some View {
         OnboardingPageView(
             iconName: "bolt.heart.fill",
@@ -23,7 +28,7 @@ struct WelcomePage: View {
                     .font(.system(size: 48, weight: .bold, design: .rounded))
                     .foregroundStyle(.blue)
 
-                Text("Ends: 08:30")
+                Text("Ends: \(endTimeString)")
                     .font(.subheadline)
                     .foregroundStyle(.blue.opacity(0.8))
             }

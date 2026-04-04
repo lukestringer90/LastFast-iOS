@@ -4,6 +4,16 @@
 import SwiftUI
 
 struct NotificationsPage: View {
+    private var mockGoalTime: String {
+        let date = Calendar.current.date(bySettingHour: 10, minute: 30, second: 0, of: Date()) ?? Date()
+        return formatTime(date)
+    }
+
+    private var mockStartTime: String {
+        let date = Calendar.current.date(bySettingHour: 18, minute: 30, second: 0, of: Date()) ?? Date()
+        return formatTime(date)
+    }
+
     var body: some View {
         OnboardingPageView(
             iconName: "bell.badge.fill",
@@ -14,11 +24,11 @@ struct NotificationsPage: View {
             VStack(spacing: 10) {
                 notificationBanner(
                     title: "⏰ One Hour to Go!",
-                    body: "You're almost there! Your goal will be complete at 08:00"
+                    body: "You're almost there! Your goal will be complete at \(mockGoalTime)"
                 )
                 notificationBanner(
                     title: "🎉 Goal Achieved - 16h",
-                    body: "Amazing work! You fasted from 16:00 → 08:00"
+                    body: "Amazing work! You fasted from \(mockStartTime) → \(mockGoalTime)"
                 )
             }
         }
