@@ -16,8 +16,8 @@ struct HistoryPage: View {
         BarData(label: "14h", fraction: 0.75, goalMet: false, date: "28/03"),
         BarData(label: "16h", fraction: 0.86, goalMet: true,  date: "29/03"),
         BarData(label: "18h", fraction: 1.00, goalMet: true,  date: "30/03"),
-        BarData(label: "15h", fraction: 0.80, goalMet: true,  date: "31/03"),
-        BarData(label: "13h", fraction: 0.68, goalMet: false, date: "01/04"),
+        BarData(label: "14h", fraction: 0.75, goalMet: false,  date: "31/03"),
+        BarData(label: "13h", fraction: 0.60, goalMet: false, date: "01/04"),
         BarData(label: "16h", fraction: 0.86, goalMet: true,  date: "02/04"),
     ]
 
@@ -25,7 +25,7 @@ struct HistoryPage: View {
     private let barSpacing: CGFloat = 8
     private let barAreaHeight: CGFloat = 100
     // Goal is 16h, max is 18h → 16/18 ≈ 0.89
-    private let goalFraction: CGFloat = 16.0 / 18.0
+    private let goalFraction: CGFloat = 15.5 / 18.0
 
     var body: some View {
         OnboardingPageView(
@@ -85,7 +85,7 @@ struct HistoryPage: View {
                 sessionRow(duration: "16h 10m", durationColor: .green, date: "Yesterday")
                 Divider()
                     .padding(.leading, 44)
-                sessionRow(duration: "14h 30m", durationColor: .orange, date: "2 days ago")
+                sessionRow(duration: "13h 30m", durationColor: .orange, date: "2 days ago")
             }
             .cardBackground(padding: 0)
             .clipShape(RoundedRectangle(cornerRadius: 12))
