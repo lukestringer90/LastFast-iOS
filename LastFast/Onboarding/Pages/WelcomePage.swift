@@ -10,7 +10,7 @@ struct WelcomePage: View {
             iconColor: .orange,
             imageName: "AppIconDisplay",
             title: "Welcome to Last Fast",
-            description: "Track your intermittent fasts and hit your goals. Start by setting how long you want to fast."
+            description: "Track your intermittent fasts and hit your goals. Start by setting how long you want to fast by taping the preset goal."
         ) {
             VStack(spacing: 6) {
                 Text("FAST GOAL")
