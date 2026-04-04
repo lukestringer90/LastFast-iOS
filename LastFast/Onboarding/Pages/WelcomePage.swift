@@ -23,7 +23,7 @@ struct WelcomePage: View {
                     .font(.system(size: 48, weight: .bold, design: .rounded))
                     .foregroundStyle(.blue)
 
-                Text("Ends: 08:00")
+                Text("Ends: 08:30")
                     .font(.subheadline)
                     .foregroundStyle(.blue.opacity(0.8))
             }

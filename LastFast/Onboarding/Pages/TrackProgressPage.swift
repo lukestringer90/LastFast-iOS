@@ -4,6 +4,7 @@
 import SwiftUI
 
 struct TrackProgressPage: View {
+    var isActive: Bool = false
     @State private var progress: CGFloat = 0.5
 
     var body: some View {
@@ -43,9 +44,9 @@ struct TrackProgressPage: View {
             }
             .frame(maxWidth: .infinity)
             .cardBackground()
-            .onAppear { progress = 0.5 }
-            .onDisappear { progress = 0.5 }
-            .task {
+            .task(id: isActive) {
+                withAnimation(.none) { progress = 0.5 }
+                guard isActive else { return }
                 try? await Task.sleep(for: .seconds(1.0))
                 withAnimation(.easeInOut(duration: 1.5)) { progress = 0.75 }
             }

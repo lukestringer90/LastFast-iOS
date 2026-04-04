@@ -17,8 +17,8 @@ struct WidgetsPage: View {
                 // Home Screen widget
                 VStack(spacing: 8) {
                     RoundedRectangle(cornerRadius: 22)
-                        .fill(Color(.systemBackground))
-                        .frame(width: 130, height: 130)
+                        .fill(Color(.secondarySystemBackground))
+                        .frame(width: 160, height: 160)
                         .overlay(
                             ZStack {
                                 RoundedRectangle(cornerRadius: 20)
@@ -31,7 +31,7 @@ struct WidgetsPage: View {
                                     Text("FAST UNTIL")
                                         .font(.system(size: 10, weight: .semibold))
                                         .foregroundStyle(.secondary)
-                                    Text("08:00")
+                                    Text("08:30")
                                         .font(.system(size: 30, weight: .bold, design: .rounded))
                                         .foregroundStyle(.orange)
                                         .minimumScaleFactor(0.5)
@@ -42,7 +42,7 @@ struct WidgetsPage: View {
                                 }
                                 .padding(8)
                             }
-                            .padding(8)
+                            .frame(width: 114, height: 114)
                         )
 
                     Text("Home Screen")
@@ -63,7 +63,7 @@ struct WidgetsPage: View {
                                     .trim(from: 0, to: progress)
                                     .stroke(Color.primary, style: StrokeStyle(lineWidth: 6, lineCap: .round))
                                     .rotationEffect(.degrees(-90))
-                                Text("08:00")
+                                Text("08:30")
                                     .font(.system(size: 11, weight: .bold, design: .rounded))
                                     .minimumScaleFactor(0.7)
                             }

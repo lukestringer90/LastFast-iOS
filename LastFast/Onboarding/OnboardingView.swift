@@ -16,7 +16,7 @@ struct OnboardingView: View {
             TabView(selection: $currentPage) {
                 WelcomePage().tag(0)
                 StartFastPage().tag(1)
-                TrackProgressPage().tag(2)
+                TrackProgressPage(isActive: currentPage == 2).tag(2)
                 GoalAchievedPage().tag(3)
                 EndFastPage().tag(4)
                 HistoryPage().tag(5)
