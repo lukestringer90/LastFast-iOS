@@ -37,6 +37,7 @@ struct OnboardingView: View {
                     .foregroundStyle(.secondary)
                     .padding(.horizontal, 20)
                     .padding(.top, 56)
+                    .accessibilityIdentifier("onboardingSkipButton")
                 }
             }
 
@@ -52,6 +53,7 @@ struct OnboardingView: View {
                     .fontWeight(.semibold)
                     .foregroundStyle(.blue)
                 }
+                .accessibilityIdentifier(currentPage == totalPages - 1 ? "onboardingGetStartedButton" : "onboardingNextButton")
                 .padding(.bottom, 40)
             }
         }

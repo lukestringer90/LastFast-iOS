@@ -36,6 +36,16 @@ struct LastFastApp: App {
     }()
     
     init() {
+        #if DEBUG
+        let args = ProcessInfo.processInfo.arguments
+        if args.contains("--show-onboarding") {
+            UserDefaults.standard.set(false, forKey: "hasCompletedOnboarding")
+        }
+        if args.contains("--skip-onboarding") {
+            UserDefaults.standard.set(true, forKey: "hasCompletedOnboarding")
+        }
+        #endif
+
         FirebaseApp.configure()
         // Set notification delegate
         UNUserNotificationCenter.current().delegate = notificationDelegate
