@@ -59,8 +59,7 @@ struct LockScreenCircularView: View {
                     } currentValueLabel: {
                         if let end = endTime {
                             // Ensure time is static or simple text; avoid timers in AOD
-                            Text(end, style: .time)
-                                .font(.system(size: 13, weight: isLuminanceReduced ? .medium : .bold, design: .rounded))
+                            WidgetTimeSplitLabel(date: end, size: 13, weight: isLuminanceReduced ? .medium : .bold)
                                 .minimumScaleFactor(0.7)
                         }
                     }
@@ -151,13 +150,12 @@ struct LockScreenRectangularCombinedView: View {
                         .gaugeStyle(.accessoryCircularCapacity)
                         .frame(width: 40, height: 40)
 
-                        VStack(alignment: .leading, spacing: 2) {
+                        VStack(alignment: .center, spacing: 2) {
                             Text("UNTIL")
                                 .font(.system(size: 10, weight: .medium))
                                 .foregroundStyle(.secondary)
                             if let end = endTime {
-                                Text(end, style: .time)
-                                    .font(.system(size: 14, weight: isLuminanceReduced ? .medium : .bold, design: .rounded))
+                                WidgetTimeSplitLabel(date: end, size: 14, weight: isLuminanceReduced ? .medium : .bold)
                             }
                         }
 
@@ -235,13 +233,12 @@ struct LockScreenRectangularCombinedRightView: View {
                     HStack(spacing: 8) {
                         Spacer()
 
-                        VStack(alignment: .trailing, spacing: 2) {
+                        VStack(alignment: .center, spacing: 2) {
                             Text("UNTIL")
                                 .font(.system(size: 10, weight: .medium))
                                 .foregroundStyle(.secondary)
                             if let end = endTime {
-                                Text(end, style: .time)
-                                    .font(.system(size: 14, weight: isLuminanceReduced ? .medium : .bold, design: .rounded))
+                                WidgetTimeSplitLabel(date: end, size: 14, weight: isLuminanceReduced ? .medium : .bold)
                             }
                         }
 
@@ -348,8 +345,7 @@ struct LockScreenRectangularCombinedCenterView: View {
                                 .font(.system(size: 10, weight: .medium))
                                 .foregroundStyle(.secondary)
                             if let end = endTime {
-                                Text(end, style: .time)
-                                    .font(.system(size: 14, weight: isLuminanceReduced ? .medium : .bold, design: .rounded))
+                                WidgetTimeSplitLabel(date: end, size: 14, weight: isLuminanceReduced ? .medium : .bold)
                             }
                         }
                     }

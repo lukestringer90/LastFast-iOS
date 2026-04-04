@@ -24,6 +24,33 @@ func formatTime(_ date: Date) -> String {
     timeFormatter.string(from: date)
 }
 
+// MARK: - Time Split Formatting
+
+/// Splits a formatted time into its digits and AM/PM period (if present).
+/// Returns `(time: "2:30", period: "PM")` for 12-hour locales and
+/// `(time: "14:30", period: nil)` for 24-hour locales.
+func splitTimeForDisplay(date: Date, locale: Locale = .current) -> (time: String, period: String?) {
+    let periodFormatter = DateFormatter()
+    periodFormatter.locale = locale
+    periodFormatter.dateFormat = "a"
+    let period = periodFormatter.string(from: date)
+
+    let timeFormatter = DateFormatter()
+    timeFormatter.locale = locale
+    timeFormatter.dateStyle = .none
+    timeFormatter.timeStyle = .short
+    let full = timeFormatter.string(from: date)
+
+    guard full.localizedCaseInsensitiveContains(period) else {
+        return (full, nil)
+    }
+
+    let timePart = full
+        .replacingOccurrences(of: period, with: "", options: .caseInsensitive)
+        .trimmingCharacters(in: .whitespaces)
+    return (timePart, period)
+}
+
 // MARK: - Duration Formatting
 
 /// Formats hours and minutes into a readable string

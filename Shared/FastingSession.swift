@@ -27,6 +27,7 @@ func formatTime(_ date: Date) -> String {
     return formatter.string(from: date)
 }
 
+
 // MARK: - Live Activity Attributes
 
 #if canImport(ActivityKit)
