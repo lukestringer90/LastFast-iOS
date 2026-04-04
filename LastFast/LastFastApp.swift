@@ -21,6 +21,21 @@ struct LastFastApp: App {
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([FastingSession.self])
 
+        #if DEBUG
+        // UI tests pass --clear-data to get a clean, isolated store.
+        // Using an in-memory store also avoids CloudKit initialisation
+        // hanging on CI where no iCloud account is available.
+        if ProcessInfo.processInfo.arguments.contains("--clear-data") {
+            do {
+                return try ModelContainer(for: schema, configurations: [
+                    ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
+                ])
+            } catch {
+                fatalError("Could not create in-memory ModelContainer: \(error)")
+            }
+        }
+        #endif
+
         // CloudKit-enabled configuration for iCloud sync
         let cloudConfiguration = ModelConfiguration(
             schema: schema,
