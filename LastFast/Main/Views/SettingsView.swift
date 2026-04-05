@@ -8,15 +8,16 @@
 import SwiftUI
 
 struct SettingsView: View {
+    let showSupport = false
+    
     @Environment(\.dismiss) private var dismiss
 
     @AppStorage("goalNotificationsEnabled") private var goalNotificationsEnabled = true
     @State private var showOneHourReminder = true
     @AppStorage("oneHourReminderEnabled") private var oneHourReminderEnabled = true
-    @AppStorage("hasCompletedOnboarding") private var hasCompletedOnboarding = true
-    @AppStorage("showOnboarding") private var showOnboarding = false
 
     @State private var showingOnboarding = false
+    @State private var showingTipJar = false
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "—"
@@ -25,6 +26,25 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
+                // MARK: - General
+                Section("General") {
+                    Button {
+                        showingOnboarding = true
+                    } label: {
+                        Label {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("View App Introduction")
+                                Text("Replay the introduction to Last Fast")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                        } icon: {
+                            Image(systemName: "hand.wave")
+                        }
+                    }
+                    .tint(.primary)
+                }
+                
                 // MARK: - Notifications
                 Section("Notifications") {
                     Toggle(isOn: $goalNotificationsEnabled) {
@@ -40,6 +60,7 @@ struct SettingsView: View {
                                 .foregroundStyle(.green)
                         }
                     }
+                    .tint(.green)
                     .onChange(of: goalNotificationsEnabled) { _, newValue in
                         withAnimation(.easeInOut(duration: 0.25)) {
                             showOneHourReminder = newValue
@@ -60,69 +81,52 @@ struct SettingsView: View {
                                     .foregroundStyle(.orange)
                             }
                         }
+                        .tint(.green)
                     }
                 }
-
-                // MARK: - General
-                Section {
-                    Button {
-                        showingOnboarding = true
-                    } label: {
-                        Label("Show App Introduction", systemImage: "hand.wave")
-                    }
-                }
-
-                // MARK: - Tip Jar
-                Section() {
-                    VStack(spacing: 4) {
-                        Text("Support Last Fast")
-                            .font(.headline)
-                        Text("If you enjoy the app, consider leaving a tip to support development.")
-                            .font(.subheadline)
-                            .foregroundStyle(.secondary)
-                            .multilineTextAlignment(.center)
-                    }
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 4)
-
-                    ForEach(TipOption.allCases) { option in
-                        Button {
-                            purchaseTip(option)
-                        } label: {
-                            HStack(spacing: 12) {
-                                Text(option.emoji)
-                                    .font(.title2)
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(option.name)
-                                        .font(.headline)
-                                        .foregroundStyle(.primary)
-                                    Text(option.price)
-                                        .font(.subheadline)
-                                        .foregroundStyle(.secondary)
-                                }
-                                Spacer()
+                
+                if (showSupport) {
+                    // MARK: - Support
+                    Section("Support") {
+                        Label {
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Tip Jar")
+                                Text("If you enjoy Last Fast, consider leaving a tip to support development.")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
                             }
+                        } icon: {
+                            Image(systemName: "heart.fill")
+                                .foregroundStyle(.pink)
                         }
+
+                        Button {
+                            showingTipJar = true
+                        } label: {
+                            Label("Leave a Tip", systemImage: "gift")
+                        }
+                        .tint(.primary)
                     }
                 }
+                
 
                 // MARK: - About
-                Section {
+                Section("About") {
                     Link(destination: URL(string: "https://lastfast.app")!) {
                         HStack {
-                            Text("Website")
+                            Label("Website", systemImage: "globe")
                             Spacer()
                             Text("lastfast.app")
                                 .foregroundStyle(.secondary)
-                            Image(systemName: "arrow.up.right")
-                                .font(.caption)
+                            Image(systemName: "arrow.up.forward.square")
+                                .font(.footnote)
                                 .foregroundStyle(.secondary)
                         }
                     }
-                    .foregroundStyle(.primary)
+                    .tint(.primary)
 
                     HStack {
-                        Text("Version")
+                        Label("Version", systemImage: "info.circle")
                         Spacer()
                         Text(appVersion)
                             .foregroundStyle(.secondary)
@@ -130,12 +134,15 @@ struct SettingsView: View {
                 }
             }
             .navigationTitle("Settings")
-            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarTitleDisplayMode(.automatic)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     Button("Done") { dismiss() }
                 }
             }
+        }
+        .sheet(isPresented: $showingTipJar) {
+            TipJarView()
         }
         .fullScreenCover(isPresented: $showingOnboarding) {
             OnboardingView {
@@ -148,10 +155,6 @@ struct SettingsView: View {
         }
     }
 
-    private func purchaseTip(_ option: TipOption) {
-        // TODO: Implement StoreKit purchase for option.productID
-        print("Tip tapped: \(option.name) — \(option.productID)")
-    }
 }
 
 #Preview {
