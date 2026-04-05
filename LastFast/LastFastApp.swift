@@ -82,6 +82,9 @@ struct LastFastApp: App {
         WindowGroup {
             FastingView()
                 .onAppear {
+                    #if DEBUG
+                    guard !ProcessInfo.processInfo.arguments.contains("--clear-data") else { return }
+                    #endif
                     Task {
                         try? await Task.sleep(nanoseconds:500_000_000) // 0.5 seconds
                         AnalyticsManager.requestTrackingPermission()
