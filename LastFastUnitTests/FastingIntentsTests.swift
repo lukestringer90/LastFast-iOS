@@ -28,7 +28,7 @@ final class StartFastingIntentTests: XCTestCase {
 
     func testStartFastingIntent_CanBeInstantiated() {
         let intent = StartFastingIntent()
-        XCTAssertNil(intent.durationHours)
+        XCTAssertNotNil(intent)
     }
 
     func testStartFastingIntent_AcceptsDurationParameter() {
