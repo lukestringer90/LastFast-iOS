@@ -27,6 +27,7 @@ struct FastingView: View {
     @State private var showingHistory = false
     @State private var showingGoalPicker = false
     @State private var showingStopConfirmation = false
+    @State private var showingSettings = false
     @State private var goalNotificationSent = false
     @State private var confettiInstances: [UUID] = []
 
@@ -135,6 +136,19 @@ struct FastingView: View {
                     .onDisappear {
                         AnalyticsManager.logEvent("set_fast_goal", parameters: ["goal_minutes": savedGoalMinutes])
                     }
+            }
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showingSettings = true
+                    } label: {
+                        Image(systemName: "gear")
+                    }
+                    .accessibilityLabel("Settings")
+                }
+            }
+            .sheet(isPresented: $showingSettings) {
+                SettingsView()
             }
             .alert("Stop Fast?", isPresented: $showingStopConfirmation) {
                 Button("Cancel", role: .cancel) { }

@@ -105,8 +105,10 @@ struct NotificationManager {
     ///   - startTime: When the fast started
     ///   - goalMinutes: The goal duration in minutes
     static func scheduleGoalNotification(startTime: Date, goalMinutes: Int) {
+        guard UserDefaults.standard.object(forKey: "goalNotificationsEnabled") as? Bool ?? true else { return }
+
         let center = UNUserNotificationCenter.current()
-        
+
         // Calculate when the goal will be met
         let goalTime = startTime.addingTimeInterval(TimeInterval(goalMinutes * 60))
         let timeUntilGoal = goalTime.timeIntervalSinceNow
