@@ -14,12 +14,12 @@ struct HistoryPage: View {
 
     private var bars: [BarData] {
         [
-            BarData(label: "14h", fraction: 0.75, goalMet: false, date: barDate(daysAgo: 5)),
-            BarData(label: "16h", fraction: 0.86, goalMet: true,  date: barDate(daysAgo: 4)),
-            BarData(label: "18h", fraction: 1.00, goalMet: true,  date: barDate(daysAgo: 3)),
-            BarData(label: "14h", fraction: 0.75, goalMet: false,  date: barDate(daysAgo: 2)),
-            BarData(label: "13h", fraction: 0.60, goalMet: false, date: barDate(daysAgo: 1)),
-            BarData(label: "16h", fraction: 0.86, goalMet: true,  date: barDate(daysAgo: 0)),
+            BarData(label: "14h", fraction: 0.75, goalMet: false, date: barDate(daysAgo: 6)),
+            BarData(label: "16h", fraction: 0.86, goalMet: true,  date: barDate(daysAgo: 5)),
+            BarData(label: "18h", fraction: 1.00, goalMet: true,  date: barDate(daysAgo: 4)),
+            BarData(label: "14h", fraction: 0.75, goalMet: false,  date: barDate(daysAgo: 3)),
+            BarData(label: "13h", fraction: 0.60, goalMet: false, date: barDate(daysAgo: 2)),
+            BarData(label: "16h", fraction: 0.86, goalMet: true,  date: barDate(daysAgo: 1)),
         ]
     }
 
@@ -28,6 +28,11 @@ struct HistoryPage: View {
         let formatter = DateFormatter()
         formatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "Md", options: 0, locale: .current)
         return formatter.string(from: date)
+    }
+
+    private func sessionDate(daysAgo: Int) -> String {
+        let date = Calendar.current.date(byAdding: .day, value: -daysAgo, to: Date()) ?? Date()
+        return date.formatted(date: .abbreviated, time: .omitted)
     }
 
     private let barWidth: CGFloat = 36
@@ -109,42 +114,36 @@ struct HistoryPage: View {
             .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
 
             VStack(spacing: 0) {
-                sessionRow(duration: "16h 10m", durationColor: .green, date: "Yesterday")
+                HistoryRowContent(
+                    duration: "16h 10m",
+                    durationColor: .green,
+                    date: sessionDate(daysAgo: 1),
+                    startTime: "20:00",
+                    endTime: "12:10",
+                    goalText: "16h"
+                )
+                .padding(.horizontal, 16)
+                .padding(.vertical, 4)
+
                 Divider()
-                    .padding(.leading, 44)
-                sessionRow(duration: "13h 30m", durationColor: .orange, date: "2 days ago")
+                    .padding(.leading, 16)
+
+                HistoryRowContent(
+                    duration: "13h 30m",
+                    durationColor: .orange,
+                    date: sessionDate(daysAgo: 2),
+                    startTime: "21:30",
+                    endTime: "11:00",
+                    goalText: "16h"
+                )
+                .padding(.horizontal, 16)
+                .padding(.vertical, 4)
             }
             .cardBackground(padding: 0)
             .clipShape(RoundedRectangle(cornerRadius: 12))
         }
     }
 
-    private func sessionRow(duration: String, durationColor: Color, date: String) -> some View {
-        HStack(spacing: 12) {
-            Image(systemName: "clock")
-                .font(.title3)
-                .foregroundStyle(.secondary)
-                .frame(width: 28)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(duration)
-                    .font(.headline)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(durationColor)
-                Text(date)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
-            Spacer()
-
-            Image(systemName: "chevron.right")
-                .font(.caption)
-                .foregroundStyle(.tertiary)
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 14)
-    }
 }
 
 #Preview {
