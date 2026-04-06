@@ -138,22 +138,7 @@ struct FastingView: View {
                     }
             }
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Button {
-                        showingSettings = true
-                    } label: {
-                        HStack(spacing: 6) {
-                            Image("AppIconDisplay")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .clipShape(RoundedRectangle(cornerRadius: 5))
-                            Text("Last Fast")
-                                .font(.headline)
-                        }
-                    }
-                    .tint(.primary)
-                    .accessibilityLabel("Settings")
-                }
+                LastFastTitleToolbarItem { showingSettings = true }
             }
             .sheet(isPresented: $showingSettings) {
                 SettingsView()
@@ -298,19 +283,6 @@ struct FastingView: View {
 
 // MARK: - Preview
 
-private func previewToolbar() -> some ToolbarContent {
-    ToolbarItem(placement: .principal) {
-        HStack(spacing: 6) {
-            Image("AppIconDisplay")
-                .resizable()
-                .frame(width: 24, height: 24)
-                .clipShape(RoundedRectangle(cornerRadius: 5))
-            Text("Last Fast")
-                .font(.headline)
-        }
-    }
-}
-
 #Preview("Not Fasting") {
     NavigationStack {
         NotFastingView(
@@ -320,7 +292,7 @@ private func previewToolbar() -> some ToolbarContent {
             onShowGoalPicker: {},
             onShowHistory: {}
         )
-        .toolbar { previewToolbar() }
+        .toolbar { LastFastTitleToolbarItem() }
     }
 }
 
@@ -340,7 +312,7 @@ private func previewToolbar() -> some ToolbarContent {
             onStopFast: {},
             onShowHistory: {}
         )
-        .toolbar { previewToolbar() }
+        .toolbar { LastFastTitleToolbarItem() }
     }
 }
 
@@ -360,6 +332,6 @@ private func previewToolbar() -> some ToolbarContent {
             onStopFast: {},
             onShowHistory: {}
         )
-        .toolbar { previewToolbar() }
+        .toolbar { LastFastTitleToolbarItem() }
     }
 }
