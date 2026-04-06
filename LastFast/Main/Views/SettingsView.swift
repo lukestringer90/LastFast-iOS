@@ -103,10 +103,10 @@ struct SettingsView: View {
                             Label("Website", systemImage: "globe")
                             Spacer()
                             Text("lastfast.app")
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.accentColor)
                             Image(systemName: "arrow.up.forward.square")
                                 .font(.footnote)
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(Color.accentColor)
                         }
                     }
                     .tint(.primary)

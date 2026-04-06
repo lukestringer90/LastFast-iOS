@@ -11,20 +11,20 @@ struct AppIntroductionRow: View {
     var action: (() -> Void)? = nil
 
     var body: some View {
-        let content = HStack(spacing: 12) {
-            Image(systemName: "hand.wave")
-                .foregroundStyle(.blue)
-                .frame(width: 24)
-
+        let content = Label {
             VStack(alignment: .leading, spacing: 2) {
                 Text("View App Introduction")
                 Text("Replay the introduction to Last Fast")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
-
-            Spacer()
+        } icon: {
+            Image(systemName: "hand.wave")
+                .foregroundStyle(.blue)
+                .font(.body)
+                .imageScale(.large)
         }
+        .labelStyle(.centerAligned)
 
         if let action {
             Button(action: action) { content }
@@ -33,6 +33,19 @@ struct AppIntroductionRow: View {
             content
         }
     }
+}
+
+private struct CenterAlignedLabelStyle: LabelStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        HStack(spacing: 12) {
+            configuration.icon
+            configuration.title
+        }
+    }
+}
+
+extension LabelStyle where Self == CenterAlignedLabelStyle {
+    static var centerAligned: CenterAlignedLabelStyle { CenterAlignedLabelStyle() }
 }
 
 #Preview("Button") {
