@@ -14,15 +14,17 @@ struct NotificationManager {
     
     // MARK: - Permission
     
-    /// Requests notification permission from the user
-    static func requestPermission() {
+    /// Requests notification permission from the user.
+    /// - Parameter completion: Called on the main thread once the user has responded to the permission alert.
+    static func requestPermission(completion: @escaping () -> Void = {}) {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound]) { granted, error in
             if let error = error {
                 print("Notification permission error: \(error)")
             }
             print("Notification permission granted: \(granted)")
+            DispatchQueue.main.async { completion() }
         }
-        
+
         // Register notification categories with actions
         registerNotificationCategories()
     }

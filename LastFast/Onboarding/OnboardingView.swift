@@ -9,7 +9,7 @@ struct OnboardingView: View {
     var onComplete: () -> Void
 
     @State private var currentPage = 0
-    private let totalPages = 9
+    private let totalPages = 10
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -20,27 +20,13 @@ struct OnboardingView: View {
                 GoalAchievedPage().tag(3)
                 EndFastPage().tag(4)
                 HistoryPage().tag(5)
-                NotificationsPage().tag(6)
                 WidgetsPage().tag(7)
-                SettingsPage().tag(8)
+                NotificationsPage().tag(6)
+                PrivacyPage().tag(9)
+                SettingsPage().tag(10)
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .animation(.easeInOut, value: currentPage)
-
-            // Skip button — hidden on last page
-            if currentPage < totalPages - 1 {
-                HStack {
-                    Spacer()
-                    Button("Skip") {
-                        AnalyticsManager.logEvent("onboarding_skipped", parameters: ["page": currentPage])
-                        onComplete()
-                    }
-                    .foregroundStyle(.secondary)
-                    .padding(.horizontal, 20)
-                    .padding(.top, 56)
-                    .accessibilityIdentifier("onboardingSkipButton")
-                }
-            }
 
             // Next / Get Started button pinned to bottom
             VStack {
@@ -65,11 +51,20 @@ struct OnboardingView: View {
     }
 
     private func advance() {
-        // Request notification permission when leaving the notifications page
+        // On the notifications page, request permission first and only advance once the alert is dismissed
         if currentPage == 6 {
-            NotificationManager.requestPermission()
+            NotificationManager.requestPermission { advancePage() }
+            return
         }
+        // On the privacy page, request ATT tracking permission before advancing
+        if currentPage == 9 {
+            AnalyticsManager.requestTrackingPermission { advancePage() }
+            return
+        }
+        advancePage()
+    }
 
+    private func advancePage() {
         if currentPage == totalPages - 1 {
             AnalyticsManager.logEvent("onboarding_completed")
             onComplete()

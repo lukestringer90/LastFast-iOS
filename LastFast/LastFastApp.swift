@@ -7,7 +7,6 @@ import SwiftData
 import BackgroundTasks
 import ActivityKit
 import FirebaseCore
-import AppTrackingTransparency
 
 // Note: liveActivityEnabled is defined in FastingView.swift
 
@@ -81,15 +80,6 @@ struct LastFastApp: App {
     var body: some Scene {
         WindowGroup {
             FastingView()
-                .onAppear {
-                    #if DEBUG
-                    guard !ProcessInfo.processInfo.arguments.contains("--clear-data") else { return }
-                    #endif
-                    Task {
-                        try? await Task.sleep(nanoseconds:500_000_000) // 0.5 seconds
-                        AnalyticsManager.requestTrackingPermission()
-                    }
-                }
                 .fullScreenCover(isPresented: .constant(shouldShowOnboarding)) {
                     OnboardingView {
                         hasCompletedOnboarding = true
