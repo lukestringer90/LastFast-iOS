@@ -43,8 +43,26 @@ struct HistoryPage: View {
             title: "Review Your History",
             description: "Every completed fast is saved. See your progress over time with the history graph."
         ) {
-            chartMockup
+            VStack(spacing: 16) {
+                lastGoalView
+                    .tapHint()
+                chartMockup
+            }
         }
+    }
+    
+    private var lastGoalView: some View {
+        HStack(spacing: 8) {
+            Image(systemName: "clock")
+                .font(.system(size: 16, weight: .medium))
+            Text("16h 10m")
+                .font(.system(size: 16, weight: .semibold))
+            Image(systemName: "chevron.right")
+                .font(.system(size: 14, weight: .semibold))
+        }
+        .foregroundStyle(.blue)
+        .padding(12)
+        .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
     }
 
     private var chartMockup: some View {

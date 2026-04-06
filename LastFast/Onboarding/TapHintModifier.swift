@@ -28,7 +28,7 @@ struct TapHintModifier: ViewModifier {
         .task {
             while !Task.isCancelled {
                 // Pause off-screen
-                try? await Task.sleep(for: .seconds(0.8))
+                try? await Task.sleep(for: .seconds(1.5))
                 // Slide in
                 withAnimation(.easeOut(duration: 0.35)) { phase = .onScreen }
                 try? await Task.sleep(for: .seconds(0.55))
