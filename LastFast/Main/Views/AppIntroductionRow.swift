@@ -19,7 +19,7 @@ struct AppIntroductionRow: View {
                     .foregroundStyle(.secondary)
             }
         } icon: {
-            Image(systemName: "hand.wave")
+            Image(systemName: "hand.wave.fill")
                 .foregroundStyle(.blue)
                 .font(.body)
                 .imageScale(.large)
