@@ -20,10 +20,10 @@ struct OnboardingView: View {
                 GoalAchievedPage().tag(3)
                 EndFastPage().tag(4)
                 HistoryPage().tag(5)
-                WidgetsPage().tag(7)
-                NotificationsPage().tag(6)
-                PrivacyPage().tag(9)
-                SettingsPage().tag(10)
+                WidgetsPage().tag(6)
+                NotificationsPage().tag(7)
+                PrivacyPage().tag(8)
+                SettingsPage().tag(9)
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .animation(.easeInOut, value: currentPage)
@@ -52,12 +52,12 @@ struct OnboardingView: View {
 
     private func advance() {
         // On the notifications page, request permission first and only advance once the alert is dismissed
-        if currentPage == 6 {
+        if currentPage == 7 {
             NotificationManager.requestPermission { advancePage() }
             return
         }
         // On the privacy page, request ATT tracking permission before advancing
-        if currentPage == 9 {
+        if currentPage == 8 {
             AnalyticsManager.requestTrackingPermission { advancePage() }
             return
         }
