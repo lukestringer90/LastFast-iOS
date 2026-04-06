@@ -60,6 +60,10 @@ struct HistoryListView: View {
     }
 
     private func deleteSession(_ session: FastingSession) {
+        AnalyticsManager.logEvent("delete_fast", parameters: [
+            "duration_minutes": session.duration / 60,
+            "goal_minutes": session.goalMinutes ?? 0
+        ])
         modelContext.delete(session)
         try? modelContext.save()
     }

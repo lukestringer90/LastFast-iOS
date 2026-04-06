@@ -47,6 +47,7 @@ struct OnboardingView: View {
         .onAppear {
             UIPageControl.appearance().currentPageIndicatorTintColor = .label
             UIPageControl.appearance().pageIndicatorTintColor = UIColor.label.withAlphaComponent(0.3)
+            AnalyticsManager.logEvent("onboarding_viewed")
         }
     }
 

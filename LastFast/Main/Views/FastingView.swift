@@ -247,7 +247,17 @@ struct FastingView: View {
 
             LiveActivityManager.end()
             
-            AnalyticsManager.logEvent("stop_fast", parameters: ["duration_minutes": duration / 60])
+            let goalMinutes = fast.goalMinutes ?? 0
+            AnalyticsManager.logEvent("stop_fast", parameters: [
+                "duration_minutes": duration / 60,
+                "goal_minutes": goalMinutes
+            ])
+            if !fast.goalMet {
+                AnalyticsManager.logEvent("fast_abandoned", parameters: [
+                    "duration_minutes": duration / 60,
+                    "goal_minutes": goalMinutes
+                ])
+            }
         }
     }
 

@@ -7,6 +7,7 @@
 
 import Foundation
 import UserNotifications
+import FirebaseAnalytics
 
 // MARK: - Notification Manager
 
@@ -22,6 +23,7 @@ struct NotificationManager {
                 print("Notification permission error: \(error)")
             }
             print("Notification permission granted: \(granted)")
+            AnalyticsManager.logEvent(granted ? "notification_permission_granted" : "notification_permission_denied")
             DispatchQueue.main.async { completion() }
         }
 

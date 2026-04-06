@@ -89,6 +89,9 @@ struct LastFastApp: App {
         }
         .modelContainer(sharedModelContainer)
         .onChange(of: scenePhase) { oldPhase, newPhase in
+            if newPhase == .active {
+                AnalyticsManager.logEvent("app_opened")
+            }
             if newPhase == .background && liveActivityEnabled {
                 Self.scheduleAppRefresh()
             }
