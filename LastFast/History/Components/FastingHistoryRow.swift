@@ -16,21 +16,14 @@ struct FastingHistoryRow: View {
 
     
     var body: some View {
-        HistoryRowContent(
-            duration: formatDuration(from: session.duration),
-            durationColor: GoalStatusColors.durationColor(goalMet: session.goalMet),
-            date: session.startTime.formatted(date: .abbreviated, time: .omitted),
-            startTime: formatTime(session.startTime),
-            endTime: session.endTime.map { formatTime($0) } ?? "—",
-            goalText: session.goalMinutes.map { formatDuration(hours: $0 / 60, minutes: $0 % 60) }
-        )
-        .contentShape(Rectangle())
-        .onTapGesture {
-            showingEditSheet = true
-        }
-        .sheet(isPresented: $showingEditSheet) {
-            EditFastView(session: session)
-        }
+        SessionCard(session: session)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                showingEditSheet = true
+            }
+            .sheet(isPresented: $showingEditSheet) {
+                EditFastView(session: session)
+            }
     }
 }
 

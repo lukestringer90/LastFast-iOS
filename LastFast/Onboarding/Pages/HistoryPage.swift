@@ -30,9 +30,19 @@ struct HistoryPage: View {
         return formatter.string(from: date)
     }
 
-    private func sessionDate(daysAgo: Int) -> String {
-        let date = Calendar.current.date(byAdding: .day, value: -daysAgo, to: Date()) ?? Date()
-        return date.formatted(date: .abbreviated, time: .omitted)
+    // Example sessions for the history rows
+    private var exampleSession1: FastingSession {
+        let start = Calendar.current.date(bySettingHour: 20, minute: 0, second: 0, of: Calendar.current.date(byAdding: .day, value: -1, to: Date())!)!
+        let session = FastingSession(startTime: start, goalMinutes: 960)
+        session.endTime = Calendar.current.date(bySettingHour: 12, minute: 10, second: 0, of: Date())!
+        return session
+    }
+
+    private var exampleSession2: FastingSession {
+        let start = Calendar.current.date(bySettingHour: 21, minute: 30, second: 0, of: Calendar.current.date(byAdding: .day, value: -2, to: Date())!)!
+        let session = FastingSession(startTime: start, goalMinutes: 960)
+        session.endTime = Calendar.current.date(bySettingHour: 11, minute: 0, second: 0, of: Calendar.current.date(byAdding: .day, value: -1, to: Date())!)!
+        return session
     }
 
     private let barWidth: CGFloat = 36
@@ -114,30 +124,16 @@ struct HistoryPage: View {
             .background(RoundedRectangle(cornerRadius: 12).fill(Color(.secondarySystemBackground)))
 
             VStack(spacing: 0) {
-                HistoryRowContent(
-                    duration: "16h 10m",
-                    durationColor: .green,
-                    date: sessionDate(daysAgo: 1),
-                    startTime: "20:00",
-                    endTime: "12:10",
-                    goalText: "16h"
-                )
-                .padding(.horizontal, 16)
-                .padding(.vertical, 4)
+                SessionCard(session: exampleSession1)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 4)
 
                 Divider()
                     .padding(.leading, 16)
 
-                HistoryRowContent(
-                    duration: "13h 30m",
-                    durationColor: .orange,
-                    date: sessionDate(daysAgo: 2),
-                    startTime: "21:30",
-                    endTime: "11:00",
-                    goalText: "16h"
-                )
-                .padding(.horizontal, 16)
-                .padding(.vertical, 4)
+                SessionCard(session: exampleSession2)
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 4)
             }
             .cardBackground(padding: 0)
             .clipShape(RoundedRectangle(cornerRadius: 12))
