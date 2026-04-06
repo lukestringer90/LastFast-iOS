@@ -138,12 +138,20 @@ struct FastingView: View {
                     }
             }
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
+                ToolbarItem(placement: .principal) {
                     Button {
                         showingSettings = true
                     } label: {
-                        Image(systemName: "gear")
+                        HStack(spacing: 6) {
+                            Image("AppIconDisplay")
+                                .resizable()
+                                .frame(width: 24, height: 24)
+                                .clipShape(RoundedRectangle(cornerRadius: 5))
+                            Text("Last Fast")
+                                .font(.headline)
+                        }
                     }
+                    .tint(.primary)
                     .accessibilityLabel("Settings")
                 }
             }
@@ -290,46 +298,68 @@ struct FastingView: View {
 
 // MARK: - Preview
 
+private func previewToolbar() -> some ToolbarContent {
+    ToolbarItem(placement: .principal) {
+        HStack(spacing: 6) {
+            Image("AppIconDisplay")
+                .resizable()
+                .frame(width: 24, height: 24)
+                .clipShape(RoundedRectangle(cornerRadius: 5))
+            Text("Last Fast")
+                .font(.headline)
+        }
+    }
+}
+
 #Preview("Not Fasting") {
-    NotFastingView(
-        savedGoalMinutes: defaultFastingGoalMinutes,
-        lastFastDuration: 16.5 * 3600,
-        onStartFast: {},
-        onShowGoalPicker: {},
-        onShowHistory: {}
-    )
+    NavigationStack {
+        NotFastingView(
+            savedGoalMinutes: defaultFastingGoalMinutes,
+            lastFastDuration: 16.5 * 3600,
+            onStartFast: {},
+            onShowGoalPicker: {},
+            onShowHistory: {}
+        )
+        .toolbar { previewToolbar() }
+    }
 }
 
 #Preview("In Progress") {
-    ActiveFastingView(
-        goalMet: false,
-        hours: 8,
-        minutes: 30,
-        elapsedHours: 3,
-        elapsedMins: 30,
-        progress: 0.45,
-        startTime: Date().addingTimeInterval(-3.5 * 3600),
-        endTime: Date().addingTimeInterval(8.5 * 3600),
-        goalMinutes: 16 * 60,
-        lastFastDuration: 14.5 * 3600,
-        onStopFast: {},
-        onShowHistory: {}
-    )
+    NavigationStack {
+        ActiveFastingView(
+            goalMet: false,
+            hours: 8,
+            minutes: 30,
+            elapsedHours: 3,
+            elapsedMins: 30,
+            progress: 0.45,
+            startTime: Date().addingTimeInterval(-3.5 * 3600),
+            endTime: Date().addingTimeInterval(8.5 * 3600),
+            goalMinutes: 16 * 60,
+            lastFastDuration: 14.5 * 3600,
+            onStopFast: {},
+            onShowHistory: {}
+        )
+        .toolbar { previewToolbar() }
+    }
 }
 
 #Preview("Goal Met") {
-    ActiveFastingView(
-        goalMet: true,
-        hours: 0,
-        minutes: 0,
-        elapsedHours: 16,
-        elapsedMins: 5,
-        progress: 1.0,
-        startTime: Date().addingTimeInterval(-16.1 * 3600),
-        endTime: nil,
-        goalMinutes: 16 * 60,
-        lastFastDuration: 14.5 * 3600,
-        onStopFast: {},
-        onShowHistory: {}
-    )
+    NavigationStack {
+        ActiveFastingView(
+            goalMet: true,
+            hours: 0,
+            minutes: 0,
+            elapsedHours: 16,
+            elapsedMins: 5,
+            progress: 1.0,
+            startTime: Date().addingTimeInterval(-16.1 * 3600),
+            endTime: nil,
+            goalMinutes: 16 * 60,
+            lastFastDuration: 14.5 * 3600,
+            onStopFast: {},
+            onShowHistory: {}
+        )
+        .toolbar { previewToolbar() }
+    }
 }
