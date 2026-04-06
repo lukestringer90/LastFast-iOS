@@ -28,21 +28,7 @@ struct SettingsView: View {
             List {
                 // MARK: - General
                 Section("General") {
-                    Button {
-                        showingOnboarding = true
-                    } label: {
-                        Label {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text("View App Introduction")
-                                Text("Replay the introduction to Last Fast")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
-                            }
-                        } icon: {
-                            Image(systemName: "hand.wave")
-                        }
-                    }
-                    .tint(.primary)
+                    AppIntroductionRow(action: { showingOnboarding = true })
                 }
                 
                 // MARK: - Notifications
