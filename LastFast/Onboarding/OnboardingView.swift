@@ -38,8 +38,9 @@ struct OnboardingView: View {
                     }
                     .font(.title3)
                     .fontWeight(.semibold)
-                    .foregroundStyle(.blue)
                 }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
                 .accessibilityIdentifier(currentPage == totalPages - 1 ? "onboardingGetStartedButton" : "onboardingNextButton")
                 .padding(.bottom, 40)
             }
