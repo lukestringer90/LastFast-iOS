@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "exportDate": "2024-01-31T12:00:00Z",
+  "sessions": [
+    {
+      "id": "ACTIVE01-AAAA-BBBB-CCCC-DDDDDDDDDDDD",
+      "startTime": "RELATIVE:-9h36m",
+      "endTime": null,
+      "goalMinutes": 960,
+      "goalCelebrationShown": false
+    },
+    {
+      "id": "HIST0001-1111-2222-3333-444444444444",
+      "startTime": "RELATIVE:-1d-17h",
+      "endTime": "RELATIVE:-1d",
+      "goalMinutes": 960,
+      "goalCelebrationShown": true
+    },
+    {
+      "id": "HIST0002-1111-2222-3333-555555555555",
+      "startTime": "RELATIVE:-2d-16h",
+      "endTime": "RELATIVE:-2d",
+      "goalMinutes": 960,
+      "goalCelebrationShown": true
+    }
+  ]
+}

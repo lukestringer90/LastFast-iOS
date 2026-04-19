@@ -1,0 +1,55 @@
+{
+  "version": 1,
+  "exportDate": "2024-01-31T12:00:00Z",
+  "sessions": [
+    {
+      "id": "SC111111-1111-1111-1111-111111111111",
+      "startTime": "RELATIVE:-1d-17h",
+      "endTime": "RELATIVE:-1d",
+      "goalMinutes": 960,
+      "goalCelebrationShown": true
+    },
+    {
+      "id": "SC222222-2222-2222-2222-222222222222",
+      "startTime": "RELATIVE:-2d-16h30m",
+      "endTime": "RELATIVE:-2d",
+      "goalMinutes": 960,
+      "goalCelebrationShown": true
+    },
+    {
+      "id": "SC333333-3333-3333-3333-333333333333",
+      "startTime": "RELATIVE:-3d-14h",
+      "endTime": "RELATIVE:-3d",
+      "goalMinutes": 960,
+      "goalCelebrationShown": false
+    },
+    {
+      "id": "SC444444-4444-4444-4444-444444444444",
+      "startTime": "RELATIVE:-4d-17h30m",
+      "endTime": "RELATIVE:-4d",
+      "goalMinutes": 960,
+      "goalCelebrationShown": true
+    },
+    {
+      "id": "SC555555-5555-5555-5555-555555555555",
+      "startTime": "RELATIVE:-5d-18h",
+      "endTime": "RELATIVE:-5d",
+      "goalMinutes": 960,
+      "goalCelebrationShown": true
+    },
+    {
+      "id": "SC666666-6666-6666-6666-666666666666",
+      "startTime": "RELATIVE:-6d-16h",
+      "endTime": "RELATIVE:-6d",
+      "goalMinutes": 960,
+      "goalCelebrationShown": true
+    },
+    {
+      "id": "SC777777-7777-7777-7777-777777777777",
+      "startTime": "RELATIVE:-7d-15h",
+      "endTime": "RELATIVE:-7d",
+      "goalMinutes": 960,
+      "goalCelebrationShown": false
+    }
+  ]
+}

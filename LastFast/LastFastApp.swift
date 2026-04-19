@@ -77,6 +77,18 @@ struct LastFastApp: App {
 
     private var shouldShowOnboarding: Bool { !hasCompletedOnboarding || showOnboarding }
 
+    // Color scheme override for screenshot automation
+    private var screenshotColorScheme: ColorScheme? {
+        #if DEBUG
+        if ProcessInfo.processInfo.arguments.contains("--dark-mode") {
+            return .dark
+        } else if ProcessInfo.processInfo.arguments.contains("--light-mode") {
+            return .light
+        }
+        #endif
+        return nil
+    }
+
     var body: some Scene {
         WindowGroup {
             FastingView()
@@ -86,6 +98,7 @@ struct LastFastApp: App {
                         showOnboarding = false
                     }
                 }
+                .preferredColorScheme(screenshotColorScheme)
         }
         .modelContainer(sharedModelContainer)
         .onChange(of: scenePhase) { oldPhase, newPhase in

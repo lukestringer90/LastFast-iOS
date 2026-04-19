@@ -41,6 +41,7 @@ struct HistoryButton: View {
             }
             .foregroundStyle(.blue)
         }
+        .accessibilityIdentifier("historyButton")
     }
 }
 
