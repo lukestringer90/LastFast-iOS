@@ -70,7 +70,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--seed-data snapshot_2026-01-31T13-05-59Z"
+            argument = "--seed-data five_day_history"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

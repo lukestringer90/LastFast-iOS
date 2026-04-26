@@ -39,13 +39,22 @@ struct FastingView: View {
         sessions.first { $0.isActive }
     }
 
+    private var displayStartTime: Date? {
+        guard let fast = activeFast else { return nil }
+        return effectiveStartTime(fast.startTime)
+    }
+
     private var currentDuration: TimeInterval {
-        guard let fast = activeFast else { return 0 }
-        return currentTime.timeIntervalSince(fast.startTime)
+        guard let start = displayStartTime else { return 0 }
+        return effectiveCurrentTime().timeIntervalSince(start)
+    }
+
+    private var displayGoalMinutes: Int? {
+        effectiveGoalMinutes(activeFast?.goalMinutes)
     }
 
     private var remainingMinutes: Int {
-        guard let fast = activeFast, let goal = fast.goalMinutes else { return 0 }
+        guard activeFast != nil, let goal = displayGoalMinutes else { return 0 }
         let elapsedMinutes = Int(currentDuration) / 60
         return max(0, goal - elapsedMinutes)
     }
@@ -56,12 +65,12 @@ struct FastingView: View {
     private var elapsedMins: Int { (Int(currentDuration) % 3600) / 60 }
 
     private var goalMet: Bool {
-        guard let fast = activeFast, let goal = fast.goalMinutes else { return false }
+        guard activeFast != nil, let goal = displayGoalMinutes else { return false }
         return Int(currentDuration) / 60 >= goal
     }
 
     private var progress: Double {
-        guard let fast = activeFast, let goal = fast.goalMinutes, goal > 0 else { return 0 }
+        guard activeFast != nil, let goal = displayGoalMinutes, goal > 0 else { return 0 }
         return min(1.0, (currentDuration / 60) / Double(goal))
     }
 
@@ -77,8 +86,7 @@ struct FastingView: View {
                 backgroundGradient
 
                 VStack(spacing: 0) {
-                    if let fast = activeFast {
-                        let endTime = fast.goalMinutes.map { fast.startTime.addingTimeInterval(TimeInterval($0 * 60)) }
+                    if let fast = activeFast, let startTime = displayStartTime {
                         ActiveFastingView(
                             goalMet: goalMet,
                             hours: hours,
@@ -86,9 +94,9 @@ struct FastingView: View {
                             elapsedHours: elapsedHours,
                             elapsedMins: elapsedMins,
                             progress: progress,
-                            startTime: fast.startTime,
-                            endTime: endTime,
-                            goalMinutes: fast.goalMinutes,
+                            startTime: startTime,
+                            endTime: effectiveEndTime(startTime: startTime, goalMinutes: displayGoalMinutes),
+                            goalMinutes: displayGoalMinutes,
                             lastFastDuration: lastCompletedFastDuration,
                             onStopFast: { showingStopConfirmation = true },
                             onShowHistory: { showingHistory = true },
