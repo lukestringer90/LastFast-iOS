@@ -1,0 +1,14 @@
+let screenshotGoalMinutes: Int? = 960
+let screenshotStartTime: (hour: Int, minute: Int)? = (19,10)
+
+./reboot_simulator_locale.sh en_US 
+./reboot_simulator_locale.sh en_GB
+
+xcrun simctl status_bar booted override --time "19:10"
+let screenshotCurrentTime: (hour: Int, minute: Int)? = (19,10)
+
+xcrun simctl status_bar booted override --time "23:10"
+let screenshotCurrentTime: (hour: Int, minute: Int)? = (23,10)
+
+xcrun simctl status_bar booted override --time "11:10"
+let screenshotCurrentTime: (hour: Int, minute: Int)? = (11,10)
