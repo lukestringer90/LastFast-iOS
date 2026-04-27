@@ -19,7 +19,7 @@ import Foundation
 #if DEBUG
 
 /// Master switch to enable/disable all screenshot overrides
-let screenshotOverridesEnabled = false
+let screenshotOverridesEnabled = true
 
 /// Override the fasting goal duration (in minutes)
 /// Example: 960 = 16 hours, 1080 = 18 hours
@@ -28,12 +28,12 @@ let screenshotGoalMinutes: Int? = 960
 /// Override the fast start time
 /// Example: (7, 0) = 7:00 AM, (19, 0) = 7:00 PM
 /// xcrun simctl status_bar booted override --time "19:10"
-let screenshotStartTime: (hour: Int, minute: Int)? = (19,10)
+let screenshotStartTime: (hour: Int, minute: Int)? = (20,10)
 
 /// Override the "current time" used to calculate elapsed duration and progress
 /// Example: (7, 0) = 7:00 AM, (15, 30) = 3:30 PM
 /// xcrun simctl status_bar booted override --time "11:10"
-let screenshotCurrentTime: (hour: Int, minute: Int)? = (7,10)
+let screenshotCurrentTime: (hour: Int, minute: Int)? = (12,10)
 
 #else
 

@@ -154,6 +154,80 @@ struct NotificationManager {
         }
     }
     
+    /// Shows the one-hour-remaining notification immediately (for preview/testing)
+    /// - Parameter goalTime: When the goal will be met
+    static func showOneHourRemainingNotification(goalTime: Date) {
+        let center = UNUserNotificationCenter.current()
+
+        // Format the goal time
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateStyle = .none
+        timeFormatter.timeStyle = .short
+        let goalTimeText = timeFormatter.string(from: goalTime)
+
+        // Create notification content
+        let content = UNMutableNotificationContent()
+        content.title = "⏰ One Hour to Go!"
+        content.body = "You're almost there! Your goal will be complete at \(goalTimeText)"
+        content.sound = .default
+        content.interruptionLevel = .timeSensitive
+
+        // Create trigger for immediate delivery (1 second delay required)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+
+        // Create request with unique identifier to not interfere with scheduled one
+        let request = UNNotificationRequest(identifier: "oneHourBeforePreview", content: content, trigger: trigger)
+
+        // Schedule notification
+        center.add(request) { error in
+            if let error = error {
+                print("Error showing one hour notification preview: \(error)")
+            }
+        }
+    }
+
+    /// Shows the goal achieved notification immediately (for preview/testing)
+    /// - Parameters:
+    ///   - startTime: When the fast started
+    ///   - goalMinutes: The goal duration in minutes
+    static func showGoalAchievedNotification(startTime: Date, goalMinutes: Int) {
+        let center = UNUserNotificationCenter.current()
+
+        // Calculate when the goal was met
+        let goalTime = startTime.addingTimeInterval(TimeInterval(goalMinutes * 60))
+
+        // Format the goal duration for the title
+        let goalText = formatGoalText(goalMinutes: goalMinutes)
+
+        // Format times for the body
+        let timeFormatter = DateFormatter()
+        timeFormatter.dateStyle = .none
+        timeFormatter.timeStyle = .short
+        let startTimeText = timeFormatter.string(from: startTime)
+        let endTimeText = timeFormatter.string(from: goalTime)
+
+        // Create notification content
+        let content = UNMutableNotificationContent()
+        content.title = "🎉 Goal Achieved - \(goalText)"
+        content.body = "Amazing work! You fasted from \(startTimeText) → \(endTimeText)"
+        content.sound = UNNotificationSound.defaultCritical
+        content.categoryIdentifier = NotificationCategory.goalMet
+        content.interruptionLevel = .timeSensitive
+
+        // Create trigger for immediate delivery (1 second delay required)
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+
+        // Create request with unique identifier to not interfere with scheduled one
+        let request = UNNotificationRequest(identifier: "goalMetPreview", content: content, trigger: trigger)
+
+        // Schedule notification
+        center.add(request) { error in
+            if let error = error {
+                print("Error showing goal achieved notification preview: \(error)")
+            }
+        }
+    }
+
     /// Cancels any pending goal notifications
     static func cancelGoalNotification() {
         let center = UNUserNotificationCenter.current()

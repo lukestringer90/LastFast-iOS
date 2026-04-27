@@ -20,6 +20,7 @@ struct TimerDisplayView: View {
     let endTime: Date?
     let goalMinutes: Int?
     var onElapsedTimeTapped: (() -> Void)? = nil
+    var onEndTimeTapped: (() -> Void)? = nil
 
     private var ringColor: Color {
         GoalStatusColors.durationColor(goalMet: goalMet)
@@ -124,6 +125,10 @@ struct TimerDisplayView: View {
         .monospacedDigit()
         .minimumScaleFactor(0.5)
         .lineLimit(1)
+        .contentShape(Rectangle())
+        .onTapGesture {
+            onEndTimeTapped?()
+        }
     }
 
     // MARK: - Info Label

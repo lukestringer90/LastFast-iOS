@@ -182,7 +182,7 @@ struct GoalPickerView: View {
                         .foregroundStyle(.secondary)
                     
                     if goalMode == .duration {
-                        let endTime = Date().addingTimeInterval(TimeInterval(computedGoalMinutes * 60))
+                        let endTime = effectiveCurrentTime().addingTimeInterval(TimeInterval(computedGoalMinutes * 60))
                         Text("Ends at \(formatTime(endTime))")
                             .font(.subheadline)
                             .foregroundStyle(.tertiary)

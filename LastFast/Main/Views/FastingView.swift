@@ -100,7 +100,19 @@ struct FastingView: View {
                             lastFastDuration: lastCompletedFastDuration,
                             onStopFast: { showingStopConfirmation = true },
                             onShowHistory: { showingHistory = true },
-                            onCelebrate: goalMet ? { confettiInstances.append(UUID()) } : nil
+                            onCelebrate: goalMet ? {
+                                if let goal = displayGoalMinutes {
+                                    NotificationManager.showGoalAchievedNotification(startTime: startTime, goalMinutes: goal)
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                    confettiInstances.append(UUID())
+                                }
+                            } : nil,
+                            onEndTimeTapped: {
+                                if let endTime = effectiveEndTime(startTime: startTime, goalMinutes: displayGoalMinutes) {
+                                    NotificationManager.showOneHourRemainingNotification(goalTime: endTime)
+                                }
+                            }
                         )
                     } else {
                         NotFastingView(

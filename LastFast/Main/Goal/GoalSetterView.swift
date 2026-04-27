@@ -15,7 +15,7 @@ struct GoalSetterView: View {
     private var minutes: Int { savedGoalMinutes % 60 }
 
     private var endTime: Date {
-        Date().addingTimeInterval(TimeInterval(savedGoalMinutes * 60))
+        effectiveCurrentTime().addingTimeInterval(TimeInterval(savedGoalMinutes * 60))
     }
 
     var body: some View {
