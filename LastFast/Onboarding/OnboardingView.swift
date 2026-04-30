@@ -9,7 +9,7 @@ struct OnboardingView: View {
     var onComplete: () -> Void
 
     @State private var currentPage = 0
-    private let totalPages = 10
+    private let totalPages = 9
 
     var body: some View {
         ZStack(alignment: .top) {
@@ -22,8 +22,7 @@ struct OnboardingView: View {
                 HistoryPage().tag(5)
                 WidgetsPage().tag(6)
                 NotificationsPage().tag(7)
-                PrivacyPage().tag(8)
-                SettingsPage().tag(9)
+                SettingsPage().tag(8)
             }
             .tabViewStyle(.page(indexDisplayMode: .always))
             .animation(.easeInOut, value: currentPage)
@@ -56,11 +55,6 @@ struct OnboardingView: View {
         // On the notifications page, request permission first and only advance once the alert is dismissed
         if currentPage == 7 {
             NotificationManager.requestPermission { advancePage() }
-            return
-        }
-        // On the privacy page, request ATT tracking permission before advancing
-        if currentPage == 8 {
-            AnalyticsManager.requestTrackingPermission { advancePage() }
             return
         }
         advancePage()

@@ -61,6 +61,7 @@ struct LastFastApp: App {
         #endif
 
         FirebaseApp.configure()
+        AnalyticsManager.initialize()
         // Set notification delegate
         UNUserNotificationCenter.current().delegate = notificationDelegate
         
